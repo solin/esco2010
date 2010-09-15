@@ -1,0 +1,47 @@
+\section{Introduction}
+The system of Poisson and Nernst-Planck (further denoted PNP) 
+equations has been widely
+used to describe the charge transport --- which includes the ionic
+migration, diffusion, and convection --- in a medium. 
+The charge transport process is a key mechanism
+for electromechanical transduction in some of the electroactive polymer
+(EAP) materials, for instance, in ionic polymer-metal composites (IPMCs)~
+\cite{basu1997membrane,shahinpoor2001smartmat,
+nasser2002applied,newbury2003intelligent, wallmersperger2007appliedphysics,
+pugal2008appliedphysics,pugal2010polymer}.
+As the system of equations is nonlinear and for a domain with two
+electrodes, the charge concentration differences occur in a very narrow
+region near the boundaries, the required computing power for a full
+scale domain is, especially in 3D, rather significant. This
+requires a mesh that is optimal in terms of calculation time and calculation
+error.
+
+The Nernst-Planck equation for a mobile species ---
+in this case for counter ions --- and without the convection term is:
+\begin{equation}
+  \frac{\partial C}{\partial t}+\nabla\cdot(-D\nabla C-z\mu FC\nabla\phi)=0,
+  \label{eq:nernst-planck}
+\end{equation}
+where $C$ is the counter ion concentration, $D$ diffusion, $\mu$ mobility,
+$F$ Faraday constant, $\phi$ voltage, and $z$ charge number. The Poisson
+equation is
+\begin{equation}
+  -\nabla^2\phi=\frac{F\rho}{\varepsilon},
+  \label{eq:poisson}
+\end{equation}
+where $\varepsilon$ is an absolute dielectric permittivity and the
+charge density $\rho$ is expressed
+\begin{equation}
+  \rho=C-C_{0}
+  \label{eq:rho}
+\end{equation}
+with $C_{0}$ being a constant anion concentration.
+
+In the following section we give a brief overview of the motivation
+of the study and a practical application of the results. 
+Thereafter the weak-form~\cite{Hermes-book} derivation of the PNP system of equations
+and time dependent adaptive \emph{hp}-FEM solutions of the system is presented
+for different adaptivity algorithms. 
+Also, advantages of a multi-mesh solution over a single-mesh solution are discussed.
+
+

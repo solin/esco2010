@@ -1,0 +1,71 @@
+\documentclass[letterpaper,3p]{elsarticle}
+
+\journal{Applied Mathematics and Computation}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{subfig}
+
+\begin{document}
+\begin{frontmatter}
+
+\title{\emph{hp}-Finite Element Model of Poisson and Nernst-Planck System of Equations}
+
+\author[unrme,tartu]{D.~Pugal}
+\ead{david.pugal@gmail.com}
+
+\author[unrmath,czech]{P.~Solin\corref{cor2}}
+\ead{solin@unr.edu}
+
+\author[unrme]{K.~J.~Kim\corref{cor1}}
+\ead{kwangkim@unr.edu}
+
+\author[tartu]{A.~Aabloo}
+\ead{alvo@ut.ee}
+
+\address[unrme]{Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.}
+\address[unrmath]{FEM group, Department of Mathematics and Statistics,\\
+University of Nevada, Reno, NV, U.S.A.}
+\address[czech]{Institute of Thermomechanics, Prague, Czech Republic}
+\address[tartu]{Institute of Technology, Tartu University, Estonia}
+
+\cortext[cor1]{Corresponding author}
+\cortext[cor2]{Principal correpsonding auhtor}
+
+\begin{abstract}
+ In this paper we present a \emph{hp}-finite element
+model (\emph{hp}-FEM) of Nernst-Planck and Poisson equation system.
+The model is implemented in Hermes2D which is a
+space- and space-time adaptive \emph{hp}-FEM solver. The time dependent
+adaptivity is used to control the error of the solution. Full mathematical
+derivation of the weak formulation of the system of equations and
+the solution comparison with a nonadaptive conventional FEM is presented.
+Furthermore, we extend the discussion on Hermes3D as a modeling tool that can
+help in studying and improving the IPMC materials.
+\end{abstract}
+
+\begin{keyword}
+  \emph{hp}-FEM \sep Nernst-Planck \sep Poisson \sep weak form
+\end{keyword}
+
+\end{frontmatter}
+
+\input{intro}
+\input{motivation}
+\input{model}
+\section{Results}
+Some convergence grahps
+
+\section{Conclusion, future works}
+
+
+
+\bibliographystyle{elsarticle-num}    % Bibliography: Author-Date system
+\bibliography{pugal-esco2010}      % pls. call your database here
+
+\end{document}
+
+
