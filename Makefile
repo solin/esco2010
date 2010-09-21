@@ -5,4 +5,4 @@ all:
 	pdflatex pugal-esco2010 
 	pdflatex pugal-esco2010 
 clean:
-	(rm -rf *.ps *.log *.dvi *.aux *.*% *.lof *.lop *.lot *.toc *.idx *.ilg *.ind *.bbl *blg *.spl *.pdf)
+	(rm -rf *.ps *.log *.dvi *.aux *.*% *.lof *.lop *.lot *.toc *.idx *.ilg *.ind *.bbl *blg *.spl)
