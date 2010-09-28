@@ -2,25 +2,16 @@
 
 \begin{figure}
   \begin{centering}
-  \includegraphics[width=.75\columnwidth]{cphi}
-  \caption{\label{fig:cphi} Concentration $C$
-  and voltage $\phi$ at two different time steps
-  (HP\_ANISO adaptivity was used).}
+  \includegraphics[width=.8\columnwidth]{mesh}
+  \caption{\label{fig:mesh} Initial coarse mesh (a),
+  	half refined mesh (b) and refined mesh (c). The coarse mesh
+	and refined mesh were used in the initial calcualtions, the latter one
+	in case of \emph{p}-adaptivity (including HP\_ANISO\_P). The half-refined mesh was
+	used later to optimize \emph{hp}-adaptive mode solutions.}
   \end{centering}
 \end{figure}
-
 We ran the calculation for all the adaptivity types 
 in both single-mesh and multi-mesh configurations. 
-Example of the solution at $t=0.7\ s$ and $t=3.0\ s$ 
-with adaptivity type HP\_ANISO is shown
-in Fig.~\ref{fig:cphi}. The time $t=0.7\ s$ was chosen because
-by that time, some ionic migration has already taken place, i.e.
-concentration gradient near the $\partial\Omega_1$ and
-$\partial\Omega_3$ has formed. The automatic mesh refinements
-at different time steps are clearly visible --- especially
-near the top boundary, where the concentration gradient is
-moving in time (as seen in Fig.~\ref{fig:comsol-conc-volt}).
-
 The following numeric results were recorded for each 
 adaptivity type: converged error at each time step, cumulative CPU
 time at each time step, and the problem size in terms of number
@@ -30,17 +21,23 @@ more refined mesh was used. When also the element size refinement
 was enabled (all \emph{h} adaptivity types), very coarse initial mesh
 was used. In any case, the initial mesh was loaded at each time step.
 
-
 \begin{figure}
   \begin{centering}
-  \includegraphics[width=.8\columnwidth]{mesh}
-  \caption{\label{fig:mesh} Initial coarse mesh (a),
-  	half refined mesh (b) and refined mesh (c). The coarse mesh
-	and refined mesh were used in the initial calcualtions, the latter one
-	in case of \emph{p}-adaptivity (including HP\_ANISO\_P). The half-refined mesh was
-	used later to optimize \emph{hp}-adaptive mode solutions.}
+  \includegraphics[width=.75\columnwidth]{cphi}
+  \caption{\label{fig:cphi} Concentration $C$
+  and voltage $\phi$ at two different time steps
+  (HP\_ANISO adaptivity was used).}
   \end{centering}
 \end{figure}
+Example of the solution at $t=0.7\ s$ and $t=3.0\ s$ 
+with adaptivity type HP\_ANISO is shown
+in Fig.~\ref{fig:cphi}. The time $t=0.7\ s$ was chosen because
+by that time, some ionic migration has already taken place, i.e.
+concentration gradient near the $\partial\Omega_1$ and
+$\partial\Omega_3$ has formed. The automatic mesh refinements
+at different time steps are clearly visible --- especially
+near the top boundary, where the concentration gradient is
+moving in time (as seen in Fig.~\ref{fig:comsol-conc-volt}).
 
 Some initial observations
 helped to select the graphs for this work --- it would have been unreasonable 
@@ -92,7 +89,7 @@ Fig.~\ref{fig:dof} shows the NDOFs at each time step for different adaptivity mo
 There we see that the HP\_ANISO results in the smallest problem size --- $N_{dof} \approx 125$. 
 All the other adaptivity modes result in  the problem size approximately ($N_{dof} \approx 300$), 
 however, \emph{p}-adaptivity modes P\_ISO and P\_ANISO start off with relatively large $N_{dof}$.
-We can see from the graphs and also from the Fig.~\ref{fig:mesh} that
+We can see from the graphs and also from the Fig.~\ref{fig:cphi} that
 \emph{p}-adaptivity is used for the most part of the problem. The initially high
 $N_{dof}$ for \emph{p}-adaptive modes indicate that only first time steps benefit
 greatly from the \emph{h}-adaptivity. P\_ISO, HP\_ANISO\_H
