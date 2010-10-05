@@ -17,9 +17,11 @@ adaptivity type: converged error at each time step, cumulative CPU
 time at each time step, and the problem size in terms of number
 of degrees of freedoms (NDOFs) at each time step.  
 Two types of initial meshes were used --- in case of only \emph{p}-adaptivity,
-more refined mesh was used. When also the element size refinement
+more refined mesh was used (see Fig.~\ref{fig:mesh}~(a)).
+When also the element size refinement
 was enabled (all \emph{h} adaptivity types), very coarse initial mesh
-was used. In any case, the initial mesh was loaded at each time step.
+was used (see Fig.~\ref{fig:mesh}~(b)). 
+In any case, the initial mesh was loaded at each time step.
 
 \begin{figure}
   \begin{centering}
@@ -39,18 +41,22 @@ at different time steps are clearly visible --- especially
 near the top boundary, where the concentration gradient is
 moving in time (as seen in Fig.~\ref{fig:comsol-conc-volt}).
 
-Some initial observations
-helped to select the graphs for this work --- it would have been unreasonable 
-to present all recorded results for each adaptivity type.
-First of all, the multi-mesh configuration resulted smaller problem size, faster
-calculation, and better or similar error convergence than the single-mesh
-configuration for all but HP\_ANISO\_H adaptivity type. In this case
-the single-mesh configuration resulted slightly but not significantly
-smaller problem size, therefore, single-mesh results of HP\_ANISO\_H
-are considered in further comparisons. It must be also noted that in case of the isotropic
-refinements, only P\_ISO adaptivity mode resulted in a reasonable problem size.
-Secondly, H\_ISO did not converge very well in terms of the
-calculation time and the problem size. The term ``reasonable problem size''
+
+TODO COMpare ISO and ANiso meshes at some timesteps
+
+
+\subsection{Adapted meshes and polynomial degrees}
+
+Running the simulation with different adaptivity
+types and meshes showed that the multi-mesh configuration generally results in
+smaller problem size, faster calculation, and better or similar error convergence
+compared to the single-mesh configuration. The only exception was HP\_ANISO\_H
+adaptivity type for which the single mesh configuration resulted slightly
+smaller problem size. It must be also noted that in case of the
+isotropic refinements, only P\_ISO adaptivity mode resulted in a
+reasonable problem size whereas H\_ISO and HP\_ISO did not converge
+very well in terms of the calculation time and the problem size.
+The term ``reasonable problem size''
 means that the number of degrees of freedom in time converges
 to so that $N_{dof}<500$, and the term ``reasonable calculation time''
 means that the calculation (step $\tau=0.01\ s$, physical
@@ -58,12 +64,21 @@ time $t_{end}=3.0\ s$) time $t$ on a givem system was $t<500\ s$.
 Although these parameters are empirical, they serve as an upper limit, given
 that the most adaptivity modes gave significantly smaller results,
 e.g. $t<<500\ s$ and $N_{dof} << 500$.
-Therefore, the multi-mesh calculation results H\_ISO, H\_ANSIO, P\_ANISO,
+Some comparisons of problem sizes with a single-mesh configuration
+vs. multi-mesh configurations are shown in: XXX
+
+TODO SHOW SOME SAMPLE MESHES FOR DIFFERENT ADAPTIVITY TYPES
+
+
+\subsection{Quantitative analysis of different adaptivity types}
+
+Based on the results of the previous subsection, H\_ISO, H\_ANSIO, P\_ANISO,
 HP\_ANISO, HP\_ANISO\_P and the single-mesh calculation results of HP\_ANISO\_H
-adaptivity mode will be compared. In all of the cases, the relative 
+adaptivity mode will be compared in terms of problem size and cumulative
+CPU time. In all of the cases, the relative 
 error at each time step remained below
 the threshold which were set to $e_{th}=0.5\%$ between the coarse mesh
-and fine mesh solutions.
+and fine mesh solutions, therefore the error vs. time plot is not considered.
 
 \begin{figure}
   \begin{centering}
