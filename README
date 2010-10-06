@@ -1,3 +1,7 @@
 use command
 $make
 to compile the latex
+
+
+For images:
+ps2pdf14 -dEPSCrop -dPDFSETTINGS=/prepress image.ps
