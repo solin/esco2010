@@ -1,14 +1,14 @@
 \section{Model}
 \begin{figure}
   \begin{centering}
-  \includegraphics[scale=0.4]{domain}
+  \includegraphics[width=0.2\columnwidth]{domain}
   \caption{\label{fig:domain} Calculation domain $\Omega\subset\mathbb{R}^2$
   	with boundaries $\partial\Omega_{1\ldots 4}\subset\partial\Omega$.}
   \end{centering}
 \end{figure}
 
-The model for solving NPN system is implemented in Hermes2D. In this work
-a rectangular 2D domain $\Omega\subset\mathbb{R}^2$ with boundaries 
+The model for solving NPN system is implemented in Hermes.
+A rectangular 2D domain $\Omega\subset\mathbb{R}^2$ with boundaries 
 $\partial\Omega_{1\ldots 4}\subset\partial\Omega$  is considered (see Fig.~\ref{fig:domain}). 
 As there is now flow considered in or out of the domain and there is no
 constant concentration at the boundaries, zero Neumann boundary conditions are used 
@@ -107,7 +107,7 @@ After expanding the $\nabla^2$ terms, the final form becomes
 \end{equation}
 
 
-\subsection{Implementation in Hermes2D}
+\subsection{Implementation in Hermes}
 To implement the system of equations Eq.~\eqref{eq:nernst-planck-weak-final}
 and Eq.~\eqref{eq:poisson-weak-final}, the residuals and the Jacobian
 matrix must be derived. For that, Crank-Nicolson time stepping was
@@ -157,20 +157,59 @@ must be derived:
   \frac{\partial F_i^{\phi}}{\partial y_j^{\phi}} &=&
   \int_{\Omega} \nabla v_j^{\phi} \cdot \nabla v_i^{\phi} d\mathbf{x}\label{eq:dFphidyphi}.
 \end{eqnarray}
-In Hermes2D Eq.~\eqref{eq:Fc} and \eqref{eq:Fphi} define the residuum $F$ and
+In Hermes Eq.~\eqref{eq:Fc} and \eqref{eq:Fphi} define the residuum $F$ and
 Eq.~\eqref{eq:dFcdyc}---\eqref{eq:dFphidyphi} define the Jacobian matrix $J$.
 
 \subsection{Adaptive multi-mesh solution}
 
-The defined Jacobian $J$ and residuum $F$ can be simply solved in Hermes2D by
+The defined Jacobian $J$ and residuum $F$ can be simply solved with Hermes by
 using Newton's iteration. However, we were more interested in the automatic
-adaptivity and the calculation differences with a single-mesh and multi-mesh.
+adaptivity to control the error and problem size.
+
+In a traditional low-order FEM, refining an element is not algorithmically complicated,
+and so the most difficult part is to find out what elements should be refined. 
+To do this, various techniques ranging from rigorous guaranteed a-posteriori 
+error estimates to heuristic criteria such as residual error indicators, 
+error indicators based on steep gradients, etc are employed. 
+Unfortunately, none of these approaches are suitable for real-life 
+multiphysics coupled problems or higher-order finite element methods: 
+rigorous guaranteed error estimates only exist for very simple problems 
+(such as linear elliptic PDE), and moreover only for low-order finite elements 
+(such as piecewise linear approximations). These heuristic techniques 
+are not employed in Hermes since they may fail 
+in non-standard situations, and because they lack a 
+transparent relation to the true approximation error.
+In order to obtain fast, usable adaptivity, one has to resort to adaptive \emph{hp}-FEM.
+Automatic adaptivity in the \emph{hp}-FEM is substantially different from adaptivity 
+in low-order FEM, since every element can be refined in many different ways. 
+Fig.~\ref{fig:refinements} shows several illustrative refinement candidates for a fourth-order element.
+\begin{figure}
+  \begin{centering}
+  \includegraphics[width=0.5\columnwidth]{refinements}
+  \caption{\label{fig:refinements} Refinement candidates for a fourth-order
+  element.}
+  \end{centering}
+\end{figure}
+The number of possible element refinements is implementation-dependent. 
+In general it is very low in \emph{h} or \emph{p} adaptivity, 
+but much higher in \emph{hp}-adaptivity, and it rises even more when 
+anisotropic refinements are enabled.
+Hermes supports 8 different refinement modes, namely,
+3 isotropic and 5 anisotropic refinements. The isotropic refinements are
+\emph{h}-isotropic (H\_ISO), \emph{p}-isotropic (P\_ISO), \emph{hp}-isotropic (HP\_ISO).
+Anisotropic refinement modes are
+\emph{h}-anisotropic (H\_ANISO),
+\emph{hp}-anisotropic-\emph{h} (HP\_ANISO\_H), \emph{p}-anisotropic (P\_ANISO),
+\emph{hp}-anisotropic-p (HP\_ANISO\_P), and \emph{hp}-anisotropic (HP\_ANISO).
+Once the refinement mode is selected (by user), Hermes selects a particular
+refinement scheme from several candidates based on the score. More information
+can be found in~\cite{Hermes-project}.
 
 In case of the single mesh, the same basis function base was used, i.e.
 $v_i^\phi=v_i^C$. For multi mesh, the meshes and therefore the basis functions
 were different. Regardless of the meshing, automatic adaptivity was applied
 during each time step, till the error converged to the acceptable level.
-In analogy to the most successful adaptive ODE solvers, Hermes2D uses a pair of 
+In analogy to the most successful adaptive ODE solvers, Hermes uses a pair of 
 approximations with different orders of accuracy to obtain this information: 
 coarse mesh solution and fine mesh solution. The initial coarse mesh is read 
 from the mesh file, and the initial fine mesh is created through its 
@@ -179,16 +218,4 @@ information, see~\cite{Hermes-project}. In the calculations, the coarse
 mesh solution was not calculated at each time step, but the fine mesh
 solution was projected to the coarse mesh by using orthogonal projection. This
 yielded better convergence and also faster calculation.
-
-Hermes2D supports 8 different refinement modes, namely,
-3 isotropic and 5 anisotropic refinements. The isotropic refinements are
-\emph{h}-isotropic (H\_ISO), \emph{p}-isotropic (P\_ISO), \emph{hp}-isotropic (HP\_ISO).
-Anisotropic refinement modes are
-\emph{h}-anisotropic (H\_ANISO),
-\emph{hp}-anisotropic-\emph{h} (HP\_ANISO\_H), \emph{p}-anisotropic (P\_ANISO),
-\emph{hp}-anisotropic-p (HP\_ANISO\_P), and \emph{hp}-anisotropic (HP\_ANISO).
-Once the refinement mode is selected (by user), Hermes2D selects a particular
-refinement scheme from several candiates based on the score. More information
-can be found in~\cite{Hermes-project}.
-
 

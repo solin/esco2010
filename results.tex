@@ -31,7 +31,8 @@ calculation.
   \includegraphics[width=.75\columnwidth]{cphi}
   \caption{\label{fig:cphi} Concentration $C$
   and voltage $\phi$ at two different time steps
-  (HP\_ANISO adaptivity was used).}
+  (HP\_ANISO adaptivity was used). This is a 2D solution shown
+  as in 3D, where the height indicates the value.}
   \end{centering}
 \end{figure}
 Example of the solution at $t=0.7\ s$ and $t=3.0\ s$ 
@@ -147,7 +148,7 @@ to note that HP\_ANISO results in the smallest problem size. Also, in
 at each time step, whereas P\_ISO and P\_ANISO have a very largy problem size
 during the first time steps of the solution.
 Here the term ``reasonable problem size''
-means here that the number of degrees of freedom in time converges
+means that the number of degrees of freedom in time converges
 to so that $N_{dof}<500$, and the term ``reasonable calculation time''
 means that the calculation (step $\tau=0.01\ s$, physical
 time $t_{end}=3.0\ s$) time $t$ on a givem system was $t<500\ s$.
@@ -193,6 +194,9 @@ smallest problem size --- $N_{dof} \approx 125$.
 All the other adaptivity modes result in the 
 problem size of approximately ($N_{dof} \approx 250$), 
 
+
+\subsection{Optimizations}
+
 \begin{figure}
   \begin{centering}
   \includegraphics[width=\columnwidth]{refined_cpu}
@@ -215,12 +219,65 @@ it does not result in that small problem. When it comes to a large domain
 or 3D modeling the problem
 size becomes the most important factor. Therefore, we consider HP\_ANISO the most
 suitable adaptivity type to the given problem. Thus some ways to optimize the time
-factor will be considered.
+factor will be considered. The desirable output would be HP\_ANISO problem size
+close to HP\_ANISO\_P CPU time. One way to optimize the problem
+is to choose somewhat more refined initial mesh. Other way one could think
+to optimize the problem would be to change
+the refinement frequency in a time dependent way. Recall that up to this point,
+the initial mesh has been loaded in the beginning of each time step. True,
+by employing the optimizations, we already must know something about the problem
+and its solution beforehand. However, it could still be practial when solving a real problem
+in a large domain.
 
-The performance of HP\_ANISO\_P with refined mesh and half-refined
-mesh, and performance of HP\_ANISO with unrefined, half-refined, and refined
-meshes was calculated (see Fig.~\ref{fig:mesh}).
-The results are shown in Fig.~\ref{fig:refined-cpu} and Fig.~\ref{fig:refined-dof}.
+The problem size and CPU time with HP\_ANISO
+and HP\_ANISO\_P adaptivities on more refined initial mesh (see Fig.~\ref{fig:mesh}~(c))
+compared to the coarse initial mesh (Fig.~\ref{fig:mesh}~(a)) and 
+HP\_ANISO\_P solution is shown in Fig.~\ref{fig:refined-cpu} and Fig.~\ref{fig:refined-dof}.
+It can be seen that by using initially more refined mesh, et problem solving time
+can be reduced in case of HP\_ANISO, at the same time, the problem size increases.
+In this situation, HP\_ANISO\_P and HP\_ANISO perform equally well.
 
-TODO(more explanation) It can be seen that some initial refinemts help to reduce the CPU time,
-however, it increases the problem size.
+\begin{figure}
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{unreffreq_dof}
+  \caption{\label{fig:unreffreq-dof} NDOFs at each time step for
+  HP\_ANISO and HP\_ANISO\_P with mesh unrefinement at each time step and at over each
+  	time step after first $0.5\ s$ physical solution time.}
+  \end{centering}
+\end{figure}
+The next proposed optimization involved changing the unrefinement frequency.
+It is known that the concentration gradient $\partial C$ changes the most in the initial phase
+of the calculation, therefore, the unrefinement after each time step was performed
+until $t=0.5\ s$ (physical time). After that, the
+unrefinement was performed in $0.10\ s$ interval.
+It appears that this type
+of optimization does not result in a stable solution, i.e. the problem size 
+does not remain steady, but starts to oscillate depending on the unrefinement
+frequency. This is demonstrated in 
+Fig.~\ref{fig:unreffreq-dof}. Therefore this kind of optimization did not
+prove to be efficient.
+
+\subsection{More general results}
+\begin{figure}
+  \begin{centering}
+  \includegraphics[width=.75\columnwidth]{cphiorders}
+  \caption{\label{fig:cphi-orders} Solutions $C$ and $\phi$
+  and corresponding polynomial degrees of the elements at
+  $t=0.7\ s$. HP\_ANISO adaptivity type was used. The height
+  in the solution graphs indicates the value.}
+  \end{centering}
+\end{figure}
+
+Based on the results, cation concentration and voltage was calculated
+for different boundary conditions.
+For instance, when voltage $\phi_{\Omega_1}=0.5\frac{x}{width_{\Omega_1}}+0.5$, the
+concentration gradient $\nabla C$ and the voltage gradient $\nabla \phi$ are no
+longer effectively 1D.
+The calculated $C$ and $\phi$ in $\Omega$ and corresponding meshes and polynomial
+degrees of the elements are shown in Fig.~\ref{fig:cphi-orders}.
+HP\_ANISO adaptivity type was used. Notice that the solution
+is different to the one in Fig.~\ref{fig:cphi} and the adapted mesh and the
+polynomial degrees are also more complicated than in Fig.~\ref{fig:poly}.
+It must be also noted that in case of non uniform boundary conditions which
+results in 2D problem, refined initial mesh is more efficient to use.
+
