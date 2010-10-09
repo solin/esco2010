@@ -16,27 +16,30 @@ constants are shown in Table~\ref{Table:used-constants}.
 It can be seen that the solution has two notable characteristics. 
 Firstly, $\nabla C$ at $\partial \Omega_2$ is
 moving in time, whereas $\nabla C$ at $\partial \Omega_1$ is very
-sharp. For the large part of the domain $\Omega$ $\nabla C=0$.
+large. For the most part of the domain $\Omega$ $\nabla C=0$.
 At the same time, $\phi$ is a rather smooth fucntion in $\Omega$.
-This clearly makes the choice of mesh for the time dependent NPN
-system difficult. By creating a too fine mesh, the problem gets
-too big. By choosing a coarser mesh, the calculation error goes up.
+This clearly makes the choice of the mesh for the time dependent NPN
+system difficult. By choosing a too fine mesh, the problem gets
+too big. By choosing a coarse mesh, the calculation error might
+get too large.
 Furthermore, from the shape of the solution in Fig.~\ref{fig:comsol-conc-volt}
 can be seen that the polynomial degree of the elements in the middle
 of the domain $\Omega$ and near the boundaries $\partial \Omega_1,\ \partial \Omega_2$
-should be different --- namely higher degree near the boundaries. 
-Overall shape of the solutions suggest that
+should be different --- namely higher degree elements near the boundaries
+and lower degree element in the middle of domain. 
+Overall shape of the solutions also suggest that
 using different meshes for variables $C$ and $\phi$ can be beneficial
-in terms of resources and calculation time.
+in terms of number of degrees of freedom and calculation time.
 
-All the aforementioned difficulties can be solved by using
+All the aforementioned concerns can be solved by using
 a time dependent adaptive multimesh \emph{hp}-FEM solver.
 Automatic time dependent adaptivity in conjuction with \emph{hp}-FEM 
-helps to limit the error of the calculations by choosing
+helps to limit the error of the calculations by automatically choosing
 a suitable mesh and polynomial degrees of the elements at each time step.
-In this work Hermes2D~\cite{Hermes-project} was used to study
-the problem size, error convergence and solution time of NPN system 
-with different adaptivity algorithms.
+In this work Hermes~\cite{Hermes-project} was used to implement
+the PNP system and study
+the problem size, error convergence and solution time 
+with different refinement modes.
 
 \begin{table}
 \caption{Constants used in the Poisson-Nernst-Planck system of equations.}
@@ -89,7 +92,5 @@ results in bending of the material (see Fig.~\ref{fig:conceptual}).
 The derived and implemented model helps to predict the actuation of the
 material. Furthermore, it is expected that the \emph{hp}-FEM implementation
 results in a smaller problem size, thus likely allowing faster calculation
-in both 2D and 3D.
-
-
+in both 2D and 3D domains.
 

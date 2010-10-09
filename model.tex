@@ -1,4 +1,6 @@
 \section{Model}
+\label{sec:model}
+
 \begin{figure}
   \begin{centering}
   \includegraphics[width=0.2\columnwidth]{domain}
@@ -7,18 +9,18 @@
   \end{centering}
 \end{figure}
 
-The model for solving NPN system is implemented in Hermes.
+The model for solving PNP system is implemented in Hermes.
 A rectangular 2D domain $\Omega\subset\mathbb{R}^2$ with boundaries 
 $\partial\Omega_{1\ldots 4}\subset\partial\Omega$  is considered (see Fig.~\ref{fig:domain}). 
-As there is now flow considered in or out of the domain and there is no
-constant concentration at the boundaries, zero Neumann boundary conditions are used 
+As there is no flow considered into or out from the domain and there is no
+constant concentration at the boundaries, zero Neumann boundary conditions were used 
 for Eq.~\eqref{eq:nernst-planck}:
 \begin{equation}
   -D \frac{\partial C}{\partial n} - z \mu F C \frac{\partial \phi} {\partial n} = 0.
   \label{eq:nernst-planck-boundary}
 \end{equation}
-As a positive voltage $V_{pos}$ is applied on $\Omega_1$ and $V_{neg}=0$ is applied
-on $\Omega_3$, Dirichlet boundary conditions are used for Eq.~\eqref{eq:poisson} for
+As a positive constant voltage $V_{pos}$ was applied on $\Omega_1$ and $V_{neg}=0$ was applied
+on $\Omega_3$, Dirichlet boundary conditions were used for Eq.~\eqref{eq:poisson} for
 boundaries $\Omega_1$ and $\Omega_3$:
 \begin{eqnarray}
   \phi_{\partial\Omega_1}&=&V_{pos},\\
@@ -33,8 +35,10 @@ and Neumann boundaries for $\Omega_2$ and $\Omega_4$:
 
 \subsection{Weak form of Poisson-Nernst-Planck system}
 
+The initial more implicit version of the derived weak form of PNP
+was derived in~\cite{pugal2010spie}.
 To make the derivation of the weak forms more convenient, the following
-helper constants will be used: 
+constants are used: 
 \begin{eqnarray}
   K & = &z \mu F,\\
   L&=&\frac{F}{\varepsilon}.
@@ -110,7 +114,7 @@ After expanding the $\nabla^2$ terms, the final form becomes
 \subsection{Implementation in Hermes}
 To implement the system of equations Eq.~\eqref{eq:nernst-planck-weak-final}
 and Eq.~\eqref{eq:poisson-weak-final}, the residuals and the Jacobian
-matrix must be derived. For that, Crank-Nicolson time stepping was
+matrix were derived. For that, Crank-Nicolson time stepping was
 used
 \begin{equation}
   \frac{\partial C}{\partial t} \approx \frac{C^{n+1} - C^n}{\tau},
@@ -160,7 +164,7 @@ must be derived:
 In Hermes Eq.~\eqref{eq:Fc} and \eqref{eq:Fphi} define the residuum $F$ and
 Eq.~\eqref{eq:dFcdyc}---\eqref{eq:dFphidyphi} define the Jacobian matrix $J$.
 
-\subsection{Adaptive multi-mesh solution}
+\subsection{Adaptive multi-mesh solution in Hermes}
 
 The defined Jacobian $J$ and residuum $F$ can be simply solved with Hermes by
 using Newton's iteration. However, we were more interested in the automatic
@@ -190,7 +194,7 @@ Fig.~\ref{fig:refinements} shows several illustrative refinement candidates for 
   element.}
   \end{centering}
 \end{figure}
-The number of possible element refinements is implementation-dependent. 
+The number of possible element refinements is implementation dependent. 
 In general it is very low in \emph{h} or \emph{p} adaptivity, 
 but much higher in \emph{hp}-adaptivity, and it rises even more when 
 anisotropic refinements are enabled.
@@ -201,21 +205,82 @@ Anisotropic refinement modes are
 \emph{h}-anisotropic (H\_ANISO),
 \emph{hp}-anisotropic-\emph{h} (HP\_ANISO\_H), \emph{p}-anisotropic (P\_ANISO),
 \emph{hp}-anisotropic-p (HP\_ANISO\_P), and \emph{hp}-anisotropic (HP\_ANISO).
-Once the refinement mode is selected (by user), Hermes selects a particular
-refinement scheme from several candidates based on the score. More information
-can be found in~\cite{Hermes-project}.
+Due to the large number of refinement options, classical error estimators 
+that provide a constant error estimate per element, cannot be used to 
+guide automatic \emph{hp}-adaptivity. 
+For this, one needs to know the shape of the approximation error.
+Hermes uses a pair of approximations with different orders of accuracy 
+to obtain this information: coarse mesh solution and fine mesh solution. 
+The initial coarse mesh is read from the mesh file, and the initial 
+fine mesh is created through its global refinement both in \emph{h}
+and \emph{p}. The fine mesh solution is the approximation of 
+interest both during the adaptive process and at the end of computation. 
+The coarse mesh solution represents its low-order part.
+Here global orthogonal projection of the fine mesh solution 
+on the coarse mesh was used instead instead of solving on the coarse mesh.
 
-In case of the single mesh, the same basis function base was used, i.e.
-$v_i^\phi=v_i^C$. For multi mesh, the meshes and therefore the basis functions
-were different. Regardless of the meshing, automatic adaptivity was applied
-during each time step, till the error converged to the acceptable level.
-In analogy to the most successful adaptive ODE solvers, Hermes uses a pair of 
-approximations with different orders of accuracy to obtain this information: 
-coarse mesh solution and fine mesh solution. The initial coarse mesh is read 
-from the mesh file, and the initial fine mesh is created through its 
-global refinement both in $h$ and $p$. For more
-information, see~\cite{Hermes-project}. In the calculations, the coarse
-mesh solution was not calculated at each time step, but the fine mesh
-solution was projected to the coarse mesh by using orthogonal projection. This
-yielded better convergence and also faster calculation.
+\begin{figure}
+  \begin{centering}
+  \includegraphics[width=0.5\columnwidth]{cand_list_quads}
+  \caption{\label{fig:candlist} Refinement candidates for every
+  refinement mode for quad type elements.}
+  \end{centering}
+\end{figure}
+Refinement mode is selected by a user from among 8 modes listed before.
+Hermes selects a particular
+refinement scheme from several candidates based on the score which is
+calculated as follows
+\begin{equation}
+	s=\frac{\log_{10} e_0 - \log_{10} e}{\left( d_0-d \right)^{\xi}},
+\end{equation}
+where $e$ and $d$ are an estimated error and an estimated
+number of DOF of a candidate respectively, $e_0$ and $d_0$
+are are an estimated error and an estimated number of DOF
+of the examined element, respectively, and $\xi$ is a
+convergence exponent. Here candidate
+refers to a proposed refinement. Fig.~\ref{fig:candlist} shows all the proposed
+refinements for all refinement modes in case of quad elements.
+More information about the refinement modes and technical details
+about the score calculation can be found in~\cite{Hermes-project}.
+
+\begin{figure}
+  \begin{centering}
+  \includegraphics[width=0.5\columnwidth]{multimesh1}
+  \caption{\label{fig:multimesh1} Master mesh (A) and 
+  three different meshes for a coupled problem (B)~---~(D),
+  and the virtual union mesh (E).}
+  \end{centering}
+\end{figure}
+\begin{figure}
+  \begin{centering}
+  \includegraphics[width=0.5\columnwidth]{multimesh2}
+  \caption{\label{fig:multimesh2} Integration over an element
+  $Q_k$ of the virtual union mesh and the appropriate subelements
+  of the existing elements where this integration is performed.}
+  \end{centering}
+\end{figure}
+In multiphysics PDE systems such as Poisson-Nernst-Planck system it can 
+happen that one physical field is very smooth whereas other one is not.
+This is well shown in Fig.~\ref{fig:comsol-conc-volt}. 
+If all the fields are approximated on the same mesh, then the necessity 
+to refine the mesh at the steep gradient of a field implies new degrees 
+of freedom for the smooth fields as well. This can be very wasteful.
+Hermes makes it possible to approximate them on individual meshes. 
+These meshes are not completely independent of each other --- they have 
+a common coarse mesh that we call master mesh. The master mesh is 
+there for algorithmic purposes only, it may not even be used for 
+discretization purposes: Every mesh in the system is obtained from 
+it via an arbitrary sequence of elementary refinements. 
+This is illustrated in Fig.~\ref{fig:multimesh1}, where (A) is the master mesh, 
+(B)~---~(D) three different meshes (say, for a coupled problem with three equations),
+and (E) is the virtual union mesh that is used for assembling.
+The union mesh is not constructed physically in the computer 
+memory --- it merely serves as a hint to correctly transform  the 
+integration points while integrating over sub-elements of an elements 
+of the existing meshes. Fig.~\ref{fig:multimesh2} shows the integration
+over an element $Q_k$ of the virtual union mesh.
+As a result, the multimesh discretization of the PDE system is 
+monolithic in the sense that no physics is lost --- all integrals 
+in the discrete weak formulations are evaluated exactly up to 
+the error in the numerical quadrature. 
 
