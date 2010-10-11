@@ -12,7 +12,8 @@
 \begin{document}
 \begin{frontmatter}
 
-\title{\emph{hp}-Finite Element Model of Poisson and Nernst-Planck\\ System of Equations}
+%\title{\emph{hp}-Finite Element Model of Poisson and Nernst-Planck\\ System of Equations}
+\title{Modeling Ionic Polymer-Metal Composites\\ with Space-Time Adaptive Multimesh \emph{hp}-FEM}
 
 \author[unrme,tartu]{D.~Pugal}
 \ead{david.pugal@gmail.com}
@@ -36,19 +37,21 @@ University of Nevada, Reno, NV, U.S.A.}
 \cortext[cor2]{Principal corresponding author}
 
 \begin{abstract}
- In this paper we present a \emph{hp}-finite element
-model (\emph{hp}-FEM) of Nernst-Planck and Poisson equation system.
-The model is implemented in Hermes which is a
-space- and space-time adaptive \emph{hp}-FEM solver. The time dependent
-adaptivity is used to control the error of the solution. Full mathematical
-derivation of the weak formulation of the system of equations and
-the solution comparison with a nonadaptive conventional FEM is presented.
-Furthermore, we extend the discussion on Hermes3D as a modeling tool that can
-help in studying and improving the IPMC materials.
+In this paper we study a multiphysics coupled problem consisting 
+of the Poisson and Nernst-Planck equations, that is used to 
+model ionic polymer-metal composite (IPMC) materials. 
+The problem is discretized using the finite element method (FEM) and solved using 
+space-time adaptive \emph{hp}-FEM algorithms provided by the Hermes 
+library. Numerical results are presented and discussed, including 
+comparison of various versions of adaptive $hp$-FEM and conventional 
+low-order FEM. In particular, we discuss the performance of a novel
+adaptive multimesh $hp$-FEM algorithm that is part of the Hermes
+library.
 \end{abstract}
 
 \begin{keyword}
-  \emph{hp}-FEM \sep Nernst-Planck \sep Poisson \sep weak form
+  Ionic polymer-metal composites \sep IPMC \sep Nernst-Planck equation \sep Poisson equation 
+  \sep finite element method \sep space-time adaptive \emph{hp}-FEM 
 \end{keyword}
 
 \end{frontmatter}
@@ -60,7 +63,11 @@ help in studying and improving the IPMC materials.
 \input{conclusions}
 
 \section*{Acknowledgments}
-KJK thanks the financial support from the Office of Naval Research under Award N000140910218.
+The second author was partially supported by the Grant Agency of the Academy of 
+Sciences of the Czech Republic under Grant No. IAA100760702, and by the U.S.
+Department of Energy Research Subcontract No. 00089911. 
+The third author acknowledges the financial support of the U.S. Office of Naval Research 
+under Award N000140910218.
 
 
 \bibliographystyle{elsarticle-num}    % Bibliography: Author-Date system

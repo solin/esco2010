@@ -1,46 +1,80 @@
 \section{Introduction}
-The system of Poisson and Nernst-Planck (further denoted PNP) 
-equations has been widely
-used to describe the charge transport --- which includes the ionic
-migration, diffusion, and convection --- in a material. 
-The charge transport process is a key mechanism
-for electromechanical transduction in some of the electroactive polymer
-(EAP) materials, for instance, in ionic polymer-metal composites (IPMCs)~
+
+Ionic Polymer-Metal Composites (IPMC) have been studied during the past two 
+decades for their potential to serve as noiseless mechanoelectrical and electromechanical transducers.
+The advantages of IPMC over other electroactive polymer actuators
+are low voltage bending, high strains ($>1\%$), and an ability to work
+in wet environments. A typical IPMC consists of a thin sheet of polymer
+(often Nafion or Teflon) which is sandwiched between noble
+metal electrodes such as platinum or gold. When fabricated, the polymer 
+membrane is saturated with certain solvent and ions such as water and $H^+$.
+When a voltage is applied to the electrodes, the counter ions start
+migrating due to the imposed electric field. By dragging along the solvent,
+the osmotic pressure difference near the electrodes
+results in bending of the material (see Fig.~\ref{fig:conceptual}).
+\begin{figure}[!ht]
+  \begin{centering}
+    \subfloat[~]{\begin{centering}
+      \includegraphics[scale=0.6]{IPMC}
+      \par\end{centering}}~
+    \subfloat[~]{\begin{centering}
+      \includegraphics[scale=0.6]{IPMC_bent}
+      \par\end{centering}}
+  \par\end{centering}
+  \caption{\label{fig:conceptual}Conceptual model of the actuation
+ 	of IPMC. Initial counter ion distribution (a) and
+	the distribution and resulting bending after applying a voltage (b).}
+\vspace{-1cm}
+\end{figure}
+\newpage
+%The derived and implemented model helps to predict the actuation of the
+%material. Furthermore, it is expected that the \emph{hp}-FEM implementation
+%results in a smaller problem size, thus likely allowing faster calculation
+%in both 2D and 3D domains.
+
+In this study we will model IPMC materials via a multiphysics coupled problem 
+consisting of the Poisson and Nernst-Planck equations (abbreviated by PNP in
+the following). These equations are used to model charge transport in materials 
+that includes ionic migration, diffusion, and convection. The charge transport 
+process is a key mechanism for electromechanical transduction 
 \cite{basu1997membrane,shahinpoor2001smartmat,
 nasser2002applied,newbury2003intelligent, wallmersperger2007appliedphysics,
 pugal2008appliedphysics,pugal2010polymer}.
-As the system of equations is nonlinear and for a domain with two
-electrodes, the charge concentration differences occur in a very narrow
-region near the boundaries, the required computing power for a full
-scale domain is, especially in 3D, rather significant. This
-requires a mesh that is optimal in terms of calculation time and calculation
-error.
+
+The PNP system is highly nonlinear and for a typical domain with two
+electrodes, largest differences in charge concentration occur in a very narrow
+region near the boundary. The computing power required for a full scale problem 
+is significant. This is why we are interested in exploring adaptive algorithms
+-- we hope to obtain meshes that are optimal in terms of calculation time and 
+calculation error.
 
 The Nernst-Planck equation for a mobile species ---
-in this case for counter ions --- and without the convection term is:
+in our case for counter ions --- has the form
 \begin{equation}
-  \frac{\partial C}{\partial t}+\nabla\cdot(-D\nabla C-z\mu FC\nabla\phi)=0,
+  \frac{\partial C}{\partial t}+\nabla\cdot(-D\nabla C-z\mu FC\nabla\phi)=0.
   \label{eq:nernst-planck}
 \end{equation}
-where $C$ is the counter ion concentration, $D$ diffusion, $\mu$ mobility,
-$F$ Faraday constant, $\phi$ voltage, and $z$ charge number. The Poisson
-equation is
+Here $C$ stands for the counter ion concentration, $D$ is diffusion, $\mu$ mobility,
+$F$ Faraday constant, $\phi$ voltage, and $z$ the charge number. We have neglected 
+the velocity of the species as in our case it can be assumed zero. 
+The Poisson equation has the form
 \begin{equation}
-  -\nabla^2\phi=\frac{F\rho}{\varepsilon},
+  -\nabla^2\phi=\frac{F\rho}{\varepsilon}
   \label{eq:poisson}
 \end{equation}
-where $\varepsilon$ is an absolute dielectric permittivity and the
-charge density $\rho$ is expressed
+where $\varepsilon$ is the absolute dielectric permittivity. The
+charge density $\rho$ is defined via
 \begin{equation}
   \rho=C-C_{0}
   \label{eq:rho}
 \end{equation}
-with $C_{0}$ being a constant anion concentration.
+where $C_{0}$ is a constant anion concentration.
 
-Brief overview of the motivation
-of the study and a practical application of the results is given in the following section. 
-Thereafter the weak-form~\cite{Hermes-book} derivation of the PNP system of equations
-and time dependent adaptive \emph{hp}-FEM solutions of the system is presented
-for different refinement modes. 
-Also, advantages of a multi-mesh solution over a single-mesh solution are presented.
+The outline of the paper is as follows: Section \ref{sec:moti} explains why 
+it is extremely difficult to find a good mesh for the PNP problem, and 
+hence why we are interested in exploring adaptive algorithms. The PNP model 
+is presented in Section \ref{sec:model} where also its weak formulation is derived. 
+Numerical results and comparisons are presented in Section \ref{sec:results},
+and conclusion and outlook are drawn in Section \ref{sec:conc}.
+
 

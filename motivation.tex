@@ -1,45 +1,47 @@
-\section{Motivation}
-\begin{figure}
+\section{Motivation} \label{sec:moti}
+Fig.~\ref{fig:comsol-conc-volt} shows a typical solution for $C$ and $\phi$
+at $t=0.1\ s$ and $t=3.0\ s$ for a simplified one-dimensional problem. The corresponding solution
+constants are summarized below in Table~\ref{Table:used-constants}.\begin{figure}[!ht]
   \begin{centering}
       \includegraphics[]{comsol_conc_volt}
-  \caption{\label{fig:comsol-conc-volt}Calculated concentration $C$ and voltage $\phi$
-  in a 1D domain $\Omega\subset\mathbb{R}$.
-  Dirichlet boundary conditions ($V_{\partial \Omega_1}=0\ V$
-  and $V_{\partial \Omega_2}=4\ V$) were
-	applied to the Poisson equation Eq.~\eqref{eq:poisson} and Neumann boundaries
-	to the Nernst-Planck equation Eq.~\eqref{eq:nernst-planck}.}
+  \caption{Sample concentration $C$ and voltage $\phi$
+           in a 1D domain $\Omega\subset\mathbb{R}$.
+           Dirichlet boundary conditions ($V_{\partial \Omega_1}=0\ V$
+           and $V_{\partial \Omega_2}=4\ V$) were
+	   applied to the Poisson equation \eqref{eq:poisson} and Neumann conditions
+	   to the Nernst-Planck equation \eqref{eq:nernst-planck}.}
+\label{fig:comsol-conc-volt}
   \end{centering}
 \end{figure}
-Fig.~\ref{fig:comsol-conc-volt} shows a solution for $C$ and $\phi$ in
-the time dependent NPN system at $t=0.1\ s$ and $t=3.0\ s$. Solution
-constants are shown in Table~\ref{Table:used-constants}.
-It can be seen that the solution has two notable characteristics. 
-Firstly, $\nabla C$ at $\partial \Omega_2$ is
-moving in time, whereas $\nabla C$ at $\partial \Omega_1$ is very
-large. For the most part of the domain $\Omega$ $\nabla C=0$.
-At the same time, $\phi$ is a rather smooth fucntion in $\Omega$.
-This clearly makes the choice of the mesh for the time dependent NPN
-system difficult. By choosing a too fine mesh, the problem gets
-too big. By choosing a coarse mesh, the calculation error might
-get too large.
-Furthermore, from the shape of the solution in Fig.~\ref{fig:comsol-conc-volt}
-can be seen that the polynomial degree of the elements in the middle
-of the domain $\Omega$ and near the boundaries $\partial \Omega_1,\ \partial \Omega_2$
-should be different --- namely higher degree elements near the boundaries
-and lower degree element in the middle of domain. 
-Overall shape of the solutions also suggest that
-using different meshes for variables $C$ and $\phi$ can be beneficial
-in terms of number of degrees of freedom and calculation time.
 
-All the aforementioned concerns can be solved by using
-a time dependent adaptive multimesh \emph{hp}-FEM solver.
-Automatic time dependent adaptivity in conjuction with \emph{hp}-FEM 
-helps to limit the error of the calculations by automatically choosing
-a suitable mesh and polynomial degrees of the elements at each time step.
-In this work Hermes~\cite{Hermes-project} was used to implement
-the PNP system and study
-the problem size, error convergence and solution time 
-with different refinement modes.
+The solution shown in Fig.~\ref{fig:comsol-conc-volt} has 
+two notable characteristics: For the most part of the domain $\Omega$,
+the gradient $\nabla C = 0$. Close to $\partial \Omega_2$, $\nabla C$ is
+nonzero and moving in time, and $\nabla C$ is very large at $\partial \Omega_1$.
+At the same time, $\phi$ is a "nice" smooth function for the most part of 
+$\Omega$ but it has a large gradient at $\partial \Omega_2$.
+This makes the choice of an optimal mesh extremely difficult. Even if the 
+solution was stationary, an optimal mesh for $C$ could never be 
+optimal for $\phi$ and vice versa.
+
+Furthermore, the shape of the solution in Fig.~\ref{fig:comsol-conc-volt}
+suggests that the polynomial degree of finite elements in the middle
+of the domain $\Omega$ and near the boundaries $\partial \Omega_1,\ \partial \Omega_2$
+should be different --- large high-degree elements should be used in the middle of the 
+domain while small low-degree ones should be used in the boundary layers.  
+The qualitative differences in the solution components $C$ and $\phi$ 
+also suggest that using different meshes would be beneficial. 
+
+% THIS DOES NOT BELONG HERE
+%All the aforementioned concerns can be solved by using
+%a time dependent adaptive multimesh \emph{hp}-FEM solver.
+%Automatic time dependent adaptivity in conjuction with \emph{hp}-FEM 
+%helps to limit the error of the calculations by automatically choosing
+%a suitable mesh and polynomial degrees of the elements at each time step.
+%In this work Hermes~\cite{Hermes-project} was used to implement
+%the PNP system and study
+%the problem size, error convergence and solution time 
+%with different refinement modes.
 
 \begin{table}
 \caption{Constants used in the Poisson-Nernst-Planck system of equations.}
@@ -62,35 +64,4 @@ with different refinement modes.
 \end{tabular}
 }
 \end{table}
-
-\subsection{Practical application}
-IPMCs have been studied in past two decades in view of using them
-as noiseless mechanoelectrical or electromechanical transducers.
-The advantages of the IPMCs over other electroactive polymer actuators
-are low voltage bending, high strains ($>1\%$), and ability to work
-in wet environments. A typical IPMC consists of a thin sheet of polymer
-(often Nafion or Teflon) which is sandwiched between noble
-metal electrodes such as platinum or gold. When fabricated, the polymer 
-membrane is saturated with certain solvent and ions, e.g water and $H^+$.
-When a voltage is applied to the eletrodes, the counter ions start
-migrating due to the imposed electric field. By dragging along the solvent,
-the osmotic pressure difference near the electrodes occur which in turn
-results in bending of the material (see Fig.~\ref{fig:conceptual}).
-\begin{figure}
-  \begin{centering}
-    \subfloat[~]{\begin{centering}
-      \includegraphics[scale=0.6]{IPMC}
-      \par\end{centering}}~
-    \subfloat[~]{\begin{centering}
-      \includegraphics[scale=0.6]{IPMC_bent}
-      \par\end{centering}}
-  \par\end{centering}
-  \caption{\label{fig:conceptual}Conceptual model of the actuation
- 	of IPMC. Initial counter ion distribution (a) and
-	the distribution and resulting bending after applying a voltage (b).}
-\end{figure}
-The derived and implemented model helps to predict the actuation of the
-material. Furthermore, it is expected that the \emph{hp}-FEM implementation
-results in a smaller problem size, thus likely allowing faster calculation
-in both 2D and 3D domains.
 
