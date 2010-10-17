@@ -1,6 +1,6 @@
-\section{Results}\label{sec:results}
+\section{Numerical Results and Comparisons}\label{sec:results}
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=.8\columnwidth]{mesh}
   \caption{\label{fig:mesh} Initial coarse mesh (a),
@@ -29,7 +29,7 @@ adaptivity performance of Hermes.
 In both cases, the initial mesh was loaded at each time step of the
 calculation.
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=.75\columnwidth]{cphi}
   \caption{\label{fig:cphi} Concentration $C$
@@ -54,7 +54,7 @@ one for the given problem.
 
 \subsection{Optimal refinement modes}
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{singlemulti_dof}
   \caption{\label{fig:singlemultidof} NDOFs in case 
@@ -62,7 +62,8 @@ one for the given problem.
   and HP\_ANISO refinements. (Notice log Y scale)}
   \end{centering}
 \end{figure}
-\begin{figure}
+
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{singlemulti_cpu}
   \caption{\label{fig:singlemulticpu} CPU times in case
@@ -70,7 +71,8 @@ one for the given problem.
   and HP\_ANISO refinements. (Notice log Y scale)}
   \end{centering}
 \end{figure}
-\begin{figure}
+
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=.75\columnwidth]{poly}
   \caption{\label{fig:poly} Polynomial degree space
@@ -103,7 +105,7 @@ calculation time.
 Based on the results, only multi-mesh configurations will be considered
 in the following comparisons.
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoaniso_dof}
   \caption{\label{fig:isoanisodof} NDOFs in case 
@@ -112,7 +114,8 @@ in the following comparisons.
   refinement modes. (Notice log Y scale)}
   \end{centering}
 \end{figure}
-\begin{figure}
+
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoaniso_cpu}
   \caption{\label{fig:isoanisocpu} CPU times in case 
@@ -121,7 +124,8 @@ in the following comparisons.
   refinement modes. (notice log Y scale)}
   \end{centering}
 \end{figure}
-\begin{figure}
+
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoanisop_dof}
   \caption{\label{fig:isoanisopdof} NDOFs in case 
@@ -129,7 +133,8 @@ in the following comparisons.
   HP\_ANISO\_P refinement modes.}
   \end{centering}
 \end{figure}
-\begin{figure}
+
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoanisop_cpu}
   \caption{\label{fig:isoanisopcpu} CPU times in case 
@@ -171,14 +176,14 @@ error at each time step remained below
 the threshold which were set to $e_{th}=0.5\%$ between the coarse mesh
 and fine mesh solutions, therefore the error-time plot will not be considered.
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{cpu}
   \caption{\label{fig:cpu} Comparative CPU time for different refinement modes.}
   \end{centering}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{dof}
   \caption{\label{fig:dof} Comparative NDOFs at each time step for 
@@ -205,7 +210,7 @@ subsection, optimization of those two modes will be considered.
 
 \subsection{Optimizations of HP\_ANISO and HP\_ANISO\_P refinement modes}
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{refined_cpu}
   \caption{\label{fig:refined-cpu} Cumulative CPU time for HP\_ANISO and HP\_ANISO\_P
@@ -213,7 +218,7 @@ subsection, optimization of those two modes will be considered.
   \end{centering}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{refined_dof}
   \caption{\label{fig:refined-dof} NDOFs at each time step for
@@ -244,7 +249,7 @@ By using initially more refined mesh, the problem solving time
 can be reduced in case of HP\_ANISO, at the same time, the problem size increases.
 In this situation, HP\_ANISO\_P and HP\_ANISO perform equally well.
 
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{unreffreq_dof}
   \caption{\label{fig:unreffreq-dof} NDOFs at each time step for
@@ -268,7 +273,7 @@ At the same time, by varying a mesh size, optimal initial mesh could be found
 for both HP\_ANISO and HP\_ANISO\_P refinement modes.
 	 
 \subsection{More general results}
-\begin{figure}
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=.75\columnwidth]{cphiorders}
   \caption{\label{fig:cphi-orders} Solutions $C$ and $\phi$
@@ -293,8 +298,3 @@ is different to the one in Fig.~\ref{fig:cphi} and the adapted mesh and the
 polynomial degrees are also more complicated than in Fig.~\ref{fig:poly}.
 It must be noted that in case of non uniform boundary conditions which
 results in 2D problem, refined initial mesh was more efficient to use.
-
-\emph{
-PAVEL: Should I try to include the similar solution from comsol and do
-some comparison here? I got this idea just before commiting the final
-draft to you?}

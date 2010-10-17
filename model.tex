@@ -1,7 +1,9 @@
 \section{Model}\label{sec:model}
-\label{sec:model}
 
-\begin{figure}
+We consider a rectangular 2D domain $\Omega\subset\mathbb{R}^2$ with boundaries 
+$\partial\Omega_{1\ldots 4}\subset\partial\Omega$, shown in Fig.~\ref{fig:domain}.
+
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=0.2\columnwidth]{domain}
   \caption{\label{fig:domain} Calculation domain $\Omega\subset\mathbb{R}^2$
@@ -9,25 +11,21 @@
   \end{centering}
 \end{figure}
 
-The model for solving PNP system is implemented in Hermes.
-A rectangular 2D domain $\Omega\subset\mathbb{R}^2$ with boundaries 
-$\partial\Omega_{1\ldots 4}\subset\partial\Omega$  is considered (see Fig.~\ref{fig:domain}). 
-As there is no flow considered into or out from the domain and there is no
-constant concentration at the boundaries, zero Neumann boundary conditions were used 
-for Eq.~\eqref{eq:nernst-planck}:
+As there is no flow through the domain's boundary, Eq.~\eqref{eq:nernst-planck}
+is equipped with a Neumann boundary condition 
 \begin{equation}
   -D \frac{\partial C}{\partial n} - z \mu F C \frac{\partial \phi} {\partial n} = 0.
   \label{eq:nernst-planck-boundary}
 \end{equation}
-As a positive constant voltage $V_{pos}$ was applied on $\Omega_1$ and $V_{neg}=0$ was applied
-on $\Omega_3$, Dirichlet boundary conditions were used for Eq.~\eqref{eq:poisson} for
-boundaries $\Omega_1$ and $\Omega_3$:
+Furthermore, we prescribe a positive constant voltage $V_{pos}$ 
+on $\Omega_1$ and zero voltage on $\Omega_3$:
 \begin{eqnarray}
   \phi_{\partial\Omega_1}&=&V_{pos},\\
-  \phi_{\partial\Omega_3}&=&0,
+  \phi_{\partial\Omega_3}&=&0.
   \label{eq:dirichlet}
 \end{eqnarray}
-and Neumann boundaries for $\Omega_2$ and $\Omega_4$:
+On the rest of the boundary, $\phi$ has zero normal derivatives, and thus we prescribe 
+a Neumann boundary condition
 \begin{equation}
   \frac{\partial \phi_{\Omega_2}}{\partial n}=\frac{\partial \phi_{\Omega_4}}{\partial n}=0.
 \end{equation}
@@ -35,40 +33,46 @@ and Neumann boundaries for $\Omega_2$ and $\Omega_4$:
 
 \subsection{Weak form of Poisson-Nernst-Planck system}
 
-The initial more implicit version of the derived weak form of PNP
-was derived in~\cite{pugal2010spie}.
-To make the derivation of the weak forms more convenient, the following
-constants are used: 
+% IF YOU WANT TO CITE THIS WORK< YOU HAVE TO SAY WHY WE ARE DOING 
+% THE DERIVATION AGAIN -- OTHERWISE IT IS CONTRAPRODUCTIVE. SO 
+% I COMMENTED THIS OUT.
+%An implicit version of the weak form of PNP was derived in~\cite{pugal2010spie}.
+To make our results easily reproducible, we present a rather detailed
+derivation of weak forms of Eqs.~\eqref{eq:nernst-planck} and 
+\eqref{eq:poisson}, as well as formulas for the Jacobian matrix and residual 
+vector that are used in actual computations.
+To facilitate the derivation, we introduce two additional constants 
 \begin{eqnarray}
   K & = &z \mu F,\\
   L&=&\frac{F}{\varepsilon}.
   \label{eq:KL}
 \end{eqnarray}
-So Eq.~\eqref{eq:nernst-planck} and Eq.~\eqref{eq:poisson} become after 
-substituting Eq.~\eqref{eq:rho} and the constants $K$ and $L$:
+After using Eq.~\eqref{eq:rho} and the constants $K$ and $L$, 
+Eq.~\eqref{eq:nernst-planck} and Eq.~\eqref{eq:poisson} become
 \begin{eqnarray}
   \frac{\partial C}{\partial t}-D\nabla^2 C-K\nabla\cdot \left(C\nabla\phi\right)&=&0,\label{eq:nernst-planck-2}\\
   -\nabla^2\phi-L\left(C-C_{0}\right)&=&0.\label{eq:poisson-2}
 \end{eqnarray}
-The boundary condition Eq.~\eqref{eq:nernst-planck-boundary} becomes:
+The boundary condition Eq.~\eqref{eq:nernst-planck-boundary} now has the form
 \begin{equation}
   -D\frac{\partial C}{\partial n}-KC\frac{\partial\phi}{\partial n}=0.
   \label{eq:nernst-planck-boundary-2}
 \end{equation}
-The space for solution is $V=H^1\left(\Omega\right)$ where 
+As the second derivatives of both $C$ and $\phi$ are present in the 
+equations, the appropriate function space for them is the Sobolev space 
+$V=H^1\left(\Omega\right)$, where 
 $H^1\left(\Omega\right)=\left\{v\in L^2\left(\Omega\right);\ \nabla v \in \left[L^2\left(\Omega\right)\right]^2\right\}$.
-Let's choose a test function $v^C\in V$.
-The weak form the Nernst-Planck equation Eq.~\eqref{eq:nernst-planck-2}
-is found by multiplying it with the test function $v^C$ and then integrating over the domain~$\Omega$:
+
+In order to derive the weak form of the Nernst-Planck equation Eq.~\eqref{eq:nernst-planck-2},
+we first multiply it with a test function $v^C \in V$ and integrate over the domain~$\Omega$,
 \begin{equation}
   \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}
   -\int_{\Omega}D\nabla^2Cv^C d\mathbf{x}-\int_{\Omega}K\nabla C\cdot
   \nabla\phi v^C d\mathbf{x} - \int_{\Omega}KC\nabla^2\phi v^C d\mathbf{x}=0.
   \label{eq:nernst-planck-weak1}
 \end{equation}
-After adding the weak form of the boundary term 
-(Eq.~\eqref{eq:nernst-planck-boundary-2}) and applying
-the Green's first identity to the terms that contain Laplacian $\nabla^2$ we get
+Applying the Green's first identity to the terms that contain second derivatives,
+we obtain
 \begin{eqnarray}
  && \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
   D\int_{\Omega}\nabla C\cdot\nabla v^C d\mathbf{x}-
@@ -78,8 +82,8 @@ the Green's first identity to the terms that contain Laplacian $\nabla^2$ we get
   \int_{\partial\Omega}K\frac{\partial\phi}{\partial n}Cv^C d\mathbf{S}=0.
   \label{eq:nernst-planck-weak2}
 \end{eqnarray}
-After expanding the nonlinear term and given that the boundary terms
-do not contribute, the weak form becomes
+Expanding the nonlinear term and using the boundary condition 
+\eqref{eq:nernst-planck-boundary-2}, we have
 \begin{equation}
   \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
   D\int_{\Omega}\nabla C \cdot \nabla v^C d\mathbf{x}-
@@ -88,22 +92,22 @@ do not contribute, the weak form becomes
   K\int_{\Omega} C \left(\nabla\phi\cdot\nabla v^C\right) d\mathbf{x}=0.
   \label{eq:nernst-planck-weak3}
 \end{equation}
-As the second and third term cancel out, the final weak from of 
-the Nernst-Planck equation is
+After the second and third terms cancel out, we obtain the final weak form of 
+the Nernst-Planck equation
 \begin{equation}
   \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
   D\int_{\Omega}\nabla C \cdot \nabla v^C d\mathbf{x}+
   K\int_{\Omega} C \left(\nabla\phi\cdot\nabla v^C\right) d\mathbf{x}=0.
   \label{eq:nernst-planck-weak-final}
 \end{equation}
-Similarly the weak form of Poisson equation Eq.~\ref{eq:poisson-2}
-with a test function $v^\phi\subset V$ is:
+Analogously we derive also the weak form of the Poisson equation (\ref{eq:poisson-2}),
 \begin{equation}
   -\int_{\Omega}\nabla^2\phi v^\phi d\mathbf{x}-\int_{\Omega}LCv^\phi d\mathbf{x}+
   \int_{\Omega}LC_{0}v^\phi d\mathbf{x}=0.
   \label{eq:poisson-weak1}
 \end{equation}
-After expanding the $\nabla^2$ terms, the final form becomes
+Performing integration by parts and taking into account the boundary 
+conditions for $\phi$, we obtain
 \begin{equation}
   \int_{\Omega}\nabla\phi\cdot\nabla v^\phi d\mathbf{x}-\int_{\Omega}LCv^\phi d\mathbf{x}+
   \int_{\Omega}LC_{0}v^\phi d\mathbf{x}=0.
@@ -111,64 +115,94 @@ After expanding the $\nabla^2$ terms, the final form becomes
 \end{equation}
 
 
-\subsection{Implementation in Hermes}
-To implement the system of equations Eq.~\eqref{eq:nernst-planck-weak-final}
-and Eq.~\eqref{eq:poisson-weak-final}, the residuals and the Jacobian
-matrix were derived. For that, Crank-Nicolson time stepping was
-used
-\begin{equation}
-  \frac{\partial C}{\partial t} \approx \frac{C^{n+1} - C^n}{\tau},
-  \label{eq:cranic}
-\end{equation}
-where $\tau$ is a time step. For the variables $C^{n+1}$ and $\phi^{n+1}$ the
-following notation will be used:
+\subsection{Jacobian matrix and residual vector for the Newton's method}
+To employ the Newton's method for the nonlinear system \eqref{eq:nernst-planck-weak-final},
+\eqref{eq:poisson-weak-final}, formulas for the Jacobian matrix and residual vector need to
+be derived. Time discretization will be performed using the second-order Crank-Nicolson 
+method. The unknown solution components 
+$C^{n+1}$ and $\phi^{n+1}$ at the end of the time step are expressed 
+as linear combinations of finite element basis functions $v_k^{C}$ 
+and $v_k^{\phi}$ with unknown coefficients,
 \begin{eqnarray}
-  C^{n+1} &=& \sum_{k=1}^{N^C} y_k^{C} v_k^{C}, \label{eq:cnotation}j\\
-  \phi^{n+1} &=& \sum_{k=1}^{N^{\phi}} y_k^{\phi} v_k^{\phi}\label{eq:phinotation},
+  C^{n+1} = C(Y^{n+1}) &=& \sum_{k=1}^{N^C} y_k^{C} v_k^{C}, \label{eq:cnotation}\\
+  \phi^{n+1} = \phi(Y^{n+1}) &=& \sum_{k=1}^{N^{\phi}} y_k^{\phi} v_k^{\phi}\label{eq:phinotation}.
 \end{eqnarray}
-where $v_k^C$ and $v_k^\phi$ are piecewise polynomial functions in $V$.
-Considering the Crank-Nicolson time stepping and the notation~\eqref{eq:cnotation},
-the time discretized Eq.~\eqref{eq:nernst-planck-weak-final} becomes
+Here $Y^{n+1}$ is a coefficient vector of length $N^C + N^{\phi}$ comprising the unknown 
+solution coefficients $y_k^{C}$ and $y_k^{\phi}$ (in this order). We will also be 
+using $C^n = C(Y^n)$ and $\phi^n = \phi(Y^n)$ for the previous time step solutions.
+
+With the notation~\eqref{eq:cnotation}, \eqref{eq:phinotation}, the time discretized 
+Eq.~\eqref{eq:nernst-planck-weak-final} leads to the formula for the 
+first part $F^C$ of the residual vector $F$,
 \begin{eqnarray}
-  F_i^C\left(Y\right) & = & \int_{\Omega} \frac{C^{n+1}}{\tau}v_i^C d\mathbf{x} - 
+  F_i^C\left(Y\right) & = & \int_{\Omega} \frac{C(Y)}{\tau}v_i^C d\mathbf{x} - 
   \int_{\Omega} \frac{C^{n}}{\tau}v_i^C d\mathbf{x}\nonumber\\
-  &&+\frac 12 \left[D\int_{\Omega} \nabla C^{n+1} \cdot \nabla v_i^C d\mathbf{x}+ 
+  &&+\frac 12 \left[D\int_{\Omega} \nabla C(Y) \cdot \nabla v_i^C d\mathbf{x}+ 
   	D\int_{\Omega} \nabla C^{n} \cdot \nabla v_i^C d\mathbf{x}\right]\nonumber\\
-  &&+ \frac 12 \left[K\int_{\Omega}C^{n+1} \left(\nabla \phi^{n+1} \cdot \nabla v_i^C\right) d\mathbf{x}+
-  K\int_{\Omega}C^{n} \left(\nabla \phi^{n} \cdot \nabla v_i^C\right) d\mathbf{x}\right]\label{eq:Fc},
+  &&+ \frac 12 \left[K\int_{\Omega}C(Y) \left(\nabla \phi(Y) \cdot \nabla v_i^C\right) d\mathbf{x}+
+  K\int_{\Omega}C^{n} \left(\nabla \phi^{n} \cdot \nabla v_i^C\right) d\mathbf{x}\right]\label{eq:Fc}
 \end{eqnarray}
-and in the notation~\eqref{eq:phinotation}, Eq.~\eqref{eq:poisson-weak-final} becomes
+where $i = 1, 2, \ldots, N^C$.
+Analogously, Eq.~\eqref{eq:poisson-weak-final} defines the second part $F^{\phi}$ 
+of the residual vector $F$,
 \begin{equation}
-  F_i^{\phi}\left(Y\right) = \int_{\Omega} \nabla \phi^{n+1} \cdot \nabla v_i^{\phi} d\mathbf{x} 
-  - \int_{\Omega} LC^{n+1}v_i^{\phi} d\mathbf{x} + \int_{\Omega} LC_0 v_i^{\phi} d\mathbf{x}.
+  F_i^{\phi}\left(Y\right) = \int_{\Omega} \nabla \phi(Y) \cdot \nabla v_i^{\phi} d\mathbf{x} 
+  - \int_{\Omega} LC(Y)v_i^{\phi} d\mathbf{x} + \int_{\Omega} LC_0 v_i^{\phi} d\mathbf{x}
   \label{eq:Fphi}
 \end{equation}
-For the implementation the $2\times 2$ Jacobian matrix $DF/DY$ with elements corresponding to
+where $i = N^C + 1, N^C + 2, \ldots, N^C + N^{\phi}$. The nonlinear discrete problem 
+that needs to be solved at the end of each time step thus has the form 
+$F(Y) = 0$.
+
+The Jacobian matrix $J(Y) = DF/DY$ has a $2\times 2$ block structure,
 \begin{equation}
-  \frac{\partial F_i^C}{\partial y_j^C}, \ \frac{\partial F_i^C}{\partial y_j^{\phi}},\  
-  \frac{\partial F_i^{\phi}}{\partial y_j^C}, \ \frac{\partial F_i^{\phi}}{\partial y_j^{\phi}},
+J(Y) = \left(
+\begin{array}{cc}
+  \displaystyle \frac{\partial F_i^C}{\partial y_j^C} & \displaystyle \frac{\partial F_i^C}{\partial y_j^{\phi}} \\ 
+  \displaystyle \frac{\partial F_i^{\phi}}{\partial y_j^C} & \displaystyle \frac{\partial F_i^{\phi}}{\partial y_j^{\phi}}
+\end{array}
+\right),
 \end{equation}
-must be derived: 
+and its entries are obtained by calculating the partial derivatives of $F$ with
+respect to the components of the coefficient vector $Y$. For this it is useful to 
+realize that 
+$$
+\frac{\partial C(Y)}{\partial y_j^C} = v_j^C, \ \ \ 
+\frac{\partial \nabla C(Y)}{\partial y_j^C} = \nabla v_j^C,\ \ \ \mbox{etc.}.
+$$
+We obtain
 \begin{eqnarray}
-  \frac{\partial F_i^C}{\partial y_j^C} &=& 
+  \frac{\partial F_i^C}{\partial y_j^C}(Y) &=& 
   \int_{\Omega} \frac{1}{\tau} v_j^C v_i^C d\mathbf{x} + 
   \frac 12 D\int_{\Omega} \nabla v_j^C \cdot \nabla v_i^C d\mathbf{x}
-  + \frac 12 K\int_{\Omega} v_j^C \left(\nabla \phi^{n+1} \cdot \nabla v_i^C\right) d\mathbf{x},\label{eq:dFcdyc}\\
-  \frac{\partial F_i^C}{\partial y_j^{\phi}} &=&
-  \frac 12 K \int_{\Omega} C^{n+1} \left(\nabla v_j^{\phi} \cdot \nabla v_i^C\right) d\mathbf{x},\\
-  \frac{\partial F_i^{\phi}}{\partial y_j^C} &=&
+  + \frac 12 K\int_{\Omega} v_j^C \left(\nabla \phi(Y) \cdot \nabla v_i^C\right) d\mathbf{x},\label{eq:dFcdyc}\\
+  \frac{\partial F_i^C}{\partial y_j^{\phi}}(Y) &=&
+  \frac 12 K \int_{\Omega} C(Y) \left(\nabla v_j^{\phi} \cdot \nabla v_i^C\right) d\mathbf{x},\\
+  \frac{\partial F_i^{\phi}}{\partial y_j^C}(Y) &=&
   - \int_{\Omega} L v_j^C v_i^{\phi} d\mathbf{x},\\
-  \frac{\partial F_i^{\phi}}{\partial y_j^{\phi}} &=&
+  \frac{\partial F_i^{\phi}}{\partial y_j^{\phi}}(Y) &=&
   \int_{\Omega} \nabla v_j^{\phi} \cdot \nabla v_i^{\phi} d\mathbf{x}\label{eq:dFphidyphi}.
 \end{eqnarray}
-In Hermes Eq.~\eqref{eq:Fc} and \eqref{eq:Fphi} define the residuum $F$ and
-Eq.~\eqref{eq:dFcdyc}---\eqref{eq:dFphidyphi} define the Jacobian matrix $J$.
 
-\subsection{Adaptive multi-mesh solution in Hermes}
+\subsection{Newton's iteration}
+At the beginning of the $(n+1)$st time step we 
+set $Y^{n+1}_0 = Y^n$, where $Y^n$ is the coefficient vector  
+that was calculated in the $n$th time step (or coming from the 
+initial condition if $n = 0$). We set $k = 0$ and run the 
+Newton's iteration 
+\begin{eqnarray*}
+J(Y^{n+1}_k) \delta Y^{n+1}_{k+1} &=& -F(Y^{n+1}_k), \\ 
+Y^{n+1}_{k+1} &=& Y^{n+1}_k + \delta Y^{n+1}_{k+1}, \\
+k &:=& k+1
+\end{eqnarray*}
+over $k$ until it converges. Then we set $Y^{n+1} := Y^{n+1}_{k+1}$. 
+We use a combined stopping criterion 
+that makes sure that both the norm of the residual vector $\Vert F(Y^{n+1})\Vert$ 
+as well as the norm of the increment $\Vert \delta Y^{n+1}\Vert$ are sufficiently 
+small.
 
-The defined Jacobian $J$ and residuum $F$ can be simply solved with Hermes by
-using Newton's iteration. However, we were more interested in the automatic
-adaptivity to control the error and problem size.
+\section{Adaptive $hp$-FEM and the Open-Source Library Hermes}
+\label{sec:hermes}
 
 In a traditional low-order FEM, refining an element is not algorithmically complicated,
 and so the most difficult part is to find out what elements should be refined. 
@@ -180,31 +214,51 @@ multiphysics coupled problems or higher-order finite element methods:
 rigorous guaranteed error estimates only exist for very simple problems 
 (such as linear elliptic PDE), and moreover only for low-order finite elements 
 (such as piecewise linear approximations). These heuristic techniques 
-are not employed in Hermes since they may fail 
-in non-standard situations, and because they lack a 
+may fail in more complicated situations, and moreover they lack a 
 transparent relation to the true approximation error.
-In order to obtain fast, usable adaptivity, one has to resort to adaptive \emph{hp}-FEM.
+
+In order to obtain fast, usable adaptivity, one has to resort to higher-order finite 
+elements and adaptive \emph{hp}-FEM.
 Automatic adaptivity in the \emph{hp}-FEM is substantially different from adaptivity 
 in low-order FEM, since every element can be refined in many different ways. 
-Fig.~\ref{fig:refinements} shows several illustrative refinement candidates for a fourth-order element.
-\begin{figure}
+For illustration, Fig.~\ref{fig:refinements} shows several illustrative 
+refinement candidates for a fourth-order element.
+\begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=0.5\columnwidth]{refinements}
-  \caption{\label{fig:refinements} Refinement candidates for a fourth-order
+  \caption{\label{fig:refinements} Many possible refinement candidates for a fourth-order
   element.}
   \end{centering}
+\vspace{-0.5cm}
 \end{figure}
+
+\newpage
 The number of possible element refinements is implementation dependent. 
 In general it is very low in \emph{h} or \emph{p} adaptivity, 
-but much higher in \emph{hp}-adaptivity, and it rises even more when 
-anisotropic refinements are enabled.
-Hermes supports 8 different refinement modes, namely,
-3 isotropic and 5 anisotropic refinements. The isotropic refinements are
+and higher in \emph{hp}-adaptivity. It rises very fast when 
+anisotropic refinements are considered.
+
+\subsection{The Hermes Library}
+
+Hermes\footnote{http://hpfem.org/hermes} is a free and open-source C++ library 
+that implements higher-order finite elements approximations and adaptive $hp$-FEM.
+It supports 8 different adaptivity modes -- three isotropic and five anisotropic. 
+The isotropic refinements are
 \emph{h}-isotropic (H\_ISO), \emph{p}-isotropic (P\_ISO), \emph{hp}-isotropic (HP\_ISO).
 Anisotropic refinement modes are
 \emph{h}-anisotropic (H\_ANISO),
 \emph{hp}-anisotropic-\emph{h} (HP\_ANISO\_H), \emph{p}-anisotropic (P\_ANISO),
 \emph{hp}-anisotropic-p (HP\_ANISO\_P), and \emph{hp}-anisotropic (HP\_ANISO).
+The eight adaptivity modes are summarized in Fig. \ref{fig:candlist}.
+
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=0.7\columnwidth]{cand_list_quads}
+  \caption{\label{fig:candlist} Refinement candidates for every
+  refinement mode for quad type elements.}
+  \end{centering}
+\end{figure}
+Note that triangular elements do not support anisotropic refinements.
 Due to the large number of refinement options, classical error estimators 
 that provide a constant error estimate per element, cannot be used to 
 guide automatic \emph{hp}-adaptivity. 
@@ -215,72 +269,46 @@ The initial coarse mesh is read from the mesh file, and the initial
 fine mesh is created through its global refinement both in \emph{h}
 and \emph{p}. The fine mesh solution is the approximation of 
 interest both during the adaptive process and at the end of computation. 
-The coarse mesh solution represents its low-order part.
-Here global orthogonal projection of the fine mesh solution 
-on the coarse mesh was used instead instead of solving on the coarse mesh.
+Global orthogonal projection of the fine mesh solution on the coarse mesh 
+is used to extract the low-order part from the reference solution.
+The adaptivity algorithm is guided by the difference between the 
+reference solution and its low-order part [ADD CITATION SOLIN-SIMKO].
+Note that this approach to automatic adaptivity is PDE-independent
+and thus naturally applicable to a large variety of multiphysics 
+coupled problems.
 
-\begin{figure}
-  \begin{centering}
-  \includegraphics[width=0.5\columnwidth]{cand_list_quads}
-  \caption{\label{fig:candlist} Refinement candidates for every
-  refinement mode for quad type elements.}
-  \end{centering}
-\end{figure}
-Refinement mode is selected by a user from among 8 modes listed before.
-Hermes selects a particular
-refinement scheme from several candidates based on the score which is
-calculated as follows
-\begin{equation}
-	s=\frac{\log_{10} e_0 - \log_{10} e}{\left( d_0-d \right)^{\xi}},
-\end{equation}
-where $e$ and $d$ are an estimated error and an estimated
-number of DOF of a candidate respectively, $e_0$ and $d_0$
-are are an estimated error and an estimated number of DOF
-of the examined element, respectively, and $\xi$ is a
-convergence exponent. Here candidate
-refers to a proposed refinement. Fig.~\ref{fig:candlist} shows all the proposed
-refinements for all refinement modes in case of quad elements.
-More information about the refinement modes and technical details
-about the score calculation can be found in~\cite{Hermes-project}.
+\subsection{Multimesh $hp$-FEM}
+In multiphysics PDE systems such as Poisson-Nernst-Planck it can 
+happen that one physical field is very smooth where others are not,
+as we illustrated in Fig.~\ref{fig:comsol-conc-volt}. 
+If all the fields are approximated on the same mesh, then 
+unnecessary refinements will be present in smooth areas
+where they are not necessary. This can be very wasteful.
 
-\begin{figure}
-  \begin{centering}
-  \includegraphics[width=0.5\columnwidth]{multimesh1}
-  \caption{\label{fig:multimesh1} Master mesh (A) and 
-  three different meshes for a coupled problem (B)~---~(D),
-  and the virtual union mesh (E).}
-  \end{centering}
-\end{figure}
-\begin{figure}
-  \begin{centering}
-  \includegraphics[width=0.5\columnwidth]{multimesh2}
-  \caption{\label{fig:multimesh2} Integration over an element
-  $Q_k$ of the virtual union mesh and the appropriate subelements
-  of the existing elements where this integration is performed.}
-  \end{centering}
-\end{figure}
-In multiphysics PDE systems such as Poisson-Nernst-Planck system it can 
-happen that one physical field is very smooth whereas other one is not.
-This is well shown in Fig.~\ref{fig:comsol-conc-volt}. 
-If all the fields are approximated on the same mesh, then the necessity 
-to refine the mesh at the steep gradient of a field implies new degrees 
-of freedom for the smooth fields as well. This can be very wasteful.
-Hermes makes it possible to approximate them on individual meshes. 
-These meshes are not completely independent of each other --- they have 
-a common coarse mesh that we call master mesh. The master mesh is 
-there for algorithmic purposes only, it may not even be used for 
-discretization purposes: Every mesh in the system is obtained from 
-it via an arbitrary sequence of elementary refinements. 
-This is illustrated in Fig.~\ref{fig:multimesh1}, where (A) is the master mesh, 
-(B)~---~(D) three different meshes (say, for a coupled problem with three equations),
-and (E) is the virtual union mesh that is used for assembling.
+Hermes implements a novel adaptive multimesh $hp$-FEM [ADD REFERENCES]
+that makes it possible to approximate different fields on individual meshes,
+without breaking the monolithic structure of the coupling mechanism.
+For practical reasons, the meshes in the system are not allowed to be 
+completely independent -- they have a common coarse mesh that we call {\em 
+master mesh}. The master mesh is 
+there for algorithmic purposes only and it may not even be used for 
+discretization purposes. Every mesh in the system is obtained from 
+the master mesh via an arbitrary sequence of elementary refinements. 
+Assembling is done on a {\em union mesh}, a geometrical union of 
+all meshes in the system (imagine printing all meshes on transparencies and 
+positioning them on top of each other). 
+
 The union mesh is not constructed physically in the computer 
-memory --- it merely serves as a hint to correctly transform  the 
-integration points while integrating over sub-elements of an elements 
-of the existing meshes. Fig.~\ref{fig:multimesh2} shows the integration
-over an element $Q_k$ of the virtual union mesh.
+memory -- it merely serves as a hint to correctly transform the 
+integration points while integrating over sub-elements of elements 
+in the existing meshes. 
 As a result, the multimesh discretization of the PDE system is 
 monolithic in the sense that no physics is lost --- all integrals 
 in the discrete weak formulations are evaluated exactly up to 
-the error in the numerical quadrature. 
+the error in the numerical quadrature. The exact preservation of 
+the coupling structure of multiphysics coupled problems makes 
+the multimesh $hp$-FEM very different from various interpolation 
+and projection based methods that suffer from errors made
+while transferring data between different meshes in the system. 
+
 

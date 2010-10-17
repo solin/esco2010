@@ -70,10 +70,15 @@ charge density $\rho$ is defined via
 \end{equation}
 where $C_{0}$ is a constant anion concentration.
 
-The outline of the paper is as follows: Section \ref{sec:moti} explains why 
-it is extremely difficult to find a good mesh for the PNP problem, and 
-hence why we are interested in exploring adaptive algorithms. The PNP model 
-is presented in Section \ref{sec:model} where also its weak formulation is derived. 
+The outline of the paper is as follows: Section \ref{sec:moti} shows that 
+the solution components $C$ and $\phi$ have very different behavior, which
+is the reason why it is difficult to find a common mesh that would be optimal 
+for each of them. This explains why we are interested in applying the novel
+multimesh $hp$-FEM method [ADD COUPLE OF REFERENCES TO SOLIN-MULTIMESH].
+The PNP model is presented in Section \ref{sec:model} where also its weak 
+formulation for the Newton's method is derived. Section \ref{sec:hermes}
+describes briefly the open source adaptive $hp$-FEM library Hermes
+that is used to solve the problem numerically. 
 Numerical results and comparisons are presented in Section \ref{sec:results},
 and conclusion and outlook are drawn in Section \ref{sec:conc}.
 
