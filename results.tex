@@ -4,8 +4,8 @@
   \begin{centering}
   \includegraphics[width=.8\columnwidth]{mesh}
   \caption{\label{fig:mesh} Initial coarse mesh (a),
-  	half refined mesh (b) and refined mesh (c). The coarse mesh
-	and refined mesh were used in the initial calculations, the latter one
+  	half refined mesh (b) and refined mesh (c). The coarse mesh (a)
+	and refined mesh (c) were used in the initial calculations, the latter one
 	in case of \emph{p}-adaptivity (including HP\_ANISO\_P). The half-refined mesh was
 	used later to optimize the \emph{hp}-adaptive refinement solutions.}
   \end{centering}
@@ -22,8 +22,8 @@ the error convergence.
 When the element size refinement
 was also enabled (all \emph{h}/\emph{hp} refinement modes), very coarse initial mesh
 was used (see Fig.~\ref{fig:mesh}~(a)) to let the adaptivity
-algorithm find the most optimal mesh. So coarse initial mesh might not be
-suitable for most the practical applications, as will be demonstrated in the
+algorithm find the most optimal mesh. That coarse initial mesh might not be
+suitable for practical applications, as will be demonstrated in the
 end of this section, however, it provides a good insight into the
 adaptivity performance of Hermes.
 In both cases, the initial mesh was loaded at each time step of the
@@ -35,7 +35,7 @@ calculation.
   \caption{\label{fig:cphi} Concentration $C$
   and voltage $\phi$ at two different time steps
   (HP\_ANISO refinement mode was used). This is a 2D solution shown
-  as in 3D, where the height indicates the values of $C$ and $\phi$.}
+  in 3D, where the height indicates the values of $C$ and $\phi$.}
   \end{centering}
 \end{figure}
 Example of the solution at $t=0.7\ s$ and $t=3.0\ s$ 
@@ -48,7 +48,7 @@ $\partial\Omega_3$ have formed. The automatic mesh refinements
 at different time steps are clearly visible in the figure --- especially
 near $\partial\Omega_1$, where the $C_{\Omega_1}\approx 0$ and
 the gradient $\nabla C$ is
-moving in time (this was also demonstrated in Fig.~\ref{fig:comsol-conc-volt}).
+shifting in time (this is also demonstrated in Fig.~\ref{fig:comsol-conc-volt}).
 
 The following subsections provide a detailed comparison of
 the different refinement modes and try to estimate the most suitable
@@ -60,7 +60,7 @@ one for the given problem.
   \begin{centering}
   \includegraphics[width=\columnwidth]{singlemulti_dof}
   \caption{\label{fig:singlemultidof} NDOFs in case 
-  of single-mesh and multi-mesh solutions with HP\_ISO
+  of single-mesh and multi-mesh configurations with HP\_ISO
   and HP\_ANISO refinement modes. (Notice log Y scale)}
   \end{centering}
 \end{figure}
@@ -68,8 +68,8 @@ one for the given problem.
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{singlemulti_cpu}
-  \caption{\label{fig:singlemulticpu} CPU times in case
-  of single-mesh and multi-mesh solutions with HP\_ISO
+  \caption{\label{fig:singlemulticpu} Cumulative CPU times in case
+  of single-mesh and multi-mesh configurations with HP\_ISO
   and HP\_ANISO refinement modes. (Notice log Y scale)}
   \end{centering}
 \end{figure}
@@ -121,7 +121,7 @@ in the following comparisons.
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoaniso_cpu}
-  \caption{\label{fig:isoanisocpu} CPU times in case 
+  \caption{\label{fig:isoanisocpu} Cumulative CPU times in case 
   of multi-mesh configuration with H\_ISO, H\_ANISO,
   HP\_ISO, HP\_ANISO, and single-mesh configuration with HP\_ANISO\_H
   refinement modes. (notice log Y scale)}
@@ -140,7 +140,7 @@ in the following comparisons.
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoanisop_cpu}
-  \caption{\label{fig:isoanisopcpu} CPU times in case 
+  \caption{\label{fig:isoanisopcpu} Cumulative CPU times in case 
   of multi-mesh configuration with P\_ISO, P\_ANISO, and
   HP\_ANISO\_P refinement modes.}
   \end{centering}
@@ -150,8 +150,8 @@ isotropic and anisotropic adaptivities were compared. The \emph{p}-adaptivity
 modes were compared separately as they used more refined initial mesh 
 (shown in Fig.~\ref{fig:mesh}~(c)).
 Fig.~\ref{fig:isoanisodof} and Fig.~\ref{fig:isoanisocpu} provide the comparison
-of H\_ISO, H\_ANISO, HP\_ISO, HP\_ANISO, and HP\_ANISO\_H modes in terms of CPU time
-and NDOFs.
+of H\_ISO, H\_ANISO, HP\_ISO, HP\_ANISO, and HP\_ANISO\_H modes in terms of 
+cumulative CPU time and NDOFs.
 Fig.~\ref{fig:isoanisopdof} and Fig.~\ref{fig:isoanisopcpu} show the similar
 comparsion for the P\_ISO, P\_ANISO, and HP\_ANISO\_P modes.
 It is not difficult to see that the anisotropic refinement modes result in a reasonable problem
@@ -166,7 +166,7 @@ to so that $N_{DOF}<500$, and the term ``reasonable calculation time''
 means that the calculation (step $\tau=0.01\ s$, physical
 time $t_{end}=3.0\ s$) time $t$ on a givem system was $t<500\ s$.
 Although these parameters are empirical, they serve as an upper limit, given
-that the most refinement modes give significantly better results, i.e.
+that the most refinement modes give significantly better results ---
 $t<<500\ s$ and $N_{DOF} << 500$.
 
 \subsection{Quantitative analysis of the refinement modes}
@@ -183,7 +183,7 @@ and fine mesh solutions, therefore the error-time plot will not be considered.
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{cpu}
-  \caption{\label{fig:cpu} Comparative CPU time for different refinement modes.}
+  \caption{\label{fig:cpu} Comparative cumulative CPU time for different refinement modes.}
   \end{centering}
 \end{figure}
 
@@ -242,28 +242,29 @@ When it comes to a large domain or 3D modeling, the problem
 size becomes a very important factor. Namely, 3D full scale solutions tend to use
 a lot of memory. Therefore, we consider HP\_ANISO the most
 suitable refinement mode for the given problem. 
-Hence, some ways to optimize the model based on HP\_ANISO
-mode to improve the CPU time
-%TODO, continue here
-factor without significantly compromising the NDOFs will be considered. 
+Hence, some ways to optimize the HP\_ANISO model
+to improve the CPU time factor without significantly 
+compromising the NDOFs will be considered. 
 The desirable output would be HP\_ANISO problem size
-close to HP\_ANISO\_P CPU time. One way to optimize the problem
+close to HP\_ANISO\_P CPU time. 
+One way to optimize the problem
 is to choose more refined initial mesh. Another way would be to change
-the refinement frequency during the solving process. In theory, this
-could result in a fewer adaptivity steps which are quite expensive in terms
+the refinement frequency during the solving process. Theoretically it 
+could result in a fewer adaptivity steps which are rather expensive in terms
 of CPU time. Recall that up to this point,
-the initial mesh has been loaded in the beginning of each time step. 
-True, by employing these optimizations, we must know something about the problem
+the initial mesh was loaded in the beginning of each time step. 
+True, by employing the optimizations, one must know something about the problem
 and its solution beforehand. However, it could still be practial when solving a real problem
 in a large domain.
 
 The problem size and CPU time with HP\_ANISO
 and HP\_ANISO\_P adaptivities on more refined initial mesh (see Fig.~\ref{fig:mesh}~(c))
 compared to the coarse initial mesh (Fig.~\ref{fig:mesh}~(a)) and 
-HP\_ANISO\_P solution is shown in Fig.~\ref{fig:refined-cpu} and Fig.~\ref{fig:refined-dof}.
+HP\_ANISO\_P solution are shown in Fig.~\ref{fig:refined-cpu} and Fig.~\ref{fig:refined-dof}.
 By using initially more refined mesh, the problem solving time
-can be reduced in case of HP\_ANISO, at the same time, the problem size increases.
-In this situation, HP\_ANISO\_P and HP\_ANISO perform equally well.
+can be reduced in case of HP\_ANISO, at the same time, the problem size increases
+as the initial mesh is not necessarily the most optimal one.
+However, in this situation, HP\_ANISO\_P and HP\_ANISO perform equally well.
 
 \begin{figure}[!ht]
   \begin{centering}
@@ -278,14 +279,14 @@ It is known that the concentration gradient $\nabla C$ changes the most in the i
 of the calculation, therefore, the unrefinement after each time step was performed
 until $t=0.5\ s$ (physical time). After that, the
 unrefinement was performed in $\Delta t = 0.10\ s$ interval.
-However, this optimization did not result in a stable solution, i.e. the problem size 
+However, this optimization does not appear to result in a stable solution, 
+i.e. the problem size 
 does not remain steady, but starts to oscillate depending on the unrefinement
-frequency. This is shown in 
-Fig.~\ref{fig:unreffreq-dof}. 
+frequency. This is shown in Fig.~\ref{fig:unreffreq-dof}. 
 
 Therefore varying the unrefinement frequency will
-not likely result in desired results in real applications for given system of equation.
-At the same time, by varying a mesh size, optimal initial mesh could be found
+likely not result in desired results in real applications for given system of equation.
+At the same time, by varying the initial mesh size, optimal initial mesh could be found
 for both HP\_ANISO and HP\_ANISO\_P refinement modes.
 	 
 \subsection{More general results}

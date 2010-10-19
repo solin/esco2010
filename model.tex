@@ -287,7 +287,8 @@ If all the fields are approximated on the same mesh, then
 unnecessary refinements will be present in smooth areas
 where they are not necessary. This can be very wasteful.
 
-Hermes implements a novel adaptive multimesh $hp$-FEM [ADD REFERENCES]
+Hermes implements a novel adaptive multimesh $hp$-FEM~\cite{solin2010monolithic,
+solin2010adaptive,dubcova2010space}
 that makes it possible to approximate different fields on individual meshes,
 without breaking the monolithic structure of the coupling mechanism.
 For practical reasons, the meshes in the system are not allowed to be 

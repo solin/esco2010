@@ -8,15 +8,16 @@ and implemented in Hermes \emph{hp}-FEM adaptive solver.
 The solution for Nernst-Planck-Poisson
 problem with two field variables $C$ and $\phi$ results in 
 very different field gradients in the space and time.
-Conventional finite element solvers do not provide the means 
+Conventional finite element solvers do not necessarily provide the means 
 how to deal with such problems such that both the error of
 the solution and problem size remain small throughout the
-time dependent solving process.
+time dependent solving process. This is largely due to the
+fact that it is very difficult to find an optimal initial mesh.
 
 It was shown that using time dependent adaptivity, multi-mesh
 configuration, and anisotropic \emph{hp} refinements, the problem
 size remains acceptably small throughout the solving process.
-Namely, hermes refinement modes HP\_ANISO and HP\_ANISO\_P
+Namely, Hermes refinement modes HP\_ANISO and HP\_ANISO\_P
 resulted the smallest and fastest problem, respectively.
 At the same time, relative error of the solution was known.
 Furthermore, using the multi-mesh configuration for the variables
@@ -34,5 +35,5 @@ of the Nernst-Planck-Poisson equation system significantly while
 still maintaining prescribed precision of the solution. 
 We believe, and this
 is yet to be demonstrated, that this becomes especially
-important when dealing with 3D problems with a large physical
-domain.
+important when dealing with 3D problems in a large physical
+domain with non-uniform boundary conditions.
