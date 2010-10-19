@@ -36,6 +36,8 @@ a Neumann boundary condition
 % IF YOU WANT TO CITE THIS WORK< YOU HAVE TO SAY WHY WE ARE DOING 
 % THE DERIVATION AGAIN -- OTHERWISE IT IS CONTRAPRODUCTIVE. SO 
 % I COMMENTED THIS OUT.
+% I guess it can be left out as the work in SPIE is quite preliminary
+% and not that complete
 %An implicit version of the weak form of PNP was derived in~\cite{pugal2010spie}.
 To make our results easily reproducible, we present a rather detailed
 derivation of weak forms of Eqs.~\eqref{eq:nernst-planck} and 
@@ -249,7 +251,7 @@ Anisotropic refinement modes are
 \emph{h}-anisotropic (H\_ANISO),
 \emph{hp}-anisotropic-\emph{h} (HP\_ANISO\_H), \emph{p}-anisotropic (P\_ANISO),
 \emph{hp}-anisotropic-p (HP\_ANISO\_P), and \emph{hp}-anisotropic (HP\_ANISO).
-The eight adaptivity modes are summarized in Fig. \ref{fig:candlist}.
+The eight adaptivity modes are summarized in Fig.~\ref{fig:candlist}.
 
 \begin{figure}[!ht]
   \begin{centering}
@@ -272,7 +274,7 @@ interest both during the adaptive process and at the end of computation.
 Global orthogonal projection of the fine mesh solution on the coarse mesh 
 is used to extract the low-order part from the reference solution.
 The adaptivity algorithm is guided by the difference between the 
-reference solution and its low-order part [ADD CITATION SOLIN-SIMKO].
+reference solution and its low-order part~\cite{solin2010pde}.
 Note that this approach to automatic adaptivity is PDE-independent
 and thus naturally applicable to a large variety of multiphysics 
 coupled problems.
