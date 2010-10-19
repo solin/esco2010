@@ -1,40 +1,53 @@
-\documentclass[letterpaper,3p]{elsarticle}
+\documentclass[mathpazo]{cicp}
 
-\journal{Applied Mathematics and Computation}
+%\journal{Applied Mathematics and Computation}
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-\usepackage{subfig}
+\usepackage{amsrefs}
+%\usepackage{subfig}
 
 \begin{document}
-\begin{frontmatter}
 
 %\title{\emph{hp}-Finite Element Model of Poisson and Nernst-Planck\\ System of Equations}
 \title{Modeling Ionic Polymer-Metal Composites\\ with Space-Time Adaptive Multimesh \emph{hp}-FEM}
 
-\author[unrme,tartu]{D.~Pugal}
-\ead{david.pugal@gmail.com}
 
-\author[unrmath,czech]{P.~Solin\corref{cor2}}
-\ead{solin@unr.edu}
+\author[Deivid Pugal et.~al.]{Deivid Pugal\affil{1}\comma\affil{2},
+Pavel Solin\affil{3}\comma\affil{4}\comma\corrauth,
+Kwang J. Kim\affil{1}, and Alvo Aabloo\affil{2}}
 
-\author[unrme]{K.~J.~Kim\corref{cor1}}
-\ead{kwangkim@unr.edu}
+\address{\affilnum{1}\ Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.\\
+\affilnum{2}\ Institute of Technology, Tartu University, Estonia\\
+\affilnum{3}\ Department of Mathematics and Statistics, University of Nevada, Reno, NV, U.S.A.\\
+\affilnum{4}\ Institute of Thermomechanics, Prague, Czech Republic}
 
-\author[tartu]{A.~Aabloo}
-\ead{alvo@ut.ee}
+\emails{{\tt david.pugal@gmail.com} (D.~Pugal), {\tt solin@unr.edu} (P.~Solin),
+	{\tt kwangkim@unr.edu} (K.~Kim), {\tt alvo@ut.ee} (A.~Aabloo)}
 
-\address[unrme]{Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.}
-\address[unrmath]{Department of Mathematics and Statistics,
-University of Nevada, Reno, NV, U.S.A.}
-\address[czech]{Institute of Thermomechanics, Prague, Czech Republic}
-\address[tartu]{Institute of Technology, Tartu University, Estonia}
-
-\cortext[cor1]{Corresponding author}
-\cortext[cor2]{Principal corresponding author}
+%\author[unrme,tartu]{D.~Pugal}
+%\ead{david.pugal@gmail.com}
+%
+%\author[unrmath,czech]{P.~Solin\corref{cor2}}
+%\ead{solin@unr.edu}
+%
+%\author[unrme]{K.~J.~Kim\corref{cor1}}
+%\ead{kwangkim@unr.edu}
+%
+%\author[tartu]{A.~Aabloo}
+%\ead{alvo@ut.ee}
+%
+%\address[unrme]{Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.}
+%\address[unrmath]{Department of Mathematics and Statistics,
+%University of Nevada, Reno, NV, U.S.A.}
+%\address[czech]{Institute of Thermomechanics, Prague, Czech Republic}
+%\address[tartu]{Institute of Technology, Tartu University, Estonia}
+%
+%\cortext[cor1]{Corresponding author}
+%\cortext[cor2]{Principal corresponding author}
 
 \begin{abstract}
 In this paper we study a multiphysics coupled problem consisting 
@@ -48,12 +61,20 @@ low-order FEM. In particular, we discuss the performance of a novel
 adaptive multimesh $hp$-FEM algorithm.
 \end{abstract}
 
-\begin{keyword}
-  Ionic polymer-metal composites \sep IPMC \sep Nernst-Planck equation \sep Poisson equation 
-  \sep finite element method \sep space-time adaptivity, multimesh \emph{hp}-FEM 
-\end{keyword}
+%\begin{keyword}
+%\keywords{Ionic polymer-metal composites, IPMC, Nernst-Planck equation, Poisson equation,
+%finite element method, space-time adaptivity, multimesh \emph{hp}-FEM }
+%\end{keyword}
 
-\end{frontmatter}
+%see http://www.ams.org/mathscinet/msc/msc2010.html?t=35Qxx&btn=Current
+
+\ams{35Q84, 35Q05, 35J47}
+\keywords{Ionic polymer-metal composites, IPMC, Nernst-Planck equation, Poisson equation,
+finite element method, space-time adaptivity, multimesh \emph{hp}-FEM }
+\maketitle
+
+
+%\end{frontmatter}
 
 \input{intro}
 \input{motivation}
@@ -68,8 +89,12 @@ Department of Energy Research Subcontract No. 00089911.
 The third author acknowledges the financial support of the U.S. Office of Naval Research 
 under Award N000140910218.
 
+%\begin{thebibliography}{99}
+%\bibitem{\ldots}..
 
-\bibliographystyle{elsarticle-num}    % Bibliography: Author-Date system
+%\end{thebibliography}
+
+%\bibliographystyle{amsrs}    % Bibliography: Author-Date system
 \bibliography{pugal-esco2010}      % pls. call your database here
 
 \end{document}
