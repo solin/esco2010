@@ -31,7 +31,7 @@ a Neumann boundary condition
 \end{equation}
 
 
-\subsection{Weak form of Poisson-Nernst-Planck system}
+\subsection{Weak form of the PNP system}
 
 % IF YOU WANT TO CITE THIS WORK< YOU HAVE TO SAY WHY WE ARE DOING 
 % THE DERIVATION AGAIN -- OTHERWISE IT IS CONTRAPRODUCTIVE. SO 
@@ -39,58 +39,61 @@ a Neumann boundary condition
 % I guess it can be left out as the work in SPIE is quite preliminary
 % and not that complete
 %An implicit version of the weak form of PNP was derived in~\cite{pugal2010spie}.
-To make our results easily reproducible, we present a rather detailed
-derivation of weak forms of Eqs.~\eqref{eq:nernst-planck} and 
+To make our results easily reproducible, in the following we present the derivation 
+of weak forms of Eqs.~\eqref{eq:nernst-planck} and 
 \eqref{eq:poisson}, as well as formulas for the Jacobian matrix and residual 
 vector that are used in actual computations.
-To facilitate the derivation, we introduce two additional constants 
-\begin{eqnarray}
-  K & = &z \mu F,\\
-  L&=&\frac{F}{\varepsilon}.
+To simplify notation, we define
+\begin{equation}
+  K = z \mu F,\ \ \
+  L = \frac{F}{\varepsilon}.
   \label{eq:KL}
-\end{eqnarray}
-After using Eq.~\eqref{eq:rho} and the constants $K$ and $L$, 
-Eq.~\eqref{eq:nernst-planck} and Eq.~\eqref{eq:poisson} become
+\end{equation}
+Eqs.~\eqref{eq:nernst-planck} and \eqref{eq:poisson} yield
 \begin{eqnarray}
   \frac{\partial C}{\partial t}-D\nabla^2 C-K\nabla\cdot \left(C\nabla\phi\right)&=&0,\label{eq:nernst-planck-2}\\
   -\nabla^2\phi-L\left(C-C_{0}\right)&=&0.\label{eq:poisson-2}
 \end{eqnarray}
-The boundary condition Eq.~\eqref{eq:nernst-planck-boundary} now has the form
+Boundary condition Eq.~\eqref{eq:nernst-planck-boundary} has the form
 \begin{equation}
   -D\frac{\partial C}{\partial n}-KC\frac{\partial\phi}{\partial n}=0.
   \label{eq:nernst-planck-boundary-2}
 \end{equation}
 As the second derivatives of both $C$ and $\phi$ are present in the 
 equations, the appropriate function space for them is the Sobolev space 
-$V=H^1\left(\Omega\right)$, where 
-$H^1\left(\Omega\right)=\left\{v\in L^2\left(\Omega\right);\ \nabla v \in \left[L^2\left(\Omega\right)\right]^2\right\}$.
-
+$V=H^1\left(\Omega\right)$ where 
+$$H^1\left(\Omega\right)=\left\{v\in L^2\left(\Omega\right);\ \nabla v \in \left[L^2\left(\Omega\right)\right]^2\right\}.
+$$
 In order to derive the weak form of the Nernst-Planck equation Eq.~\eqref{eq:nernst-planck-2},
 we first multiply it with a test function $v^C \in V$ and integrate over the domain~$\Omega$,
 \begin{equation}
   \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}
-  -\int_{\Omega}D\nabla^2Cv^C d\mathbf{x}-\int_{\Omega}K\nabla C\cdot
-  \nabla\phi v^C d\mathbf{x} - \int_{\Omega}KC\nabla^2\phi v^C d\mathbf{x}=0.
+  -\int_{\Omega}D\nabla^2Cv^C d\mathbf{x}-\int_{\Omega}K\nabla C\cdot\nabla\phi v^C d\mathbf{x}
+   - \int_{\Omega}KC\nabla^2\phi v^C d\mathbf{x}=0.
   \label{eq:nernst-planck-weak1}
 \end{equation}
 Applying the Green's first identity to the terms that contain second derivatives,
 we obtain
-\begin{eqnarray}
- && \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
+$$
+ \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
   D\int_{\Omega}\nabla C\cdot\nabla v^C d\mathbf{x}-
-  K\int_{\Omega}\nabla C \cdot \nabla \phi v^C d\mathbf{x}+
-  K\int_{\Omega}\nabla\left(Cv^C\right)\cdot \nabla \phi d\mathbf{x}\\
-  &&-D\int_{\partial\Omega}\frac{\partial C}{\partial n}v^C d\mathbf{S}-
+  K\int_{\Omega}\nabla C \cdot \nabla \phi v^C d\mathbf{x}
+$$
+\begin{equation}
+  + K\int_{\Omega}\nabla\left(Cv^C\right)\cdot \nabla \phi d\mathbf{x}
+  -D\int_{\partial\Omega}\frac{\partial C}{\partial n}v^C d\mathbf{S}-
   \int_{\partial\Omega}K\frac{\partial\phi}{\partial n}Cv^C d\mathbf{S}=0.
   \label{eq:nernst-planck-weak2}
-\end{eqnarray}
+\end{equation}
 Expanding the nonlinear term and using the boundary condition 
 \eqref{eq:nernst-planck-boundary-2}, we have
-\begin{equation}
+$$
   \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
   D\int_{\Omega}\nabla C \cdot \nabla v^C d\mathbf{x}-
-  K\int_{\Omega}\nabla C \cdot \nabla \phi v^C d\mathbf{x}+
-  K\int_{\Omega}\nabla \phi \cdot \nabla C v^C d\mathbf{x}+
+  K\int_{\Omega}\nabla C \cdot \nabla \phi v^C d\mathbf{x}
+$$
+\begin{equation}
+  + K\int_{\Omega}\nabla \phi \cdot \nabla C v^C d\mathbf{x}+
   K\int_{\Omega} C \left(\nabla\phi\cdot\nabla v^C\right) d\mathbf{x}=0.
   \label{eq:nernst-planck-weak3}
 \end{equation}
@@ -156,6 +159,9 @@ where $i = N^C + 1, N^C + 2, \ldots, N^C + N^{\phi}$. The nonlinear discrete pro
 that needs to be solved at the end of each time step thus has the form 
 $F(Y) = 0$.
 
+\newpage
+
+\noindent
 The Jacobian matrix $J(Y) = DF/DY$ has a $2\times 2$ block structure,
 \begin{equation}
 J(Y) = \left(
@@ -197,7 +203,7 @@ J(Y^{n+1}_k) \delta Y^{n+1}_{k+1} &=& -F(Y^{n+1}_k), \\
 Y^{n+1}_{k+1} &=& Y^{n+1}_k + \delta Y^{n+1}_{k+1}, \\
 k &:=& k+1
 \end{eqnarray*}
-over $k$ until it converges. Then we set $Y^{n+1} := Y^{n+1}_{k+1}$. 
+over $k$ until it converges. Then we set $Y^{n+1} := Y^{n+1}_{k}$. 
 We use a combined stopping criterion 
 that makes sure that both the norm of the residual vector $\Vert F(Y^{n+1})\Vert$ 
 as well as the norm of the increment $\Vert \delta Y^{n+1}\Vert$ are sufficiently 
@@ -206,39 +212,43 @@ small.
 \section{Adaptive $hp$-FEM and the Open-Source Library Hermes}
 \label{sec:hermes}
 
-In a traditional low-order FEM, refining an element is not algorithmically complicated,
+In traditional low-order FEM (based on piecewise-linear or piecewise quadratic elements), 
+refining an element is not algorithmically complicated,
 and so the most difficult part is to find out what elements should be refined. 
 To do this, various techniques ranging from rigorous guaranteed a-posteriori 
-error estimates to heuristic criteria such as residual error indicators, 
-error indicators based on steep gradients, etc are employed. 
-Unfortunately, none of these approaches are suitable for real-life 
-multiphysics coupled problems or higher-order finite element methods: 
-rigorous guaranteed error estimates only exist for very simple problems 
-(such as linear elliptic PDE), and moreover only for low-order finite elements 
-(such as piecewise linear approximations). These heuristic techniques 
-may fail in more complicated situations, and moreover they lack a 
-transparent relation to the true approximation error.
+error estimates to heuristic criteria such as residual error indicators or
+error indicators based on steep gradients are employed. 
 
-In order to obtain fast, usable adaptivity, one has to resort to higher-order finite 
-elements and adaptive \emph{hp}-FEM.
-Automatic adaptivity in the \emph{hp}-FEM is substantially different from adaptivity 
-in low-order FEM, since every element can be refined in many different ways. 
-For illustration, Fig.~\ref{fig:refinements} shows several illustrative 
-refinement candidates for a fourth-order element.
+However, none of these approaches is suitable for
+multiphysics coupled problems or higher-order finite element methods: 
+Rigorous guaranteed error estimates only exist for very simple problems 
+(such as linear elliptic PDE) and only for low-order finite elements.
+Heuristic techniques are usually somehow doable for all problems, but 
+they fail in more complicated situations. Moreover, they lack a 
+transparent relation to the true approximation error and thus they may
+give wrong results.
+
+Automatic adaptivity in higher-order finite element methods (\emph{hp}-FEM) 
+is much different from adaptivity in low-order FEM. Firstly, analytical
+error estimates capable of guiding adaptive $hp$-FEM do not exist even for 
+the simplest linear elliptic equations, not speaking about nonlinear multiphysics 
+coupled systems. Secondly,
+a higher-order element can be refined in many different ways, as illustrated 
+in Fig.~\ref{fig:refinements}.
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=0.5\columnwidth]{refinements}
   \caption{\label{fig:refinements} Many possible refinement candidates for a fourth-order
   element.}
   \end{centering}
-\vspace{-0.5cm}
+%\vspace{-0.5cm}
 \end{figure}
 
 %\newpage
 The number of possible element refinements is implementation dependent. 
-In general it is very low in \emph{h} or \emph{p} adaptivity, 
-and higher in \emph{hp}-adaptivity. It rises very fast when 
-anisotropic refinements are considered.
+In general it is very low in \emph{h}-adaptivity and \emph{p}-adaptivity, 
+and much higher in \emph{hp}-adaptivity. Moreover, this number grows very 
+fast when anisotropic refinements are enabled.
 
 \subsection{The Hermes Library}
 
@@ -255,7 +265,7 @@ The eight adaptivity modes are summarized in Fig.~\ref{fig:candlist}.
 
 \begin{figure}[!ht]
   \begin{centering}
-  \includegraphics[width=0.7\columnwidth]{cand_list_quads}
+  \includegraphics[width=0.8\columnwidth]{cand_list_quads}
   \caption{\label{fig:candlist} Refinement candidates for every
   refinement mode for quad type elements.}
   \end{centering}

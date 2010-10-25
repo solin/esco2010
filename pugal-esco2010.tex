@@ -16,14 +16,14 @@
 \title{Modeling Ionic Polymer-Metal Composites\\ with Space-Time Adaptive Multimesh \emph{hp}-FEM}
 
 
-\author[Deivid Pugal et.~al.]{Deivid Pugal\affil{1}\comma\affil{2},
-Pavel Solin\affil{3}\comma\affil{4}\comma\corrauth,
-Kwang J. Kim\affil{1}, and Alvo Aabloo\affil{2}}
+\author[Deivid Pugal et.~al.]{Deivid Pugal\affil{1}\comma\affil{4},
+Pavel Solin\affil{2}\comma\affil{3}\comma\corrauth,
+Kwang J. Kim\affil{1}, and Alvo Aabloo\affil{4}}
 
 \address{\affilnum{1}\ Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.\\
-\affilnum{2}\ Institute of Technology, Tartu University, Estonia\\
-\affilnum{3}\ Department of Mathematics and Statistics, University of Nevada, Reno, NV, U.S.A.\\
-\affilnum{4}\ Institute of Thermomechanics, Prague, Czech Republic}
+\affilnum{2}\ Department of Mathematics and Statistics, University of Nevada, Reno, NV, U.S.A.\\
+\affilnum{3}\ Institute of Thermomechanics, Prague, Czech Republic\\
+\affilnum{4}\ Institute of Technology, Tartu University, Estonia}
 
 \emails{{\tt david.pugal@gmail.com} (D.~Pugal), {\tt solin@unr.edu} (P.~Solin),
 	{\tt kwangkim@unr.edu} (K.~Kim), {\tt alvo@ut.ee} (A.~Aabloo)}
@@ -50,15 +50,16 @@ Kwang J. Kim\affil{1}, and Alvo Aabloo\affil{2}}
 %\cortext[cor2]{Principal corresponding author}
 
 \begin{abstract}
-In this paper we study a multiphysics coupled problem consisting 
-of the Poisson and Nernst-Planck equations, that is used to 
-model ionic polymer-metal composite (IPMC) materials. 
-The problem is discretized using the finite element method (FEM) and solved using 
-space-time adaptive \emph{hp}-FEM algorithms provided by the Hermes 
-library. Numerical results are presented and discussed, including 
-comparison of various versions of adaptive $hp$-FEM and conventional 
-low-order FEM. In particular, we discuss the performance of a novel
-adaptive multimesh $hp$-FEM algorithm.
+We are concerned with a model of ionic polymer-metal composite (IPMC) materials
+that consists of a coupled system of the Poisson and Nernst-Planck equations, 
+discretized by means of the finite element method (FEM). We show that due to the 
+transient character of the problem it is efficient to use adaptive algorithms 
+that are capable of changing the mesh dynamically in time. We also show 
+that due to large qualitative and quantitative differences between the 
+two solution components, it is efficient to approximate them on different 
+meshes using a novel adaptive multimesh \emph{hp}-FEM. The study is 
+accompanied with numerous computations and comparisons of the adaptive 
+multimesh \emph{hp}-FEM with several other adaptive FEM algorithms. 
 \end{abstract}
 
 %\begin{keyword}
@@ -70,7 +71,7 @@ adaptive multimesh $hp$-FEM algorithm.
 
 \ams{35Q84, 35Q05, 35J47}
 \keywords{Ionic polymer-metal composites, IPMC, Nernst-Planck equation, Poisson equation,
-finite element method, space-time adaptivity, multimesh \emph{hp}-FEM }
+finite element method, FEM, adaptive multimesh \emph{hp}-FEM }
 \maketitle
 
 

@@ -1,10 +1,8 @@
 \section{Motivation} \label{sec:moti}
 
-In this section we use a simplified one-dimensional model to illustrate the 
-principal difficulties encountered in the numerical solution of the 
-PNP system.
-Table~\ref{Table:used-constants} shows constants that we will use in 
-computations in this section as well as in the rest of the paper: 
+In this section we use a simplified one-dimensional PNP model to illustrate the 
+principal difficulties encountered in the numerical solution. Table~\ref{Table:used-constants} 
+shows relevant constants.
 
 \begin{table}[!ht]
 \caption{Constants used in the Poisson-Nernst-Planck system of equations.}
@@ -28,19 +26,9 @@ computations in this section as well as in the rest of the paper:
 }
 \end{table}
 
-
+\noindent
 Fig.~\ref{fig:comsol-conc-volt} shows a typical solution for $C$ and $\phi$
 at $t=0.1\ s$ and $t=3.0\ s$. 
-The solution has 
-two notable characteristics: For the most part of the domain $\Omega$,
-the gradient $\nabla C = 0$. Close to $\partial \Omega_2$, $\nabla C$ is
-nonzero and moving in time, and $\nabla C$ is very large at $\partial \Omega_1$.
-At the same time, $\phi$ is a "nice" smooth function for the most part of 
-$\Omega$ but it has a large gradient at $\partial \Omega_2$.
-This makes the choice of an optimal mesh extremely difficult. Even if the 
-solution was stationary, an optimal mesh for $C$ could never be 
-optimal for $\phi$ and vice versa.
-
 
 \begin{figure}[!ht]
   \begin{centering}
@@ -55,6 +43,22 @@ optimal for $\phi$ and vice versa.
 \label{fig:comsol-conc-volt}
   \end{centering}
 \end{figure}
+
+
+
+
+
+The reader can observe that the solution has 
+two notable characteristics: For the most part of the domain $\Omega$,
+the gradient $\nabla C = 0$. Close to $\partial \Omega_2$, $\nabla C$ is
+nonzero and moving in time, and $\nabla C$ is very large at $\partial \Omega_1$.
+At the same time, $\phi$ is a "nice" smooth function for the most part of 
+$\Omega$ but it has a large gradient at $\partial \Omega_2$.
+This makes the choice of an optimal mesh highly problematic. Even if the 
+solution was stationary, an optimal mesh for $C$ could never be 
+optimal for $\phi$ and vice versa.
+
+
 
 
 
