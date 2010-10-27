@@ -28,11 +28,11 @@ used for $h$-adaptivity and $hp$-adaptivity.
 
 An example of the solution at $t=0.7\ s$ and $t=3.0\ s$ 
 calculated with the HP\_ANISO refinement mode is shown
-in Figs.~\ref{fig:cphi-1} and \ref{fig:cphi-2}. 
+in Figs.~\ref{fig:cphi-1}~and~\ref{fig:cphi-2}. 
 
 \begin{figure}[!ht]
   \begin{centering}
-  \includegraphics[width=.75\columnwidth]{cphi-1}
+  \includegraphics[width=\columnwidth]{cphi-1}
   \caption{\label{fig:cphi-1} Concentration $C$
   and voltage $\phi$ at $t=0.7\ s$.}
   \end{centering}
@@ -42,7 +42,7 @@ in Figs.~\ref{fig:cphi-1} and \ref{fig:cphi-2}.
 
 \begin{figure}[!ht]
   \begin{centering}
-  \includegraphics[width=.75\columnwidth]{cphi-2}
+  \includegraphics[width=\columnwidth]{cphi-2}
   \caption{\label{fig:cphi-2} Concentration $C$
   and voltage $\phi$ at $t=3.0\ s$.}
   \end{centering}
@@ -55,6 +55,7 @@ at $t=0.7\ s$ and $t=3.0\ s$ are different.
 
 \subsection{Comparison of single mesh low-order FEM and $hp$-FEM}
 
+First of all, the low-order FEM and $hp$-FEM were compared.
 Comparison of single mesh H\_ANISO with p=1, single mesh H\_ANISO with p=2
 and single mesh HP\_ANISO should be added here to make the point that 
 hp-FEM is much better than low-order FEM. 
@@ -295,7 +296,7 @@ likely not result in desired results in real applications for given system of eq
 At the same time, by varying the initial mesh size, optimal initial mesh could be found
 for both HP\_ANISO and HP\_ANISO\_P refinement modes.
 	 
-\subsection{More general results}
+\subsection{HP\_ANISO adaptivity with non-uniform boundary conditions}
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=.75\columnwidth]{cphiorders}
