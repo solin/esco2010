@@ -38,7 +38,7 @@ in Figs.~\ref{fig:cphi-1}~and~\ref{fig:cphi-2}.
   \end{centering}
 \end{figure}
 
-\newpage
+%\newpage
 
 \begin{figure}[!ht]
   \begin{centering}
@@ -55,14 +55,42 @@ at $t=0.7\ s$ and $t=3.0\ s$ are different.
 
 \subsection{Comparison of single mesh low-order FEM and $hp$-FEM}
 
-First of all, the low-order FEM and $hp$-FEM were compared.
-Comparison of single mesh H\_ANISO with p=1, single mesh H\_ANISO with p=2
-and single mesh HP\_ANISO should be added here to make the point that 
-hp-FEM is much better than low-order FEM. 
-Otherwise the reader does not know 
-why we are just using hp-FEM in the following. Or is there a reason 
-why you do not want to add this here --  long computing time for hp-FEM or something 
-else?
+First of all, the low-order FEM and $hp$-FEM were compared. A single mesh
+H\_ANISO with polynomial degrees $p=1$ and $p=2$ were compared to
+HP\_ANISO mode. The coarse initial mesh as shown in Fig.~\ref{fig:mesh}~(a)
+was used in the solutions.
+The results are shown in Figs.~\ref{fig:singlehhpdof} 
+and~\ref{fig:singlehhpcpu}.
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{singleh_hp_dof}
+  \caption{\label{fig:singlehhpdof} Number of degrees of freedom (DOF) as a function 
+  of physical time for single-mesh H\_ANISO (in case of
+  $p=1$ and $p=2$) and single-mesh HP\_ANISO.}
+  \end{centering}
+\end{figure}
+
+
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{singleh_hp_cpu}
+  \caption{\label{fig:singlehhpcpu} Cumulative CPU time as a function 
+  of physical time for single-mesh H\_ANISO (in case of $p=1$ and $p=2$)
+  and single mesh HP\_ANISO.}
+  \end{centering}
+\end{figure}
+
+\noindent
+It can be seen that $hp$-FEM results in the shorter computing 
+time and smaller number
+of degrees of freedom (DOF) than the low-order FEM. The same holds true
+for H\_ISO and HP\_ISO modes. In fact, in case of H\_ISO the relative error did not
+converge to the pre-set threshold value of $0.5\%$.
+Therefore, the $h$-FEM solutions will be omitted from the further comparisons.
+Instead, only $hp$-FEM solutions on the coarse mesh and $p$-FEM solutions
+on the fine mesh will be discussed. It must be also noted that the error
+converged to or below $0.5\%$ for all $p$-FEM and $hp$-FEM results, therefore
+the error graphs will not be presented. 
 
 \subsection{Comparison of single-mesh and multi-mesh $hp$-FEM}
 
@@ -79,7 +107,7 @@ and Fig.~\ref{fig:singlemulticpu}.
   \caption{\label{fig:singlemultidof} Number of degrees of freedom (DOF) as a function 
   of physical time for single-mesh and multi-mesh configurations with the HP\_ISO
   and HP\_ANISO adaptivity modes. Note logarithmic scale on the vertical axis.}
-\vspace{-6mm}
+%\vspace{-6mm}
   \end{centering}
 \end{figure}
 
@@ -109,7 +137,7 @@ horizontal and vertical directions.
   \end{centering}
 \end{figure}
 
-These result are in good agreement with Fig.~\ref{fig:cphi-2} -- in the vicinity
+These result are in good agreement with Fig.~\ref{fig:cphi-2} --- in the vicinity
 of the boundaries $\partial \Omega_1$ and $\partial\Omega_3$, the concentration gradient
 is much greater than the voltage gradient. Therefore the multimesh $hp$-FEM adaptivity 
 algorithm has increased the maximum polynomial degree for the $C$-space to~7 while 
@@ -149,7 +177,7 @@ Figs.~\ref{fig:isoanisopdof} and \ref{fig:isoanisopcpu} present a similar
 comparsion for the P\_ISO, P\_ANISO, and HP\_ANISO\_P modes. Recall that these 
 computations use a different initial mesh that was a-priori refined in space.
 
-\newpage
+%\newpage
 
 \begin{figure}[!ht]
   \begin{centering}
@@ -227,7 +255,7 @@ during the first few time steps.
 %HP\_ANISO and reduce the NDOFs of HP\_ANISO\_P will be considered.
 
 
-\subsection{Optimization of the HP\_ANISO and HP\_ANISO\_P adaptivity modes}
+\subsection{Optimization of the HP\_ANISO adaptivity modes}
 
 \begin{figure}[!ht]
   \begin{centering}
