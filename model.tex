@@ -261,7 +261,10 @@ Anisotropic refinement modes are
 \emph{h}-anisotropic (H\_ANISO),
 \emph{hp}-anisotropic-\emph{h} (HP\_ANISO\_H), \emph{p}-anisotropic (P\_ANISO),
 \emph{hp}-anisotropic-p (HP\_ANISO\_P), and \emph{hp}-anisotropic (HP\_ANISO).
-The eight adaptivity modes are summarized in Fig.~\ref{fig:candlist}.
+The eight adaptivity modes are summarized in Fig.~\ref{fig:candlist}. It must
+be noted that in case of HP\_ANISO\_H, only element size is adapted anisotropically
+whereas polynomial degree is adapted isotropically. The opposite holds true
+for HP\_ANISO\_P.
 
 \begin{figure}[!ht]
   \begin{centering}

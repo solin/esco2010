@@ -11,18 +11,17 @@ in terms of number of degrees of freedom (DOF) in each
 time step. 
 
 We used two types of initial meshes --- a finer mesh shown 
-in Fig.~\ref{fig:mesh}~(c) was used for \emph{p}-adaptivity
+in Fig.~\ref{fig:mesh}~(b) was used for \emph{p}-adaptivity
 and a very coarse initial mesh shown in  Fig.~\ref{fig:mesh}~(a) was 
 used for $h$-adaptivity and $hp$-adaptivity.
 
 \begin{figure}[!ht]
   \begin{centering}
-  \includegraphics[width=.8\columnwidth]{mesh}
-  \caption{\label{fig:mesh} Initial coarse mesh (a),
-  	half refined mesh (b) and refined mesh (c). The coarse mesh (a)
-	and refined mesh (c) were used in the initial calculations, the latter one
-	in case of \emph{p}-adaptivity (including HP\_ANISO\_P). The half-refined mesh (b) was
-	used later to optimize the \emph{hp}-adaptive refinement solutions.}
+  \includegraphics[width=.6\columnwidth]{mesh}
+  \caption{\label{fig:mesh} Initial coarse mesh (a)
+  	and refined mesh (b). The coarse mesh (a)
+	and refined mesh (b) were used in the initial calculations, the latter one
+	in case of \emph{p}-adaptivity (including HP\_ANISO\_P).}
   \end{centering}
 \end{figure}
 
@@ -81,30 +80,33 @@ and~\ref{fig:singlehhpcpu}.
 \end{figure}
 
 \noindent
-It can be seen that $hp$-FEM results in the shorter computing 
+It can be seen that $hp$-FEM results in a shorter computing 
 time and smaller number
-of degrees of freedom (DOF) than the low-order FEM. The same holds true
+of DOF than the low-order FEM. The same holds true
 for H\_ISO and HP\_ISO modes. In fact, in case of H\_ISO the relative error did not
 converge to the pre-set threshold value of $0.5\%$.
 Therefore, the $h$-FEM solutions will be omitted from the further comparisons.
 Instead, only $hp$-FEM solutions on the coarse mesh and $p$-FEM solutions
 on the fine mesh will be discussed. It must be also noted that the error
 converged to or below $0.5\%$ for all $p$-FEM and $hp$-FEM results, therefore
-the error graphs will not be presented. 
+the graphs of the error as a function of physical time will not be presented. 
 
 \subsection{Comparison of single-mesh and multi-mesh $hp$-FEM}
 
 Running the simulation with different adaptivity modes 
-and meshes showed that the multi-mesh $hp$-FEM configuration resulted into
+and meshes showed that the multi-mesh $hp$-FEM configuration resulted in
 the smallest problems, shortest computing times, and better or the same error 
 convergence compared to any single-mesh configuration.
 This is illustrated in Figs.~\ref{fig:singlemultidof} 
-and Fig.~\ref{fig:singlemulticpu}.
+and Fig.~\ref{fig:singlemulticpu}. Notice that the HP\_ISO with the single-mesh
+configuratio did not even converge in terms of number of degrees of freedom --- the
+adaptivity resulted in an unreasonable problem size and the calculation was
+not finished.
 
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{singlemulti_dof}
-  \caption{\label{fig:singlemultidof} Number of degrees of freedom (DOF) as a function 
+  \caption{\label{fig:singlemultidof} Number of DOF as a function 
   of physical time for single-mesh and multi-mesh configurations with the HP\_ISO
   and HP\_ANISO adaptivity modes. Note logarithmic scale on the vertical axis.}
 %\vspace{-6mm}
@@ -203,131 +205,76 @@ In the \emph{p}-adaptivity group, HP\_ANISO\_P leads to a small problem size
 consistently in each time step, whereas P\_ISO and P\_ANISO yield large problems
 during the first few time steps. 
 
-%
-%\subsection{Quantitative analysis of the refinement modes}
-%
-%Based on the results in the previous subsection, H\_ANISO, HP\_ANISO,
-%and HP\_ANISO\_H from the \emph{hp/h}-adaptivity group and HP\_ANISO\_P
-%from \emph{p}-adaptivity group will be compared
-%in terms of NDOFs and cumulative CPU time. 
-%In all of the cases, the relative 
-%error at each time step remained below
-%the threshold which was set to $e_{th}=0.5\%$ between the coarse mesh
-%and fine mesh solutions, therefore the error-time plot will not be considered.
-%
-%\begin{figure}[!ht]
-%  \begin{centering}
-%  \includegraphics[width=\columnwidth]{cpu}
-%  \caption{\label{fig:cpu} Comparative cumulative CPU time for different refinement modes.}
-%  \end{centering}
-%\end{figure}
-%
-%\begin{figure}[!ht]
-%  \begin{centering}
-%  \includegraphics[width=\columnwidth]{dof}
-%  \caption{\label{fig:dof} Comparative NDOFs at each time step for 
-%  different refinement modes.}
-%  \end{centering}
-%\end{figure}
-%
-%Fig.~\ref{fig:cpu} shows the cumulative CPU time for different refinement 
-%modes at each time step --- the results were recorded on the same computer
-%for the CPU times to be comparable.
-%We see that HP\_ANISO\_H and HP\_ANISO require the most
-%resources. This can be understood from the fact that in case of these 
-%refinement modes the adaptivity algorithm has the largest number of 
-%candidates (see Section.~\ref{sec:model} and Fig.~\ref{fig:refinements})
-%from which a particular refinement can be chosen.
-%At the same time, HP\_ANISO\_P is the fastest compared to the other refinement modes.
-%This can be attributed to the finer inital mesh.
-%
-%Fig.~\ref{fig:dof} shows the NDOFs at each time step.
-%It can be seen that the HP\_ANISO results in the 
-%smallest problem size --- $N_{DOF} \approx 125$. 
-%All the other refinement modes result in a 
-%problem size of approximately ($N_{DOF} \approx 250$). Therefore
-%the HP\_ANISO is the most efficient in terms of memory consumption.
-%
-%As we have filtered out
-%two notable refinement modes for the given problem --- HP\_ANISO\_P because of the fast
-%calculation, and HP\_ANISO because of the small problem size. In the following
-%subsection, some optimizations to reduce the CPU time of
-%HP\_ANISO and reduce the NDOFs of HP\_ANISO\_P will be considered.
+HP\_ANISO also results in the fastest
+computing time among $hp$-adaptivity group whereas HP\_ANISO\_P
+results in the fastest overall computing time. This is due to the fact
+that HP\_ANISO\_P calculation is performed on the refined mesh. 
+Regardless, the HP\_ANISO adaptivity mode is the most suitable
+for the PNP problem due to the small size and relative fastness compared
+to the other adaptivity modes. A way to optimize the computing time
+of HP\_ANISO will be considered next.
 
-
-\subsection{Optimization of the HP\_ANISO adaptivity modes}
+\subsection{Time stpe control of HP\_ANISO adaptivity}
 
 \begin{figure}[!ht]
   \begin{centering}
-  \includegraphics[width=\columnwidth]{refined_cpu}
-  \caption{\label{fig:refined-cpu} Cumulative CPU time for HP\_ANISO and HP\_ANISO\_P
-  with different initial meshes.}
+  \includegraphics[width=\columnwidth]{cphi_relerr}
+  \caption{\label{fig:cphirelerr} Relative difference $e_{C}^n$ and $e_{\phi}^n$.}
+  \end{centering}
+\end{figure}
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{timeadapt_dof}
+  \caption{\label{fig:timeadapt_dof} Number of DOF
+  as a function of physical time for HP\_ANISO with and without
+  time step adaptivity. The markers on the graphs indicate the
+  time steps.}
+  \end{centering}
+\end{figure}
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{timeadapt_cpu}
+  \caption{\label{fig:timeadapt_cpu} Cumulative CPU times
+  as a function of physical time for HP\_ANISO with and without
+  time step adaptivity. The markers on the graphs indicate the
+  time steps.}
   \end{centering}
 \end{figure}
 
+To optimize the calculation time of HP\_ANISO, an adaptive time step control was employed.
+The classical PID controller was used~\cite{valli2002control,dubcova2010space}.
+Since $C$ and $\phi$ change differently in time as was demonstrated in Figs.~\ref{fig:cphi-1}
+and~\ref{fig:cphi-2}, the relative changes between the solutions at different
+time steps were monitored:
+\begin{eqnarray}
+  e_C^n & = & \frac{\lVert C^n-C^{n-1}\rVert}{\lVert C^n \rVert},\\
+  e_\phi^n & = & \frac{\lVert \phi^n-\phi^{n-1}\rVert}{\lVert \phi^n \rVert}.
+\end{eqnarray}
+The relative changes to control the time step was calculated as follows:
+\begin{equation}
+  e^n=\max\left\{ e_C^n,\ e_\phi^n \right\}.
+\end{equation}
+If $e^n < \delta$ where $\delta>0$ is a defined tolerance, then the time
+step for the next iteration is increased smoothly to
+\begin{equation}
+  \tau^{n+1}=\left( \frac{e^{n-1}}{e^n} \right)^{k_P}\ \left( \frac \delta e^n \right)^{k_l}\
+  \left[ \frac{\left( e^{n-1} \right)^2}{e^n e^{n-2}} \right]^{k_D} \tau^n,
+\end{equation}
+where parameters are from~\cite{valli2002control}:
+\begin{equation}
+  k_p=0.075,\quad k_l=0.175,\quad k_D=0.01.
+\end{equation}
+The tolerance $\delta$ was set to $\delta=0.25$ in the current optimization
+example. The calculated $e_C^n$ and $e_\phi^n$ are shown in Fig.~\ref{fig:cphirelerr}.
+The HP\_ANISO problem size and computing time with and without time step control
+are shown in Figs.~\ref{fig:timeadapt_dof} and~\ref{fig:timeadapt_cpu}. The reader
+can notice that the computing time was reduced approximately 3 times when the time
+step adaptivity was employed.
+
+\subsection{HP\_ANISO adaptivity with physically more realistic boundary conditions}
 \begin{figure}[!ht]
   \begin{centering}
-  \includegraphics[width=\columnwidth]{refined_dof}
-  \caption{\label{fig:refined-dof} NDOFs at each time step for
-  HP\_ANISO and HP\_ANISO\_P with different meshes.}
-  \end{centering}
-\end{figure}
-
-When it comes to a large domain or 3D modeling, the problem
-size becomes a very important factor. Namely, 3D full scale solutions tend to use
-a lot of memory. Therefore, we consider HP\_ANISO the most
-suitable refinement mode for the given problem. 
-Hence, some ways to optimize the HP\_ANISO model
-to improve the CPU time factor without significantly 
-compromising the NDOFs will be considered. 
-The desirable output would be HP\_ANISO problem size
-close to HP\_ANISO\_P CPU time. 
-One way to optimize the problem
-is to choose more refined initial mesh. Another way would be to change
-the refinement frequency during the solving process. Theoretically it 
-could result in a fewer adaptivity steps which are rather expensive in terms
-of CPU time. Recall that up to this point,
-the initial mesh was loaded in the beginning of each time step. 
-True, by employing the optimizations, one must know something about the problem
-and its solution beforehand. However, it could still be practial when solving a real problem
-in a large domain.
-
-The problem size and CPU time with HP\_ANISO
-and HP\_ANISO\_P adaptivities on more refined initial mesh (see Fig.~\ref{fig:mesh}~(c))
-compared to the coarse initial mesh (Fig.~\ref{fig:mesh}~(a)) and 
-HP\_ANISO\_P solution are shown in Fig.~\ref{fig:refined-cpu} and Fig.~\ref{fig:refined-dof}.
-By using initially more refined mesh, the problem solving time
-can be reduced in case of HP\_ANISO, at the same time, the problem size increases
-as the initial mesh is not necessarily the most optimal one.
-However, in this situation, HP\_ANISO\_P and HP\_ANISO perform equally well.
-
-\begin{figure}[!ht]
-  \begin{centering}
-  \includegraphics[width=\columnwidth]{unreffreq_dof}
-  \caption{\label{fig:unreffreq-dof} NDOFs at each time step for
-  HP\_ANISO and HP\_ANISO\_P with mesh unrefinement at each time step and at over each
-  	time step after first $0.5\ s$ physical solution time.}
-  \end{centering}
-\end{figure}
-The next proposed optimization involved changing the unrefinement frequency.
-It is known that the concentration gradient $\nabla C$ changes the most in the initial phase
-of the calculation, therefore, the unrefinement after each time step was performed
-until $t=0.5\ s$ (physical time). After that, the
-unrefinement was performed in $\Delta t = 0.10\ s$ interval.
-However, this optimization does not appear to result in a stable solution, 
-i.e. the problem size 
-does not remain steady, but starts to oscillate depending on the unrefinement
-frequency. This is shown in Fig.~\ref{fig:unreffreq-dof}. 
-
-Therefore varying the unrefinement frequency will
-likely not result in desired results in real applications for given system of equation.
-At the same time, by varying the initial mesh size, optimal initial mesh could be found
-for both HP\_ANISO and HP\_ANISO\_P refinement modes.
-	 
-\subsection{HP\_ANISO adaptivity with non-uniform boundary conditions}
-\begin{figure}[!ht]
-  \begin{centering}
-  \includegraphics[width=.75\columnwidth]{cphiorders}
+  \includegraphics[width=\columnwidth]{cphiorders}
   \caption{\label{fig:cphi-orders} Solutions $C$ and $\phi$
   and corresponding polynomial degrees of the elements at
   $t=0.7\ s$. HP\_ANISO refinement mode was used. The height
@@ -335,18 +282,32 @@ for both HP\_ANISO and HP\_ANISO\_P refinement modes.
   \end{centering}
 \end{figure}
 
-Based on the results, cation concentration and voltage was calculated
-for different boundary conditions.
-For instance, when voltage is applied as follows
+In real physics calculations, the applied voltage on boundary $\partial\Omega_1$
+is not constant. This can be, for instance, due to the high resistance of
+the electrodes as explained in~\cite{pugal2009}.
+To see how the HP\_ANISO adaptivity works for such situations, the
+voltage on the boundary was applied as follows:
 \begin{equation}
-  \phi_{\Omega_1}=0.5\frac{x}{width_{\Omega_1}}+0.5,
+  \phi_{\Omega_1}\left( x \right)=0.5\left[V \right] \frac{x\left[ m \right ]}{\text{width}_{\Omega_1}\left[ m \right]}+0.5\left[ V \right],
 \end{equation}
-the concentration gradient $\nabla C$ and the voltage gradient $\nabla \phi$ are no
-longer effectively 1D.
+where $\text{width}_{\Omega_1}$ is the width of the boundary. The given boundary is effectively
+a linear incrase of the voltage from $\phi_{\Omega_1}\left(x = 0 \right)=0.5\ V$ to
+$\phi_{\Omega_1}\left(x=\text{width}_{\Omega_1}\right) = 1.0\ V$.
+Now the concentration gradient $\nabla C$ and the voltage gradient $\nabla \phi$ are no
+longer effectively in 1D.
+
 The calculated $C$ and $\phi$ in $\Omega$ and corresponding meshes and polynomial
-degrees of the elements are shown in Fig.~\ref{fig:cphi-orders}.
-HP\_ANISO refinement mode was used. Notice that the solution
-is different to the one in Fig.~\ref{fig:cphi} and the adapted mesh and the
-polynomial degrees are also more complicated than in Fig.~\ref{fig:poly}.
-It must be noted that in case of non uniform boundary conditions which
-results in 2D problem, refined initial mesh was more efficient to use.
+degrees of the elements at $t=0.7\ s$ are shown in Figs.~\ref{fig:cphi-orders}.
+Notice that the solution
+is different to the one in Fig.~\ref{fig:cphi-1}. The HP\_ANISO
+adaptivity algorithm has particularly increased the polynomial degree
+and refined the mesh near $\Omega_1$ where a sharp concentration
+peak exists (compare to Fig.~\ref{fig:poly}).
+At $t=3.0\ s$, the shape of the solution $C$ is similar to the one
+in Fig.~\ref{fig:cphi-2} and therefore the polynomial space and mesh gets adapted
+accordingly. This example clearly illustrates how 
+the solution of PNP with non-uniform
+boundary conditions is very dynamic in time, particularly for $C$,
+and how the HP\_ANISO time dependent adaptivity 
+finds an optimal mesh and polynomial space to adapt to the dynamics
+of the problem. 
