@@ -97,18 +97,15 @@ Running the simulation with different adaptivity modes
 and meshes showed that the multi-mesh $hp$-FEM configuration resulted in
 the smallest problems, shortest computing times, and better or the same error 
 convergence compared to any single-mesh configuration.
-This is illustrated in Figs.~\ref{fig:singlemultidof} 
-and Fig.~\ref{fig:singlemulticpu}. Notice that the HP\_ISO with the single-mesh
-configuratio did not even converge in terms of number of degrees of freedom --- the
-adaptivity resulted in an unreasonable problem size and the calculation was
-not finished.
-
+This is illustrated for HP\_ANISO adaptivity mode in Figs.~\ref{fig:singlemultidof} 
+and Fig.~\ref{fig:singlemulticpu}. The same holds true for HP\_ISO mode. 
+ 
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{singlemulti_dof}
   \caption{\label{fig:singlemultidof} Number of DOF as a function 
-  of physical time for single-mesh and multi-mesh configurations with the HP\_ISO
-  and HP\_ANISO adaptivity modes. Note logarithmic scale on the vertical axis.}
+  of physical time for single-mesh and multi-mesh configurations with 
+  HP\_ANISO adaptivity mode.}
 %\vspace{-6mm}
   \end{centering}
 \end{figure}
@@ -118,8 +115,8 @@ not finished.
   \begin{centering}
   \includegraphics[width=\columnwidth]{singlemulti_cpu}
   \caption{\label{fig:singlemulticpu} Cumulative CPU time as a function 
-  of physical time for single-mesh and multi-mesh configurations with the HP\_ISO
-  and HP\_ANISO adaptivity modes. Note logarithmic scale on the vertical axis.}
+  of physical time for single-mesh and multi-mesh configurations with 
+  HP\_ANISO adaptivity mode.}
   \end{centering}
 \end{figure}
 
@@ -257,7 +254,7 @@ The relative changes to control the time step was calculated as follows:
 If $e^n < \delta$ where $\delta>0$ is a defined tolerance, then the time
 step for the next iteration is increased smoothly to
 \begin{equation}
-  \tau^{n+1}=\left( \frac{e^{n-1}}{e^n} \right)^{k_P}\ \left( \frac \delta e^n \right)^{k_l}\
+  \tau^{n+1}=\left( \frac{e^{n-1}}{e^n} \right)^{k_P}\ \left( \frac{\delta}{e^n} \right)^{k_l}\
   \left[ \frac{\left( e^{n-1} \right)^2}{e^n e^{n-2}} \right]^{k_D} \tau^n,
 \end{equation}
 where parameters are from~\cite{valli2002control}:
