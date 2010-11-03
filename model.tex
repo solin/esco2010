@@ -279,7 +279,7 @@ that provide a constant error estimate per element, cannot be used to
 guide automatic \emph{hp}-adaptivity. 
 For this, one needs to know the shape of the approximation error.
 Hermes uses a pair of approximations with different orders of accuracy 
-to obtain this information: coarse mesh solution and fine mesh solution. 
+to obtain this information: coarse mesh solution and fine mesh solution~\cite{solin2010pde}. 
 The initial coarse mesh is read from the mesh file, and the initial 
 fine mesh is created through its global refinement both in \emph{h}
 and \emph{p}. The fine mesh solution is the approximation of 
@@ -287,7 +287,7 @@ interest both during the adaptive process and at the end of computation.
 Global orthogonal projection of the fine mesh solution on the coarse mesh 
 is used to extract the low-order part from the reference solution.
 The adaptivity algorithm is guided by the difference between the 
-reference solution and its low-order part~\cite{solin2010pde}.
+reference solution and its low-order part.
 Note that this approach to automatic adaptivity is PDE-independent
 and thus naturally applicable to a large variety of multiphysics 
 coupled problems.
