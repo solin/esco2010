@@ -8,7 +8,8 @@ adaptivity modes in both the single-mesh and multi-mesh regimes.
 In the numerical experiments we paid attention to the 
 relative error, cumulative CPU time, and problem size 
 in terms of number of degrees of freedom (DOF) in each 
-time step. 
+time step. The dimensional variables $x$, $y$, $t$, $C$,
+and $\phi$ are used to present the solutions.
 
 We used two types of initial meshes --- a finer mesh shown 
 in Fig.~\ref{fig:mesh}~(b) was used for \emph{p}-adaptivity
@@ -92,13 +93,13 @@ converged to or below $0.5\%$ for all $p$-FEM and $hp$-FEM results, therefore
 the graphs of the error as a function of physical time will not be presented. 
 
 \subsection{Comparison of single-mesh and multi-mesh $hp$-FEM}
-
+% David: Error convergence plots here.
 Running the simulation with different adaptivity modes 
 and meshes showed that the multi-mesh $hp$-FEM configuration resulted in
 the smallest problems, shortest computing times, and better or the same error 
 convergence compared to any single-mesh configuration.
-This is illustrated for HP\_ANISO adaptivity mode in Figs.~\ref{fig:singlemultidof} 
-and Fig.~\ref{fig:singlemulticpu}. The same holds true for HP\_ISO mode. 
+This is illustrated for HP\_ANISO adaptivity mode in Fig.~\ref{fig:singlemultidof}, Fig.~\ref{fig:singlemulticpu} and Fig.~\ref{fig:singlemultierror}.
+The same holds true for HP\_ISO mode. 
  
 \begin{figure}[!ht]
   \begin{centering}
@@ -120,8 +121,16 @@ and Fig.~\ref{fig:singlemulticpu}. The same holds true for HP\_ISO mode.
   \end{centering}
 \end{figure}
 
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{singlemulti_error}
+  \caption{\label{fig:singlemultierror} Relative solution error as a function 
+  of physical time for single-mesh and multi-mesh configurations with 
+  HP\_ANISO adaptivity mode.}
+  \end{centering}
+\end{figure}
 \noindent 
-Fig. \ref{fig:poly} shows higher-order meshes in the adaptive multimesh $hp$-FEM
+Fig. \ref{fig:poly} shows higher-order meshes in the adaptive multi-mesh $hp$-FEM
 computation for $C$ and $\phi$ at $t = 0.7$ s. Different 
 colors mean different polynomial degrees. A diagonal pattern inside an element 
 tells that the element has different polynomial degrees in the 
@@ -136,9 +145,9 @@ horizontal and vertical directions.
   \end{centering}
 \end{figure}
 
-These result are in good agreement with Fig.~\ref{fig:cphi-2} --- in the vicinity
+The result are in good agreement with Fig.~\ref{fig:cphi-2} --- in the vicinity
 of the boundaries $\partial \Omega_1$ and $\partial\Omega_3$, the concentration gradient
-is much greater than the voltage gradient. Therefore the multimesh $hp$-FEM adaptivity 
+is much greater than the voltage gradient. Therefore the multi-mesh $hp$-FEM adaptivity 
 algorithm has increased the maximum polynomial degree for the $C$-space to~7 while 
 the maximum polynomial degree for the $\phi$-space is~2. One can also see that the mesh 
 is significantly more refined for $C$.
@@ -254,15 +263,16 @@ The relative changes to control the time step was calculated as follows:
 If $e^n < \delta$ where $\delta>0$ is a defined tolerance, then the time
 step for the next iteration is increased smoothly to
 \begin{equation}
-  \tau^{n+1}=\left( \frac{e^{n-1}}{e^n} \right)^{k_P}\ \left( \frac{\delta}{e^n} \right)^{k_l}\
-  \left[ \frac{\left( e^{n-1} \right)^2}{e^n e^{n-2}} \right]^{k_D} \tau^n,
+  \delta\tau^{n+1}=\left( \frac{e^{n-1}}{e^n} \right)^{k_P}\ \left( \frac{\delta}{e^n} \right)^{k_l}\
+  \left[ \frac{\left( e^{n-1} \right)^2}{e^n e^{n-2}} \right]^{k_D} \delta\tau^n,
 \end{equation}
 where parameters are from~\cite{valli2002control}:
 \begin{equation}
   k_p=0.075,\quad k_l=0.175,\quad k_D=0.01.
 \end{equation}
 The tolerance $\delta$ was set to $\delta=0.25$ in the current optimization
-example. The calculated $e_C^n$ and $e_\phi^n$ are shown in Fig.~\ref{fig:cphirelerr}.
+example. At this point, the implementation does not support
+reducing the time step when $e^n\geq \delta$. The calculated $e_C^n$ and $e_\phi^n$ are shown in Fig.~\ref{fig:cphirelerr}.
 The HP\_ANISO problem size and computing time with and without time step control
 are shown in Figs.~\ref{fig:timeadapt_dof} and~\ref{fig:timeadapt_cpu}. The reader
 can notice that the computing time was reduced approximately 3 times when the time
