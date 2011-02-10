@@ -14,7 +14,7 @@ $\partial\Omega_{1\ldots 4}\subset\partial\Omega$, shown in Fig.~\ref{fig:domain
 As there is no flow through the domain's boundary, Eq.~\eqref{eq:nernst-planck}
 is equipped with a Neumann boundary condition 
 \begin{equation}
-  -D \frac{\partial C}{\partial n} - z \mu F C \frac{\partial \phi} {\partial n} = 0.
+  -D \frac{\partial C}{\partial n} - \mu F C \frac{\partial \phi} {\partial n} = 0.
   \label{eq:nernst-planck-boundary}
 \end{equation}
 Furthermore, we prescribe a positive constant voltage $V_{pos}$ 
@@ -33,39 +33,57 @@ a Neumann boundary condition
 
 \subsection{Weak form of the PNP system}
 
-% IF YOU WANT TO CITE THIS WORK< YOU HAVE TO SAY WHY WE ARE DOING 
-% THE DERIVATION AGAIN -- OTHERWISE IT IS CONTRAPRODUCTIVE. SO 
-% I COMMENTED THIS OUT.
-% I guess it can be left out as the work in SPIE is quite preliminary
-% and not that complete
-%An implicit version of the weak form of PNP was derived in~\cite{pugal2010spie}.
 To make our results easily reproducible, in the following we present the derivation 
 of weak forms of Eqs.~\eqref{eq:nernst-planck} and 
 \eqref{eq:poisson}, as well as formulas for the Jacobian matrix and residual 
 vector that are used in actual computations.
-To simplify notation, we define
+To simplify notation, we use dimensionless formulation of Eqs.~\eqref{eq:nernst-planck}
+and~\eqref{eq:poisson}. The following new notations for the independent variables
+$x$, $y$, $t$ and for the dependent variables $C$ and $\phi$ are used~\cite{bazant2004diffuse}:
 \begin{equation}
-  K = z \mu F,\ \ \
-  L = \frac{F}{\varepsilon}.
-  \label{eq:KL}
+  X=\frac xL,\ \ \
+  Y=\frac yL,\ \ \
+  \tau=\frac{tD}{\lambda_D L},\ \ \
+  \varphi=\frac{\phi F}{RT},\ \ \
+  c=\frac C C_0.\label{eq:dimensionless}
 \end{equation}
-Eqs.~\eqref{eq:nernst-planck} and \eqref{eq:poisson} yield
+Here $\lambda_D$ is the Debye screening length and it is expressed as follows~\cite{bazant2004diffuse}:
+\begin{equation}
+  \lambda_D=\sqrt{\frac{\varepsilon R T}{2 F^2 C_0}}.\label{eq:debye}
+\end{equation}
+After inserting variables~\eqref{eq:dimensionless} into Eq.~\eqref{eq:nernst-planck} the Nernst-Planck
+equation and Poisson equation become:
 \begin{eqnarray}
-  \frac{\partial C}{\partial t}-D\nabla^2 C-K\nabla\cdot \left(C\nabla\phi\right)&=&0,\label{eq:nernst-planck-2}\\
-  -\nabla^2\phi-L\left(C-C_{0}\right)&=&0.\label{eq:poisson-2}
+  \frac{DC_0}{\lambda_D L}\frac{\partial c}{\partial \tau} + \frac 1L \nabla_d\cdot
+    \left(-\frac{DC_0}{L}\nabla_dc-c\frac{DC_0}{L}\nabla_d\varphi\right) &=& 0\label{eq:dim1}\\
+  - \frac{\varepsilon R T}{L^2F^2C_0}\nabla_d\varphi&=&c-1\label{eq:dim2},
+\end{eqnarray}
+where
+\begin{equation}
+  \nabla_d=\left(\frac{\partial}{\partial X},\ \frac{\partial}{\partial Y}\right).
+\end{equation}
+After simplifying Eqs.~\eqref{eq:dim1} and~\eqref{eq:dim2} and denoting
+\begin{equation}
+  \epsilon=\frac{\lambda_D}{L},
+\end{equation}
+the dimensionless form of the PNP system of equations is
+\begin{eqnarray}
+  \frac{\partial c}{\partial \tau} + \epsilon \nabla_d\cdot
+    \left(-\nabla_d c - c \nabla_d \varphi\right) &=&0,\label{eq:dimensionless-nernst-planck}\\
+  -2\epsilon^2\nabla_d\varphi&=&c-1\label{eq:dimensionless-poisson}.
 \end{eqnarray}
 Boundary condition Eq.~\eqref{eq:nernst-planck-boundary} has the form
 \begin{equation}
-  -D\frac{\partial C}{\partial n}-KC\frac{\partial\phi}{\partial n}=0.
-  \label{eq:nernst-planck-boundary-2}
+  -\frac{\partial c}{\partial n}-c\frac{\partial\varphi}{\partial n}=0.
+  \label{eq:dimensionless-nernst-planck-boundary}
 \end{equation}
-As the second derivatives of both $C$ and $\phi$ are present in the 
+As the second derivatives of both $c$ and $\varphi$ are present in the 
 equations, the appropriate function space for them is the Sobolev space 
 $V=H^1\left(\Omega\right)$ where 
 $$H^1\left(\Omega\right)=\left\{v\in L^2\left(\Omega\right);\ \nabla v \in \left[L^2\left(\Omega\right)\right]^2\right\}.
 $$
-In order to derive the weak form of the Nernst-Planck equation Eq.~\eqref{eq:nernst-planck-2},
-we first multiply it with a test function $v^C \in V$ and integrate over the domain~$\Omega$,
+In order to derive the weak form of the Nernst-Planck equation Eq.~\eqref{eq:dimensionless-nernst-planck},
+we first multiply it with a test function $v^c \in V$ and integrate over the domain~$\Omega$,
 \begin{equation}
   \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}
   -\int_{\Omega}D\nabla^2Cv^C d\mathbf{x}-\int_{\Omega}K\nabla C\cdot\nabla\phi v^C d\mathbf{x}
