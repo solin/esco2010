@@ -54,7 +54,7 @@ Here $\lambda_D$ is the Debye screening length and it is expressed as follows~\c
 After inserting variables~\eqref{eq:dimensionless} into Eq.~\eqref{eq:nernst-planck} the Nernst-Planck
 equation and Poisson equation become:
 \begin{eqnarray}
-  \frac{DC_0}{\lambda_D l}\frac{\partial c}{\partial \tau} + \frac 1L \nabla_d\cdot
+  \frac{DC_0}{\lambda_D l}\frac{\partial c}{\partial \tau} + \frac 1l  \nabla_d\cdot
     \left(-\frac{DC_0}{l}\nabla_dc-c\frac{DC_0}{l}\nabla_d\varphi\right) &=& 0\label{eq:dim1}\\
   - \frac{\varepsilon R T}{l^2F^2C_0}\nabla_d^2\varphi&=&c-1\label{eq:dim2},
 \end{eqnarray}
@@ -70,7 +70,7 @@ the dimensionless form of the PNP system of equations is
 \begin{eqnarray}
   \frac{\partial c}{\partial \tau}
     -\epsilon\nabla_d^2 c - \epsilon \nabla_d \cdot \left( c\nabla_d \varphi\right)  &=&0,\label{eq:dimensionless-nernst-planck}\\
-  -2\epsilon^2\nabla_d^2\varphi&=&c-1\label{eq:dimensionless-poisson}.
+  -\nabla_d^2\varphi&=&\frac{c-1}{2\epsilon^2}\label{eq:dimensionless-poisson}.
 \end{eqnarray}
 Boundary condition Eq.~\eqref{eq:nernst-planck-boundary} has the form
 \begin{equation}
@@ -125,15 +125,17 @@ the Nernst-Planck equation
 \end{equation}
 Analogously we derive also the weak form of the Poisson equation (\ref{eq:dimensionless-poisson}),
 \begin{equation}
-  -2\epsilon^2\int_{\Omega}\nabla_d^2\varphi v^\varphi d\mathbf{x}-\int_{\Omega}cv^\varphi d\mathbf{x}+
-  \int_{\Omega}v^\varphi d\mathbf{x}=0.
+  -\int_{\Omega}\nabla_d^2\varphi v^\varphi d\mathbf{x}-
+  \frac{1}{2\epsilon^2}\left[\int_{\Omega}cv^\varphi d\mathbf{x}-
+  \int_{\Omega}v^\varphi d\mathbf{x}\right]=0.
   \label{eq:poisson-weak1}
 \end{equation}
 Performing integration by parts and taking into account the boundary 
 conditions for $\phi$, we obtain
 \begin{equation}
-  -2\epsilon^2\int_{\Omega}\nabla_d\varphi\cdot\nabla_d v^\varphi d\mathbf{x}-\int_{\Omega}cv^\varphi d\mathbf{x}+
-  \int_{\Omega}v^\varphi d\mathbf{x}=0.
+  \int_{\Omega}\nabla_d\varphi\cdot\nabla_d v^\varphi d\mathbf{x}-
+  \frac{1}{2\epsilon^2}\left[\int_{\Omega}cv^\varphi d\mathbf{x}-
+  \int_{\Omega}v^\varphi d\mathbf{x}\right]=0.
   \label{eq:poisson-weak-final}
 \end{equation}
 
@@ -169,8 +171,9 @@ where $i = 1, 2, \ldots, N^c$.
 Analogously, Eq.~\eqref{eq:poisson-weak-final} defines the second part $F^{\varphi}$ 
 of the residual vector $F$,
 \begin{equation}
-  F_i^{\varphi}\left(Y\right) = -2\epsilon^2\int_{\Omega} \nabla_d \varphi(Y) \cdot \nabla_d v_i^{\varphi} d\mathbf{x} 
-  - \int_{\Omega} c(Y)v_i^{\varphi} d\mathbf{x} + \int_{\Omega} v_i^{\varphi} d\mathbf{x}
+  F_i^{\varphi}\left(Y\right) = \int_{\Omega} \nabla_d \varphi(Y) \cdot \nabla_d v_i^{\varphi} d\mathbf{x} 
+  -\frac{1}{2\epsilon^2}\left[ \int_{\Omega} c(Y)v_i^{\varphi} d\mathbf{x} -
+   \int_{\Omega} v_i^{\varphi} d\mathbf{x}\right]
   \label{eq:Fphi}
 \end{equation}
 where $i = N^c + 1, N^c + 2, \ldots, N^c + N^{\varphi}$. The nonlinear discrete problem 
@@ -205,9 +208,9 @@ We obtain
   \frac{\partial F_i^c}{\partial y_j^{\varphi}}(Y) &=&
   \frac 12 \epsilon \int_{\Omega} c(Y) \left(\nabla_d v_j^{\varphi} \cdot \nabla_d v_i^c\right) d\mathbf{x},\\
   \frac{\partial F_i^{\varphi}}{\partial y_j^c}(Y) &=&
-  - \int_{\Omega} v_j^c v_i^{\varphi} d\mathbf{x},\\
+  - \frac{1}{2\epsilon^2}\int_{\Omega} v_j^c v_i^{\varphi} d\mathbf{x},\\
   \frac{\partial F_i^{\varphi}}{\partial y_j^{\varphi}}(Y) &=&
-  -2\epsilon^2\int_{\Omega} \nabla_d v_j^{\varphi} \cdot \nabla_d v_i^{\varphi} d\mathbf{x}\label{eq:dFphidyphi}.
+  \int_{\Omega} \nabla_d v_j^{\varphi} \cdot \nabla_d v_i^{\varphi} d\mathbf{x}\label{eq:dFphidyphi}.
 \end{eqnarray}
 
 \subsection{Newton's iteration}
