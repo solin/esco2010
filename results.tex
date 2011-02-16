@@ -85,7 +85,8 @@ It can be seen that $hp$-FEM results in a shorter computing
 time and smaller number
 of DOF than the low-order FEM. The same holds true
 for H\_ISO and HP\_ISO modes. In fact, in case of H\_ISO the relative error did not
-converge to the pre-set threshold value of $0.5\%$.
+converge to the pre-set threshold value of $0.5\%$ within acceptable range 
+of degrees of freedom of $nDOF_{threshold}=5000$.
 Therefore, the $h$-FEM solutions will be omitted from the further comparisons.
 Instead, only $hp$-FEM solutions on the coarse mesh and $p$-FEM solutions
 on the fine mesh will be discussed.
@@ -102,8 +103,7 @@ multi-mesh uses the union mesh (see Section~\ref{sec:hermes}) where
 the numerical integration of high order is done on very small elements.
 The problem size and computing time are illustrated for HP\_ANISO adaptivity mode in Fig.~\ref{fig:singlemultidof} and Fig.~\ref{fig:singlemulticpu}.
 The same holds true for HP\_ISO mode.  It must be also noted that the error
-converged to or below $0.5\%$ for all $p$-FEM and $hp$-FEM results. This is illustrated in
-Fig.~\ref{fig:singlemultierror} for $hp$-FEM single and multi-mesh configurations.
+converged to or below $0.5\%$ for all $p$-FEM and anisotropic $hp$-FEM results.
  
 \begin{figure}[!ht]
   \begin{centering}
@@ -125,14 +125,6 @@ Fig.~\ref{fig:singlemultierror} for $hp$-FEM single and multi-mesh configuration
   \end{centering}
 \end{figure}
 
-\begin{figure}[!ht]
-  \begin{centering}
-  \includegraphics[width=\columnwidth]{singlemulti_error}
-  \caption{\label{fig:singlemultierror} Relative solution error as a function 
-  of physical time for single-mesh and multi-mesh configurations with 
-  HP\_ANISO adaptivity mode.}
-  \end{centering}
-\end{figure}
 \noindent 
 Figs.~\ref{fig:poly} and~\ref{fig:poly2} show higher-order meshes in the adaptive multi-mesh $hp$-FEM
 computation for $c$ and $\varphi$ at $t = 0.1$~s and $t=3.0$~s, respectively. Different 
@@ -174,15 +166,18 @@ configurations are considered in the following.
 Next we would like to illustrate the role of anisotropic mesh refinements.
 Figs.~\ref{fig:isoanisodof} and \ref{fig:isoanisocpu} show typical results 
 for the HP\_ISO, HP\_ANISO\_H,  HP\_ANISO adaptivity modes in terms 
-of DOF and cumulative CPU time.
-
+of DOF and cumulative CPU time. Fig.~\ref{fig:isoanisoerror} shows corresponding
+error convergence. It can be seen that HP\_ISO is notoriously inefficient as the
+error does not converge within the limited number of degrees of freedom 
+of $nDOF_{threshold}=5000$ and computing time is very large. Due to that fact,
+the calculation of HP\_ISO was canceled before $t=3.0$~s.
 
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoaniso_dof}
   \caption{\label{fig:isoanisodof} Number of DOF as a function of physical time for 
   multi-mesh configurations with HP\_ANISO,
-  HP\_ANISO\_H, and HP\_ISO adaptivity modes.}
+  HP\_ANISO\_H, and HP\_ISO adaptivity modes (log~$y$ scale).}
   \end{centering}
 \end{figure}
 
@@ -190,6 +185,15 @@ of DOF and cumulative CPU time.
   \begin{centering}
   \includegraphics[width=\columnwidth]{isoaniso_cpu}
   \caption{\label{fig:isoanisocpu} Cumulative CPU time as a function of physical time 
+  for multi-mesh configurations with HP\_ANISO,
+  HP\_ANISO\_H, and HP\_ISO adaptivity modes (log~$y$ scale).}
+  \end{centering}
+\end{figure}
+
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{isoaniso_error}
+  \caption{\label{fig:isoanisoerror} Relative solution error as a function of physical time 
   for multi-mesh configurations with HP\_ANISO,
   HP\_ANISO\_H, and HP\_ISO adaptivity modes.}
   \end{centering}
@@ -222,9 +226,9 @@ computations use a different initial mesh that was a-priori refined in space.
 
 As a conclusion, the reader can see that the anisotropic adaptivity modes always perform better than 
 the isotropic ones. In particular, HP\_ANISO results into the smallest problem size. 
-In the \emph{p}-adaptivity group, HP\_ANISO\_P leads to a small problem size
-consistently in each time step, whereas P\_ISO and P\_ANISO yield large problems
-during the first few time steps. 
+In the \emph{p}-adaptivity group, HP\_ANISO\_P and P\_ANISO lead to a small problem size
+consistently in each time step, whereas P\_ISO yields large problems
+during the first time steps. 
 
 HP\_ANISO also results in the fastest
 computing time among $hp$-adaptivity group whereas HP\_ANISO\_P
@@ -240,7 +244,7 @@ of HP\_ANISO will be considered next.
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{cphi_relerr}
-  \caption{\label{fig:cphirelerr} Relative difference $e_{C}^n$ and $e_{\phi}^n$.}
+  \caption{\label{fig:cphirelerr} Relative difference $e_{c}^n$ and $e_{\varphi}^n$.}
   \end{centering}
 \end{figure}
 \begin{figure}[!ht]
@@ -264,16 +268,16 @@ of HP\_ANISO will be considered next.
 
 To optimize the calculation time of HP\_ANISO, an adaptive time step control was employed.
 The classical PID controller was used~\cite{valli2002control,dubcova2010space}.
-Since $C$ and $\phi$ change differently in time as was demonstrated in Figs.~\ref{fig:cphi-1}
+Since $c$ and $\varphi$ change differently in time as was demonstrated in Figs.~\ref{fig:cphi-1}
 and~\ref{fig:cphi-2}, the relative changes between the solutions at different
 time steps were monitored:
 \begin{eqnarray}
-  e_C^n & = & \frac{\lVert C^n-C^{n-1}\rVert}{\lVert C^n \rVert},\\
-  e_\phi^n & = & \frac{\lVert \phi^n-\phi^{n-1}\rVert}{\lVert \phi^n \rVert}.
+  e_c^n & = & \frac{\lVert c^n-c^{n-1}\rVert}{\lVert c^n \rVert},\\
+  e_\varphi^n & = & \frac{\lVert \varphi^n-\varphi^{n-1}\rVert}{\lVert \varphi^n \rVert}.
 \end{eqnarray}
 The relative changes to control the time step was calculated as follows:
 \begin{equation}
-  e^n=\max\left\{ e_C^n,\ e_\phi^n \right\}.
+  e^n=\max\left\{ e_c^n,\ e_\varphi^n \right\}.
 \end{equation}
 If $e^n < \delta$ where $\delta>0$ is a defined tolerance, then the time
 step for the next iteration is increased smoothly to
@@ -287,19 +291,19 @@ where parameters are from~\cite{valli2002control}:
 \end{equation}
 The tolerance $\delta$ was set to $\delta=0.25$ in the current optimization
 example. At this point, the implementation does not support
-reducing the time step when $e^n\geq \delta$. The calculated $e_C^n$ and $e_\phi^n$ are shown in Fig.~\ref{fig:cphirelerr}.
+reducing the time step when $e^n\geq \delta$. The calculated $e_c^n$ and $e_\varphi^n$ are shown in Fig.~\ref{fig:cphirelerr}.
 The HP\_ANISO problem size and computing time with and without time step control
 are shown in Figs.~\ref{fig:timeadapt_dof} and~\ref{fig:timeadapt_cpu}. The reader
-can notice that the computing time was reduced approximately 3 times when the time
+can notice that the computing time was reduced more than two times when the time
 step control was employed.
 
 \subsection{HP\_ANISO adaptivity with physically more realistic boundary conditions}
 \begin{figure}[!ht]
   \begin{centering}
   \includegraphics[width=\columnwidth]{cphiorders}
-  \caption{\label{fig:cphi-orders} Solutions $C$ and $\phi$
+  \caption{\label{fig:cphi-orders} Solutions $c$ and $\varphi$
   and corresponding polynomial degrees of the elements at
-  $t=0.7\ s$. HP\_ANISO refinement mode was used. The height
+  $t=0.1\ s$. HP\_ANISO refinement mode was used. The height
   in the solution graphs indicates the value.}
   \end{centering}
 \end{figure}
@@ -315,21 +319,21 @@ voltage on the boundary was applied as follows:
 where $\text{width}_{\Omega_1}$ is the width of the boundary. The given boundary is effectively
 a linear incrase of the voltage from $\phi_{\Omega_1}\left(x = 0 \right)=0.5\ V$ to
 $\phi_{\Omega_1}\left(x=\text{width}_{\Omega_1}\right) = 1.0\ V$.
-Now the concentration gradient $\nabla C$ and the voltage gradient $\nabla \phi$ are no
+Now the concentration gradient $\nabla c$ and the voltage gradient $\nabla \varphi$ are no
 longer effectively in 1D.
 
-The calculated $C$ and $\phi$ in $\Omega$ and corresponding meshes and polynomial
-degrees of the elements at $t=0.7\ s$ are shown in Figs.~\ref{fig:cphi-orders}.
+The calculated scaled values $c$ and $\varphi$ in $\Omega$ and corresponding meshes and polynomial
+degrees of the elements at $t=0.1\ s$ are shown in Fig.~\ref{fig:cphi-orders}.
 Notice that the solution
 is different to the one in Fig.~\ref{fig:cphi-1}. The HP\_ANISO
 adaptivity algorithm has particularly increased the polynomial degree
 and refined the mesh near $\Omega_1$ where a sharp concentration
 peak exists (compare to Fig.~\ref{fig:poly}).
-At $t=3.0\ s$, the shape of the solution $C$ is similar to the one
+At $t=3.0\ s$, the shape of the solutions $c$ and $\varphi$ are similar to the one
 in Fig.~\ref{fig:cphi-2} and therefore the polynomial space and mesh gets adapted
 accordingly. This example clearly illustrates how 
 the solution of PNP with non-uniform
-boundary conditions is very dynamic in time, particularly for $C$,
+boundary conditions is very dynamic in time
 and how the HP\_ANISO time dependent adaptivity 
 finds an optimal mesh and polynomial space to adapt to the dynamics
 of the problem. 

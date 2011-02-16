@@ -18,16 +18,18 @@ time dependent solving process is difficult.
 In the current work we showed that using the time dependent adaptivity, 
 multi-mesh configuration, and anisotropic \emph{hp} refinements, the problem
 size remains very small throughout the solving process while
-maintainging pre-set relative error of the solution.
+maintaining a pre-set relative error of the solution.
 Namely, Hermes refinement mode HP\_ANISO 
 resulted in the smallest and fastest problem solution.
-Furthermore, using the multi-mesh configuration for the variables
-$C$ and $\phi$ was justified --- the adaptivity algorithm
-did not refine the mesh of $\phi$ nor did increase the
-polynomial degree throughout the adaptivity process. However,
-the mesh was significantly refined for $C$ and also the
+Furthermore, using the multi-mesh configuration for the physical fields
+$c$ and $\varphi$ --- scaled variables for $C$ and $\phi$, respectively ---
+was justified. The adaptivity algorithm
+refined the meshes of $\varphi$  and $c$ and increased the
+polynomial degrees of the corresponding spaces differently.
+The mesh was significantly refined for $c$ and also the
 maximum polynomial degree was varied in the range of
-$2\ldots 9$. So it is efficient to use multi-mesh in terms of
+$2\ldots 9$ whereas for $\varphi$, the maximum polynomial degree
+remained lower. So it is efficient to use multi-mesh in terms of
 the number of degrees of freedom.
 
 Conclusively, by using \emph{hp}-FEM with adaptive multi-mesh
