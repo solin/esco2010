@@ -337,3 +337,16 @@ boundary conditions is very dynamic in time
 and how the HP\_ANISO time dependent adaptivity 
 finds an optimal mesh and polynomial space to adapt to the dynamics
 of the problem. 
+
+\subsection{Length scale study}
+
+Debye's length $\lambda_D$ is commonly used to estimate the screening length in electrolyte
+solutions. In the given PNP model, it serves as well as an estimation of the boundary layer thickness
+--- thickness of the layer in the vicinity of the boundaries $\partial\Omega_1$ 
+and $\partial\Omega_2$  where $c \neq 1$.
+The Debye's length in all the previous simulations was determined by the constants in
+Table~\ref{Table:used-constants}: $\lambda_D=XXX$. It is known that computation gets increasingly
+difficult with reducing the value of $\lambda_D$.
+It was our interest to see how small length scales can Hermes HP\_ANISO automatic
+adaptivity handle. The parameter $\varepsilon$ was varied as follows:
+$$\varepsilon_n=\varepsilon\times 0.5^n$ where $\varepsilon$ is taken from Table~\ref{Table:used-constants}.
