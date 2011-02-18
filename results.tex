@@ -10,6 +10,9 @@ relative error, cumulative CPU time, and problem size
 in terms of number of degrees of freedom (DOF) in each 
 time step. The scaled variables $c$
 and $\varphi$ and the unscaled time $t$ are used to present the solutions.
+The simulations were performed with physical time step of $0.05$~s and
+the final time of $3.0$~s was chosen as it is close to the time
+scaling constant~$\tau$.
 
 We used two types of initial meshes --- a finer mesh shown 
 in Fig.~\ref{fig:mesh}~(b) was used for \emph{p}-adaptivity
@@ -340,13 +343,17 @@ of the problem.
 
 \subsection{Length scale study}
 
-Debye's length $\lambda_D$ is commonly used to estimate the screening length in electrolyte
-solutions. In the given PNP model, it serves as well as an estimation of the boundary layer thickness
---- thickness of the layer in the vicinity of the boundaries $\partial\Omega_1$ 
+The Debye length $\lambda_D$ is the screening length in the electrolyte
+solutions. Its numerical value shows the
+thickness of the layer in the vicinity of the boundaries $\partial\Omega_1$ 
 and $\partial\Omega_2$  where $c \neq 1$.
-The Debye's length in all the previous simulations was determined by the constants in
-Table~\ref{Table:used-constants}: $\lambda_D=XXX$. It is known that computation gets increasingly
-difficult with reducing the value of $\lambda_D$.
-It was our interest to see how small length scales can Hermes HP\_ANISO automatic
+In all the previous simulations, the Debye screening length was determined by  the constants in
+Table~\ref{Table:used-constants} and Eq.~\ref{eq:debye}: $\lambda_D=XXX$. It is known that computation gets increasingly
+difficult when reducing the value of $\lambda_D$.
+It was our interest to see how small screening lengths can Hermes HP\_ANISO automatic
 adaptivity handle. The parameter $\varepsilon$ was varied as follows:
-$$\varepsilon_n=\varepsilon\times 0.5^n,$$ where $\varepsilon$ is taken from Table~\ref{Table:used-constants}.
+$$\varepsilon_n=\varepsilon\times 0.5^n,$$ where $\varepsilon$ is taken from Table~\ref{Table:used-constants}. The simulations were run for each $\varepsilon_n$ and corresponding $\lambda_D$ value
+and maximum number of degrees of freedom and cumulative CPU time were recorded.
+The simulation time $t$ for each $\lambda_D$ was chosen to be $\tau$ --- the
+characteristic time scale --- and each simulation
+was divided equally into fifteen time steps. No PID controller was used.
