@@ -21,9 +21,10 @@ used for $h$-adaptivity and $hp$-adaptivity.
 
 \begin{figure}[!ht]
   \begin{centering}
-  \includegraphics[width=.6\columnwidth]{mesh}
-  \caption{\label{fig:mesh} Initial coarse mesh (a)
-  	and refined mesh (b). The coarse mesh (a)
+  \includegraphics[width=.9\columnwidth]{mesh}
+  \caption{\label{fig:mesh} Initial coarse mesh (a),
+  	refined mesh (b), and symmetrically refined mesh for length scale study (c). 
+	The coarse mesh (a)
 	and refined mesh (b) were used in the initial calculations, the latter one
 	in case of \emph{p}-adaptivity (including HP\_ANISO\_P).}
   \end{centering}
@@ -341,14 +342,33 @@ and how the HP\_ANISO time dependent adaptivity
 finds an optimal mesh and polynomial space to adapt to the dynamics
 of the problem. 
 
-\subsection{Length scale study}
+\subsection{Length scale analysis}
 
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{debye_dof}
+  \caption{\label{fig:debye_dof} Problem size depending on the
+	Debye length. Initially the coarse mesh (shown in Fig.~\ref{fig:mesh}~(a))
+	was used. It was necessary to use the fine mesh (see Fig.~\ref{fig:mesh}~(c)) 
+	for smaller $\lambda_D$ values.}
+  \end{centering}
+\end{figure}
+
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{debye_cpu}
+  \caption{\label{fig:debye_cpu} CPU time depending on the
+	Debye length. Initially the coarse mesh (shown in Fig.~\ref{fig:mesh}~(a))
+	was used. It was necessary to use the fine mesh (see Fig.~\ref{fig:mesh}~(c)) 
+	for smaller $\lambda_D$ values.}
+  \end{centering}
+\end{figure}
 The Debye length $\lambda_D$ is the screening length in the electrolyte
 solutions. Its numerical value shows the
-thickness of the layer in the vicinity of the boundaries $\partial\Omega_1$ 
-and $\partial\Omega_2$  where $c \neq 1$.
+thickness of the charged layer in the vicinity of the boundaries $\partial\Omega_1$ 
+and $\partial\Omega_2$.
 In all the previous simulations, the Debye screening length was determined by  the constants in
-Table~\ref{Table:used-constants} and Eq.~\ref{eq:debye}: $\lambda_D=XXX$. It is known that computation gets increasingly
+Table~\ref{Table:used-constants} and Eq.~\ref{eq:debye}: $\lambda_D=1.7\ \mu m$. It is known that computation gets increasingly
 difficult when reducing the value of $\lambda_D$.
 It was our interest to see how small screening lengths can Hermes HP\_ANISO automatic
 adaptivity handle. The parameter $\varepsilon$ was varied as follows:
@@ -356,14 +376,26 @@ $$\varepsilon_n=\varepsilon\times 0.5^n,$$ where $\varepsilon$ is taken from Tab
 and maximum number of degrees of freedom and cumulative CPU time were recorded.
 The simulation time $t$ for each $\lambda_D$ was chosen to be $\tau$ --- the
 characteristic time scale --- and each simulation
-was divided equally into fifteen time steps. No PID controller was used.
-Fig.~XXX shows the maximum number of degrees of freedom during calculation
-as a function of the Debye length and Fig.~XXX shows cumulative CPU time as a function
-of the Debye length. The simulations up to XXX m screening length were carried out on
-the initial coarse mesh. However, from $\lambda_D > XXX$ the finer initial mesh had to
+was divided equally into fifteen time steps. The PID controller was not used.
+Fig.~\ref{fig:debye_dof} shows the maximum and average number of degrees of 
+freedom during calculation
+as a function of the Debye length and Fig.~\ref{fig:debye_cpu} shows cumulative CPU time as a function
+of the Debye length. The simulations up to $0.52\ nm$
+screening length were carried out on
+the initial coarse mesh. However, from $\lambda_D > 0.52\ nm$, the finer initial mesh had to
 be used so the existence of the large gradients of the
 physical fields $c$ and $\varphi$ near the boundaries could be captured in the first place.
-The fine mesh allowed simulations with the Debye length down to $XXX$~m. The calculated
-$c$ and $\varphi$ at $t=\tau$ for $\lambda_D=XXX$ are shown in Fig.~XXX.
+\begin{figure}[!ht]
+  \begin{centering}
+  \includegraphics[width=\columnwidth]{cphitau}
+  \caption{\label{fig:cphitau} Calculated fields $c$ and $\varphi$ at $t=\tau=0.81\ ms$
+	for $\lambda_D=0.4\ nm$.}
+  \end{centering}
+\end{figure}
+\noindent
+The fine mesh allowed simulations with the Debye length down to $0.40\ nm$~m. The calculated
+$c$ and $\varphi$ at $t=\tau$ for $\lambda_D=0.40\ nm$ are shown in Fig.~\ref{fig:cphitau}.
 It appears that when using even finer initial mesh and higher initial polynomial degrees, even
-smaller Debye lengths could be used when necessary.
+smaller Debye lengths could be used when necessary. The polynomial space of $c$ had
+consistently higher maximum polynomial degree than that of $\varphi$, however, the difference
+was less noticeable for smaller Debye lengths.
