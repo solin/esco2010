@@ -295,7 +295,9 @@ where parameters are from~\cite{valli2002control}:
 \end{equation}
 The tolerance $\delta$ was set to $\delta=0.25$ in the current optimization
 example. At this point, the implementation does not support
-reducing the time step when $e^n\geq \delta$. The calculated $e_c^n$ and $e_\varphi^n$ are shown in Fig.~\ref{fig:cphirelerr}.
+adaptive time stepping if $e^n\geq \delta$. However, the implementation 
+of advanced adaptive higher-order time-stepping methods is in progress.
+The calculated $e_c^n$ and $e_\varphi^n$ are shown in Fig.~\ref{fig:cphirelerr}.
 The HP\_ANISO problem size and computing time with and without time step control
 are shown in Figs.~\ref{fig:timeadapt_dof} and~\ref{fig:timeadapt_cpu}. The reader
 can notice that the computing time was reduced more than two times when the time

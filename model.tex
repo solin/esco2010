@@ -230,8 +230,14 @@ that makes sure that both the norm of the residual vector $\Vert F(Y^{n+1})\Vert
 as well as the norm of the increment $\Vert \delta Y^{n+1}\Vert$ are sufficiently 
 small.
 
-\section{Adaptive $hp$-FEM and the Open-Source Library Hermes}
+\section{Adaptive $hp$-FEM}
 \label{sec:hermes}
+
+The $hp$-FEM is a modern version of the Finite Element Method (FEM) that is 
+capable of exponential convergence (the approximation error drops exponentially 
+as new degrees of freedom are added during adaptivity) while standard FEM can 
+only attain algebraic (polynomial) convergence rates which are much slower
+[REFERENCE SOLIN-BOOK-2003]. 
 
 In traditional low-order FEM (based on piecewise-linear or piecewise quadratic elements), 
 refining an element is not algorithmically complicated,
@@ -240,7 +246,7 @@ To do this, various techniques ranging from rigorous guaranteed a-posteriori
 error estimates to heuristic criteria such as residual error indicators or
 error indicators based on steep gradients are employed. 
 
-However, none of these approaches is suitable for
+However, these approaches are in general not very well suited for 
 multiphysics coupled problems or higher-order finite element methods: 
 Rigorous guaranteed error estimates only exist for very simple problems 
 (such as linear elliptic PDE) and only for low-order finite elements.

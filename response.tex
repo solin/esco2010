@@ -10,38 +10,52 @@
 \usepackage{amsrefs}
 %\usepackage{subfig}
 
+\pagestyle{empty}
+
 \begin{document}
 
-\title{Response to the reviewers of \emph{Modeling Ionic Polymer-Metal Composites\\ with Space-Time Adaptive Multimesh hp-FEM}}
+%\title{Response to the reviewers of \emph{Modeling Ionic Polymer-Metal Composites\\ with Space-Time Adaptive Multimesh hp-FEM}}
+
+\begin{center}
+{\huge \bf Response to the Referees}
+\end{center}
 
 
-\author[Deivid Pugal et.~al.]{Deivid Pugal\affil{1}\comma\affil{4},
-Pavel Solin\affil{2}\comma\affil{3}\comma\corrauth,
-Kwang J. Kim\affil{1}, and Alvo Aabloo\affil{4}}
+%\author[Deivid Pugal et.~al.]{Deivid Pugal\affil{1}\comma\affil{4},
+%Pavel Solin\affil{2}\comma\affil{3}\comma\corrauth,
+%Kwang J. Kim\affil{1}, and Alvo Aabloo\affil{4}}
 
-\address{\affilnum{1}\ Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.\\
-\affilnum{2}\ Department of Mathematics and Statistics, University of Nevada, Reno, NV, U.S.A.\\
-\affilnum{3}\ Institute of Thermomechanics, Prague, Czech Republic\\
-\affilnum{4}\ Institute of Technology, Tartu University, Estonia}
+%\address{\affilnum{1}\ Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.\\
+%\affilnum{2}\ Department of Mathematics and Statistics, University of Nevada, Reno, NV, U.S.A.\\
+%\affilnum{3}\ Institute of Thermomechanics, Prague, Czech Republic\\
+%\affilnum{4}\ Institute of Technology, Tartu University, Estonia}
 
-\emails{{\tt david.pugal@gmail.com} (D.~Pugal), {\tt solin@unr.edu} (P.~Solin),
-	{\tt kwangkim@unr.edu} (K.~Kim), {\tt alvo@ut.ee} (A.~Aabloo)}
+%\emails{{\tt david.pugal@gmail.com} (D.~Pugal), {\tt solin@unr.edu} (P.~Solin),
+%	{\tt kwangkim@unr.edu} (K.~Kim), {\tt alvo@ut.ee} (A.~Aabloo)}
 
 
-\begin{abstract}
-We are concerned with a model of ionic polymer-metal composite (IPMC) materials
-that consists of a coupled system of the Poisson and Nernst-Planck equations, 
-discretized by means of the finite element method (FEM). We show that due to the 
-transient character of the problem it is efficient to use adaptive algorithms 
-that are capable of changing the mesh dynamically in time. We also show 
-that due to large qualitative and quantitative differences between the 
-two solution components, it is efficient to approximate them on different 
-meshes using a novel adaptive multimesh \emph{hp}-FEM. The study is 
-accompanied with numerous computations and comparisons of the adaptive 
-multimesh \emph{hp}-FEM with several other adaptive FEM algorithms. 
-\end{abstract}
+%\begin{abstract}
+%We are concerned with a model of ionic polymer-metal composite (IPMC) materials
+%that consists of a coupled system of the Poisson and Nernst-Planck equations, 
+%discretized by means of the finite element method (FEM). We show that due to the 
+%transient character of the problem it is efficient to use adaptive algorithms 
+%that are capable of changing the mesh dynamically in time. We also show 
+%that due to large qualitative and quantitative differences between the 
+%two solution components, it is efficient to approximate them on different 
+%meshes using a novel adaptive multimesh \emph{hp}-FEM. The study is 
+%accompanied with numerous computations and comparisons of the adaptive 
+%multimesh \emph{hp}-FEM with several other adaptive FEM algorithms. 
+%\end{abstract}
 
-\maketitle
+%\maketitle
+
+\vspace{4mm}
+
+We would like to thank the referees for their insightful comments 
+that helped to improve the quality of the paper. We did our best to 
+accommodate all of them. This required a substantial effort,
+including the implementation of dimensionless transformation of 
+the equations and re-doing all computations.
 
 
 \section{Reviewer \#1}
@@ -55,11 +69,11 @@ such cases. This might also lead to a different picture where possibly the elect
 needs more adaptivity than the concentration of counter ions in contrast to examples considered so
 far.}
 
-Section 5.6 was added with a length scale study.
+Section 5.6 addressing these concerns was added.
 
 \item \emph{last sentence and Figure 1 Could the authors give a schematic picture presenting the electrostatic forces causing the deformation/bending of the IPMC?}
 
-An explanation was added to the images in Figure 1.
+An explanation was added to Figure 1.
 
 \item \emph{3rd line "materials that includes"}
 
@@ -67,7 +81,7 @@ Fixed.
 
 \item \emph{2nd paragraph, The computing power ... Are there references which elucidate this statement?}
 
-A reference was added to a previous study where solving the PNP system in 3D was discussed.
+A reference was added to a previous study on solving the PNP system in 3D.
 
 \item \emph{1st sentence, ... principal difficulties ... As mentioned above, there are also other issues
 known for the Poisson-Nernst-Planck system in the case of small Debye lenghts. Are the
@@ -84,8 +98,8 @@ in case of a 3D domain.
 immediately provides the characteristic dimensionless parameter of the system, i.e. the Debye
 length.}
 
-This was very good point. The dimensionless form of the equations was derived. $\mathbf{All}$ the
-results were recalculated and each graph and image in the Results section was redone.
+This was very good point. The dimensionless form of the equations was derived. All
+results were re-calculated and each graph and image in the Results section was re-done.
 Instead of using $C$
 and $\phi$, the corresponding scaled variables $c$ and $\varphi$ are now used throughout the results section.
 
@@ -99,14 +113,16 @@ We feel that this approach makes physically more sense.
 
 \item \emph{3rd paragraph The reader might loose at this point the interest in reading further since there
 is no motivation which favors a hp-FEM discretization over traditional low-order FEM. One
-sentence regarding computational performance or a related comment might be useful ...}
+sentence regarding computational performance or a related comment might be useful~...}
 
-TODO Pavel
+A motivation sentence describing different convergence properties of low-order FEM 
+and hp-FEM was added to the beginning of Section 4 along with a reference. 
 
 \item \emph{2nd last sentence in 1st paragraph A short explanation, how Hermes further deals with this
 difference without going to much into details, might be interesting here ...}
 
-TODO Pavel
+The title of this section was slightly changed (Hermes was left out), so mentioning Hermes here would not be 
+appropriate. However, a better explanation was added to Paragraph 4.1 which describes Hermes. 
 
 \item \emph{1st sentence in Sec. 5.2 Convergence plots of the error, which the authors mention, would be interesting...}
 
@@ -118,9 +134,13 @@ Fixed.
 
 \item \emph{Section 5.4, eq. (5.4) What does Hermes do in the case $e^n\geq\delta$?}
 
-Currently Hermes does not support the time step reduction. However, this is planned to be added
-in future. A comment was also added below (5.5): \emph{At this point,
-the implementation does not support reducing the time step when $e^n \geq \delta$.}
+Adaptive time stepping was not supported in Hermes until mid-February 2011. Recently we have 
+implemented a new method that allows Hermes to perform time integration based on arbitrary Butcher's 
+tables (including adaptivity based on arbitrary embedded Runge-Kutta methods). However, another paper on this subject 
+is in preparation and thus we would prefer not to discuss details in the present paper. 
+The following comment was added below (5.5): \emph{At this point, the implementation does not support
+adaptive time stepping if $e^n\geq \delta$. However, the implementation 
+of advanced adaptive higher-order time-stepping methods is in progress.}
 
 \end{enumerate}
 
@@ -135,7 +155,16 @@ The initial value was added below Eq.~(1.1).
 \item \emph{The authors have not given the size of time-step and the relation
 of time step size and h; p or CFL stability condition.}
 
-TODO Pavel?
+All computations performed in this paper were done using the absolutely stable 
+second-order Crank-Nicolson method. This method does not require any 
+limitation of time step such as the CFL condition. Of course, the 
+accuracy is still an issue and the size of the time step was chosen 
+based on multiple experiments, so that the size of the temporal error 
+was approximately the same as the error in space. The ultimate answer 
+to this issue is adaptive time stepping which is the subject of a forthcoming 
+paper. We have given the size of the time step, and 
+we explained in more detail how the choice of the fixed time step
+for the Crank-Nicolson method was made.
 
 \end{enumerate}
 \end{document}
