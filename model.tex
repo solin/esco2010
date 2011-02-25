@@ -1,3 +1,4 @@
+\newpage
 \section{Model}\label{sec:model}
 
 We consider a rectangular 2D domain $\Omega\subset\mathbb{R}^2$ with boundaries 
@@ -131,7 +132,7 @@ Analogously we derive also the weak form of the Poisson equation (\ref{eq:dimens
   \label{eq:poisson-weak1}
 \end{equation}
 Performing integration by parts and taking into account the boundary 
-conditions for $\phi$, we obtain
+conditions for $\varphi$, we obtain
 \begin{equation}
   \int_{\Omega}\nabla_d\varphi\cdot\nabla_d v^\varphi d\mathbf{x}-
   \frac{1}{2\epsilon^2}\left[\int_{\Omega}cv^\varphi d\mathbf{x}-
@@ -236,8 +237,7 @@ small.
 The $hp$-FEM is a modern version of the Finite Element Method (FEM) that is 
 capable of exponential convergence (the approximation error drops exponentially 
 as new degrees of freedom are added during adaptivity) while standard FEM can 
-only attain algebraic (polynomial) convergence rates which are much slower
-[REFERENCE SOLIN-BOOK-2003]. 
+only attain algebraic (polynomial) convergence rates which are much slower~\cite{Hermes-book}. 
 
 In traditional low-order FEM (based on piecewise-linear or piecewise quadratic elements), 
 refining an element is not algorithmically complicated,

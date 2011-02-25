@@ -12,7 +12,11 @@ time step. The scaled variables $c$
 and $\varphi$ and the unscaled time $t$ are used to present the solutions.
 The simulations were performed with physical time step of $0.05$~s and
 the final time of $3.0$~s was chosen as it is close to the time
-scaling constant~$\tau$.
+scaling constant~$\tau$.  The time step was chosen after many
+numerical experiments in such a way that the error
+in time was approximately the same as the error in
+space. The implementation of advanced adaptive
+implicit higher-order Runge-Kutta methods is in progress.
 
 We used two types of initial meshes --- a finer mesh shown 
 in Fig.~\ref{fig:mesh}~(b) was used for \emph{p}-adaptivity
