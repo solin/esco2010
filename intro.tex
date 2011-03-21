@@ -25,10 +25,6 @@ results in bending of the material (see Fig.~\ref{fig:conceptual}).
 %\vspace{-1cm}
 \end{figure}
 %\newpage
-%The derived and implemented model helps to predict the actuation of the
-%material. Furthermore, it is expected that the \emph{hp}-FEM implementation
-%results in a smaller problem size, thus likely allowing faster calculation
-%in both 2D and 3D domains.
 
 In this study we will model IPMC materials via a multiphysics coupled problem 
 consisting of the Poisson and Nernst-Planck equations (abbreviated by PNP in
@@ -67,12 +63,12 @@ the solution components $C$ and $\phi$ have very different behavior, which
 is the reason why it is difficult to find a common mesh that would be optimal 
 for both of them. This explains why we are interested in approximation them
 on individual meshes equipped with mutually independent adaptivity 
-mechanisms. The PNP model is presented in Section \ref{sec:model} where also its weak 
-formulation for the Newton's method is derived. Section \ref{sec:hermes}
-presents a brief overview of a novel adaptive multimesh $hp$-FEM 
+mechanisms. The PNP model is presented in Section~\ref{sec:model} where also its weak 
+formulation for the Newton's method is derived. Section~\ref{sec:hermes}
+presents a brief overview of a novel adaptive multi-mesh $hp$-FEM 
 method~\cite{solin2010monolithic,solin2010adaptive,dubcova2010space,solini2010adaptive}
 that is used to solve the 
-problem numerically. Numerical results and comparisons are presented in Section 
-\ref{sec:results}, and conclusion and outlook are drawn in Section \ref{sec:conc}.
+problem numerically. Numerical results and comparisons are presented in Section~\ref{sec:results}, 
+and conclusion and outlook are drawn in Section~\ref{sec:conc}.
 
 

@@ -131,7 +131,7 @@ Analogously we derive also the weak form of the Poisson equation (\ref{eq:dimens
   \int_{\Omega}v^\varphi d\mathbf{x}\right]=0.
   \label{eq:poisson-weak1}
 \end{equation}
-Performing integration by parts and taking into account the boundary 
+After performing integration by parts and taking into account the boundary 
 conditions for $\varphi$, we obtain
 \begin{equation}
   \int_{\Omega}\nabla_d\varphi\cdot\nabla_d v^\varphi d\mathbf{x}-
@@ -154,7 +154,7 @@ and $v_k^{\varphi}$ with unknown coefficients,
   \varphi^{n+1} = \varphi(Y^{n+1}) &=& \sum_{k=1}^{N^{\varphi}} y_k^{\varphi} v_k^{\varphi}\label{eq:phinotation}.
 \end{eqnarray}
 Here $Y^{n+1}$ is a coefficient vector of length $N^c + N^{\varphi}$ comprising the unknown 
-solution coefficients $y_k^{C}$ and $y_k^{\varphi}$ (in this order). We will also be 
+solution coefficients $y_k^{c}$ and $y_k^{\varphi}$ (in this order). We will also be 
 using $c^n = c(Y^n)$ and $\varphi^n = \varphi(Y^n)$ for the previous time step solutions.
 
 With the notation~\eqref{eq:cnotation}, \eqref{eq:phinotation}, the time discretized 
@@ -180,8 +180,6 @@ of the residual vector $F$,
 where $i = N^c + 1, N^c + 2, \ldots, N^c + N^{\varphi}$. The nonlinear discrete problem 
 that needs to be solved at the end of each time step thus has the form 
 $F(Y) = 0$.
-
-%\newpage
 
 \noindent
 The Jacobian matrix $J(Y) = DF/DY$ has a $2\times 2$ block structure,
@@ -255,11 +253,6 @@ they fail in more complicated situations. Moreover, they lack a
 transparent relation to the true approximation error and thus they may
 give wrong results.
 
-% Pavel
-% The reader might loose at this point the interest in reading further
-% since there is no motivation which favros a hp-FEM discretization over traditional
-% low order FEM. One sentence regarding computational performance
-% or a related comment might be useful...
 Automatic adaptivity in higher-order finite element methods (\emph{hp}-FEM) 
 is much different from adaptivity in low-order FEM. Firstly, analytical
 error estimates capable of guiding adaptive $hp$-FEM do not exist even for 

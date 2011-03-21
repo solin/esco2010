@@ -34,7 +34,7 @@ used for $h$-adaptivity and $hp$-adaptivity.
   \end{centering}
 \end{figure}
 
-An example of the solution at $t=0.1\ s$ and $t=3.0\ s$ 
+An example of the solution at $t=0.1$~s and $t=3.0$~s
 calculated with the HP\_ANISO refinement mode is shown
 in Figs.~\ref{fig:cphi-1}~and~\ref{fig:cphi-2}. 
 
@@ -45,8 +45,6 @@ in Figs.~\ref{fig:cphi-1}~and~\ref{fig:cphi-2}.
   and voltage $\varphi$ at $t=0.1\ s$.}
   \end{centering}
 \end{figure}
-
-%\newpage
 
 \begin{figure}[!ht]
   \begin{centering}
@@ -100,7 +98,6 @@ Instead, only $hp$-FEM solutions on the coarse mesh and $p$-FEM solutions
 on the fine mesh will be discussed.
 
 \subsection{Comparison of single-mesh and multi-mesh $hp$-FEM}
-% David: Error convergence plots here.
 Running the simulation with different adaptivity modes 
 and meshes showed that the multi-mesh $hp$-FEM configuration resulted in
 the smallest problems and similar error 
@@ -209,7 +206,7 @@ the calculation of HP\_ISO was canceled before $t=3.0$~s.
 
 \noindent
 Figs.~\ref{fig:isoanisopdof} and \ref{fig:isoanisopcpu} present a similar 
-comparsion for the P\_ISO, P\_ANISO, and HP\_ANISO\_P modes. Recall that these 
+comparison for the P\_ISO, P\_ANISO, and HP\_ANISO\_P modes. Recall that these 
 computations use a different initial mesh that was a-priori refined in space.
 
 %\newpage
@@ -327,19 +324,19 @@ voltage on the boundary was applied as follows:
   \phi_{\Omega_1}\left( x \right)=0.5\left[V \right] \frac{x\left[ m \right ]}{\text{width}_{\Omega_1}\left[ m \right]}+0.5\left[ V \right],
 \end{equation}
 where $\text{width}_{\Omega_1}$ is the width of the boundary. The given boundary is effectively
-a linear incrase of the voltage from $\phi_{\Omega_1}\left(x = 0 \right)=0.5\ V$ to
-$\phi_{\Omega_1}\left(x=\text{width}_{\Omega_1}\right) = 1.0\ V$.
+a linear increase of the voltage from $\phi_{\Omega_1}\left(x = 0 \right)=0.5$~V to
+$\phi_{\Omega_1}\left(x=\text{width}_{\Omega_1}\right) = 1.0$~V.
 Now the concentration gradient $\nabla c$ and the voltage gradient $\nabla \varphi$ are no
 longer effectively in 1D.
 
 The calculated scaled values $c$ and $\varphi$ in $\Omega$ and corresponding meshes and polynomial
-degrees of the elements at $t=0.1\ s$ are shown in Fig.~\ref{fig:cphi-orders}.
+degrees of the elements at $t=0.1$~s are shown in Fig.~\ref{fig:cphi-orders}.
 Notice that the solution
 is different to the one in Fig.~\ref{fig:cphi-1}. The HP\_ANISO
 adaptivity algorithm has particularly increased the polynomial degree
 and refined the mesh near $\Omega_1$ where a sharp concentration
 peak exists (compare to Fig.~\ref{fig:poly}).
-At $t=3.0\ s$, the shape of the solutions $c$ and $\varphi$ are similar to the one
+At $t=3.0$~s, the shape of the solutions $c$ and $\varphi$ are similar to the one
 in Fig.~\ref{fig:cphi-2} and therefore the polynomial space and mesh gets adapted
 accordingly. This example clearly illustrates how 
 the solution of PNP with non-uniform
@@ -374,7 +371,7 @@ solutions. Its numerical value shows the
 thickness of the charged layer in the vicinity of the boundaries $\partial\Omega_1$ 
 and $\partial\Omega_2$.
 In all the previous simulations, the Debye screening length was determined by  the constants in
-Table~\ref{Table:used-constants} and Eq.~\ref{eq:debye}: $\lambda_D=1.7\ \mu m$. It is known that computation gets increasingly
+Table~\ref{Table:used-constants} and Eq.~\eqref{eq:debye}: $\lambda_D=1.7\ \mu m$. It is known that computation gets increasingly
 difficult when reducing the value of $\lambda_D$.
 It was our interest to see how small screening lengths can Hermes HP\_ANISO automatic
 adaptivity handle. The parameter $\varepsilon$ was varied as follows:
@@ -386,9 +383,9 @@ was divided equally into fifteen time steps. The PID controller was not used.
 Fig.~\ref{fig:debye_dof} shows the maximum and average number of degrees of 
 freedom during calculation
 as a function of the Debye length and Fig.~\ref{fig:debye_cpu} shows cumulative CPU time as a function
-of the Debye length. The simulations up to $0.52\ nm$
+of the Debye length. The simulations up to $0.52$~nm
 screening length were carried out on
-the initial coarse mesh. However, from $\lambda_D > 0.52\ nm$, the finer initial mesh had to
+the initial coarse mesh. However, from $\lambda_D > 0.52$~nm, the finer initial mesh had to
 be used so the existence of the large gradients of the
 physical fields $c$ and $\varphi$ near the boundaries could be captured in the first place.
 \begin{figure}[!ht]
@@ -399,8 +396,8 @@ physical fields $c$ and $\varphi$ near the boundaries could be captured in the f
   \end{centering}
 \end{figure}
 \noindent
-The fine mesh allowed simulations with the Debye length down to $0.40\ nm$~m. The calculated
-$c$ and $\varphi$ at $t=\tau$ for $\lambda_D=0.40\ nm$ are shown in Fig.~\ref{fig:cphitau}.
+The fine mesh allowed simulations with the Debye length down to $0.40$~nm. The calculated
+$c$ and $\varphi$ at $t=\tau$ for $\lambda_D=0.40$~nm are shown in Fig.~\ref{fig:cphitau}.
 It appears that when using even finer initial mesh and higher initial polynomial degrees, even
 smaller Debye lengths could be used when necessary. The polynomial space of $c$ had
 consistently higher maximum polynomial degree than that of $\varphi$, however, the difference
