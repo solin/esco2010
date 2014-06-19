@@ -2,7 +2,8 @@
 
 In this section we use a simplified one-dimensional PNP model to illustrate the 
 principal difficulties encountered in the numerical solution. Table~\ref{Table:used-constants} 
-shows relevant constants.
+shows relevant constants. Fig.~\ref{fig:comsol-conc-volt} shows a typical solution for $C$ and $\phi$
+at $t=0.1\ s$ and $t=3.0\ s$. 
 
 \begin{table}[!ht]
 \caption{Constants used in the Poisson-Nernst-Planck system of equations.}
@@ -20,6 +21,7 @@ shows relevant constants.
   $\mu\ \left( = \frac{D}{RT}\right)$&$4.11\times 10^{-14}$&$\frac{s}{mol\cdot K}$&Mobility\\
   $C_{0}$&1,200&$\frac{mol}{m^3}$&Anion concentration\\
   $\varepsilon$&0.025&$\frac{F}{m}$&Electric permittivity\\
+  $l$&$200\times10^{-6}$&$m$& length scale\\
   \hline
   \hline
 \end{tabular}
@@ -27,13 +29,10 @@ shows relevant constants.
 \end{table}
 
 \noindent
-Fig.~\ref{fig:comsol-conc-volt} shows a typical solution for $C$ and $\phi$
-at $t=0.1\ s$ and $t=3.0\ s$. 
 
 \begin{figure}[!ht]
   \begin{centering}
       \includegraphics{comsol_conc_volt}
-      %\includegraphics{IPMC_bending}
   \caption{Sample concentration $C$ and voltage $\phi$
            in a 1D domain $\Omega\subset\mathbb{R}$.
            Dirichlet boundary conditions ($V_{\partial \Omega_1}=0\ V$
@@ -43,10 +42,6 @@ at $t=0.1\ s$ and $t=3.0\ s$.
 \label{fig:comsol-conc-volt}
   \end{centering}
 \end{figure}
-
-
-
-
 
 The reader can observe that the solution has 
 two notable characteristics: For the most part of the domain $\Omega$,
@@ -58,10 +53,6 @@ This makes the choice of an optimal mesh highly problematic. Even if the
 solution was stationary, an optimal mesh for $C$ could never be 
 optimal for $\phi$ and vice versa.
 
-
-
-
-
 Furthermore, the shape of the solution in Fig.~\ref{fig:comsol-conc-volt}
 suggests that the polynomial degree of finite elements in the middle
 of the domain $\Omega$ and near the boundaries $\partial \Omega_1,\ \partial \Omega_2$
@@ -69,17 +60,6 @@ should be different --- large high-degree elements should be used in the middle 
 domain while small low-degree ones should be used in the boundary layers.  
 The qualitative differences in the solution components $C$ and $\phi$ 
 also suggest that using different meshes would be beneficial. 
-
-% THIS DOES NOT BELONG HERE
-%All the aforementioned concerns can be solved by using
-%a time dependent adaptive multimesh \emph{hp}-FEM solver.
-%Automatic time dependent adaptivity in conjuction with \emph{hp}-FEM 
-%helps to limit the error of the calculations by automatically choosing
-%a suitable mesh and polynomial degrees of the elements at each time step.
-%In this work Hermes~\cite{Hermes-project} was used to implement
-%the PNP system and study
-%the problem size, error convergence and solution time 
-%with different refinement modes.
 
 
 

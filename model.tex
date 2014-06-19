@@ -1,3 +1,4 @@
+\newpage
 \section{Model}\label{sec:model}
 
 We consider a rectangular 2D domain $\Omega\subset\mathbb{R}^2$ with boundaries 
@@ -14,7 +15,7 @@ $\partial\Omega_{1\ldots 4}\subset\partial\Omega$, shown in Fig.~\ref{fig:domain
 As there is no flow through the domain's boundary, Eq.~\eqref{eq:nernst-planck}
 is equipped with a Neumann boundary condition 
 \begin{equation}
-  -D \frac{\partial C}{\partial n} - z \mu F C \frac{\partial \phi} {\partial n} = 0.
+  -D \frac{\partial C}{\partial n} - \mu F C \frac{\partial \phi} {\partial n} = 0.
   \label{eq:nernst-planck-boundary}
 \end{equation}
 Furthermore, we prescribe a positive constant voltage $V_{pos}$ 
@@ -33,89 +34,109 @@ a Neumann boundary condition
 
 \subsection{Weak form of the PNP system}
 
-% IF YOU WANT TO CITE THIS WORK< YOU HAVE TO SAY WHY WE ARE DOING 
-% THE DERIVATION AGAIN -- OTHERWISE IT IS CONTRAPRODUCTIVE. SO 
-% I COMMENTED THIS OUT.
-% I guess it can be left out as the work in SPIE is quite preliminary
-% and not that complete
-%An implicit version of the weak form of PNP was derived in~\cite{pugal2010spie}.
 To make our results easily reproducible, in the following we present the derivation 
 of weak forms of Eqs.~\eqref{eq:nernst-planck} and 
 \eqref{eq:poisson}, as well as formulas for the Jacobian matrix and residual 
 vector that are used in actual computations.
-To simplify notation, we define
+To simplify notation, we use dimensionless formulation of Eqs.~\eqref{eq:nernst-planck}
+and~\eqref{eq:poisson}. The following new notations for the independent variables
+$x$, $y$, $t$ and for the dependent variables $C$ and $\phi$ are used~\cite{bazant2004diffuse}:
 \begin{equation}
-  K = z \mu F,\ \ \
-  L = \frac{F}{\varepsilon}.
-  \label{eq:KL}
+  X=\frac xl,\ \ \
+  Y=\frac yl,\ \ \
+  \tau=\frac{tD}{\lambda_D l},\ \ \
+  \varphi=\frac{\phi F}{RT},\ \ \
+  c=\frac C C_0.\label{eq:dimensionless}
 \end{equation}
-Eqs.~\eqref{eq:nernst-planck} and \eqref{eq:poisson} yield
+Here $\lambda_D$ is the Debye screening length and it is expressed as follows~\cite{bazant2004diffuse}:
+\begin{equation}
+  \lambda_D=\sqrt{\frac{\varepsilon R T}{2 F^2 C_0}}.\label{eq:debye}
+\end{equation}
+After inserting variables~\eqref{eq:dimensionless} into Eq.~\eqref{eq:nernst-planck} the Nernst-Planck
+equation and Poisson equation become:
 \begin{eqnarray}
-  \frac{\partial C}{\partial t}-D\nabla^2 C-K\nabla\cdot \left(C\nabla\phi\right)&=&0,\label{eq:nernst-planck-2}\\
-  -\nabla^2\phi-L\left(C-C_{0}\right)&=&0.\label{eq:poisson-2}
+  \frac{DC_0}{\lambda_D l}\frac{\partial c}{\partial \tau} + \frac 1l  \nabla_d\cdot
+    \left(-\frac{DC_0}{l}\nabla_dc-c\frac{DC_0}{l}\nabla_d\varphi\right) &=& 0\label{eq:dim1}\\
+  - \frac{\varepsilon R T}{l^2F^2C_0}\nabla_d^2\varphi&=&c-1\label{eq:dim2},
+\end{eqnarray}
+where
+\begin{equation}
+  \nabla_d=\left(\frac{\partial}{\partial X},\ \frac{\partial}{\partial Y}\right).
+\end{equation}
+After simplifying Eqs.~\eqref{eq:dim1} and~\eqref{eq:dim2} and denoting
+\begin{equation}
+  \epsilon=\frac{\lambda_D}{l},
+\end{equation}
+the dimensionless form of the PNP system of equations is
+\begin{eqnarray}
+  \frac{\partial c}{\partial \tau}
+    -\epsilon\nabla_d^2 c - \epsilon \nabla_d \cdot \left( c\nabla_d \varphi\right)  &=&0,\label{eq:dimensionless-nernst-planck}\\
+  -\nabla_d^2\varphi&=&\frac{c-1}{2\epsilon^2}\label{eq:dimensionless-poisson}.
 \end{eqnarray}
 Boundary condition Eq.~\eqref{eq:nernst-planck-boundary} has the form
 \begin{equation}
-  -D\frac{\partial C}{\partial n}-KC\frac{\partial\phi}{\partial n}=0.
-  \label{eq:nernst-planck-boundary-2}
+  -\frac{\partial c}{\partial n}-c\frac{\partial\varphi}{\partial n}=0.
+  \label{eq:dimensionless-nernst-planck-boundary}
 \end{equation}
-As the second derivatives of both $C$ and $\phi$ are present in the 
+As the second derivatives of both $c$ and $\varphi$ are present in the 
 equations, the appropriate function space for them is the Sobolev space 
 $V=H^1\left(\Omega\right)$ where 
-$$H^1\left(\Omega\right)=\left\{v\in L^2\left(\Omega\right);\ \nabla v \in \left[L^2\left(\Omega\right)\right]^2\right\}.
+$$H^1\left(\Omega\right)=\left\{v\in L^2\left(\Omega\right);\ \nabla_d v \in \left[L^2\left(\Omega\right)\right]^2\right\}.
 $$
-In order to derive the weak form of the Nernst-Planck equation Eq.~\eqref{eq:nernst-planck-2},
-we first multiply it with a test function $v^C \in V$ and integrate over the domain~$\Omega$,
+In order to derive the weak form of the Nernst-Planck equation Eq.~\eqref{eq:dimensionless-nernst-planck},
+we first multiply it with a test function $v^c \in V$ and integrate over the domain~$\Omega$,
 \begin{equation}
-  \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}
-  -\int_{\Omega}D\nabla^2Cv^C d\mathbf{x}-\int_{\Omega}K\nabla C\cdot\nabla\phi v^C d\mathbf{x}
-   - \int_{\Omega}KC\nabla^2\phi v^C d\mathbf{x}=0.
+  \int_{\Omega}\frac{\partial c}{\partial \tau}v^c d\mathbf{x}-
+  \int_{\Omega}\epsilon\nabla_d^2cv^c d\mathbf{x}-\int_{\Omega}\epsilon\nabla_d c\cdot\nabla_d\varphi v^c d\mathbf{x}-
+  \int_{\Omega}\epsilon c\nabla_d^2\varphi v^c d\mathbf{x}=0.
   \label{eq:nernst-planck-weak1}
 \end{equation}
 Applying the Green's first identity to the terms that contain second derivatives,
 we obtain
 $$
- \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
-  D\int_{\Omega}\nabla C\cdot\nabla v^C d\mathbf{x}-
-  K\int_{\Omega}\nabla C \cdot \nabla \phi v^C d\mathbf{x}
+ \int_{\Omega}\frac{\partial c}{\partial \tau}v^c d\mathbf{x}+
+  \epsilon\int_{\Omega}\nabla_d c\cdot\nabla_d v^c d\mathbf{x}-
+  \epsilon\int_{\Omega}\nabla_d c\cdot\nabla_d\varphi v^c d\mathbf{x}
 $$
 \begin{equation}
-  + K\int_{\Omega}\nabla\left(Cv^C\right)\cdot \nabla \phi d\mathbf{x}
-  -D\int_{\partial\Omega}\frac{\partial C}{\partial n}v^C d\mathbf{S}-
-  \int_{\partial\Omega}K\frac{\partial\phi}{\partial n}Cv^C d\mathbf{S}=0.
+  + \epsilon\int_{\Omega}\nabla_d\left(cv^c\right)\cdot \nabla_d \varphi d\mathbf{x}
+  -\epsilon\int_{\partial\Omega}\frac{\partial c}{\partial n}v^c d\mathbf{S}-
+  \int_{\partial\Omega}\epsilon\frac{\partial\varphi}{\partial n}cv^c d\mathbf{S}=0.
   \label{eq:nernst-planck-weak2}
 \end{equation}
 Expanding the nonlinear term and using the boundary condition 
-\eqref{eq:nernst-planck-boundary-2}, we have
+\eqref{eq:dimensionless-nernst-planck-boundary}, we have
 $$
-  \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
-  D\int_{\Omega}\nabla C \cdot \nabla v^C d\mathbf{x}-
-  K\int_{\Omega}\nabla C \cdot \nabla \phi v^C d\mathbf{x}
+  \int_{\Omega}\frac{\partial c}{\partial \tau}v^c d\mathbf{x}+
+  \epsilon\int_{\Omega}\nabla_d c\cdot\nabla_d v^c d\mathbf{x}-
+  \epsilon\int_{\Omega}\nabla_d c\cdot\nabla_d\varphi v^c d\mathbf{x}
 $$
 \begin{equation}
-  + K\int_{\Omega}\nabla \phi \cdot \nabla C v^C d\mathbf{x}+
-  K\int_{\Omega} C \left(\nabla\phi\cdot\nabla v^C\right) d\mathbf{x}=0.
+  + \epsilon\int_{\Omega}\nabla_d \varphi \cdot \nabla_d c v^c d\mathbf{x}+
+  \epsilon \int_{\Omega} c \left(\nabla_d\varphi\cdot\nabla_d v^c\right) d\mathbf{x}=0.
   \label{eq:nernst-planck-weak3}
 \end{equation}
-After the second and third terms cancel out, we obtain the final weak form of 
+After the third and fourth terms cancel out, we obtain the final weak form of 
 the Nernst-Planck equation
 \begin{equation}
-  \int_{\Omega}\frac{\partial C}{\partial t}v^C d\mathbf{x}+
-  D\int_{\Omega}\nabla C \cdot \nabla v^C d\mathbf{x}+
-  K\int_{\Omega} C \left(\nabla\phi\cdot\nabla v^C\right) d\mathbf{x}=0.
+  \int_{\Omega}\frac{\partial c}{\partial \tau}v^c d\mathbf{x}+
+  \epsilon\int_{\Omega}\nabla_d c\cdot\nabla_d v^c d\mathbf{x}+
+  \epsilon \int_{\Omega} c \left(\nabla_d\varphi\cdot\nabla_d v^c\right) d\mathbf{x}=0.
   \label{eq:nernst-planck-weak-final}
 \end{equation}
-Analogously we derive also the weak form of the Poisson equation (\ref{eq:poisson-2}),
+Analogously we derive also the weak form of the Poisson equation (\ref{eq:dimensionless-poisson}),
 \begin{equation}
-  -\int_{\Omega}\nabla^2\phi v^\phi d\mathbf{x}-\int_{\Omega}LCv^\phi d\mathbf{x}+
-  \int_{\Omega}LC_{0}v^\phi d\mathbf{x}=0.
+  -\int_{\Omega}\nabla_d^2\varphi v^\varphi d\mathbf{x}-
+  \frac{1}{2\epsilon^2}\left[\int_{\Omega}cv^\varphi d\mathbf{x}-
+  \int_{\Omega}v^\varphi d\mathbf{x}\right]=0.
   \label{eq:poisson-weak1}
 \end{equation}
-Performing integration by parts and taking into account the boundary 
-conditions for $\phi$, we obtain
+After performing integration by parts and taking into account the boundary 
+conditions for $\varphi$, we obtain
 \begin{equation}
-  \int_{\Omega}\nabla\phi\cdot\nabla v^\phi d\mathbf{x}-\int_{\Omega}LCv^\phi d\mathbf{x}+
-  \int_{\Omega}LC_{0}v^\phi d\mathbf{x}=0.
+  \int_{\Omega}\nabla_d\varphi\cdot\nabla_d v^\varphi d\mathbf{x}-
+  \frac{1}{2\epsilon^2}\left[\int_{\Omega}cv^\varphi d\mathbf{x}-
+  \int_{\Omega}v^\varphi d\mathbf{x}\right]=0.
   \label{eq:poisson-weak-final}
 \end{equation}
 
@@ -125,49 +146,48 @@ To employ the Newton's method for the nonlinear system \eqref{eq:nernst-planck-w
 \eqref{eq:poisson-weak-final}, formulas for the Jacobian matrix and residual vector need to
 be derived. Time discretization will be performed using the second-order Crank-Nicolson 
 method. The unknown solution components 
-$C^{n+1}$ and $\phi^{n+1}$ at the end of the time step are expressed 
-as linear combinations of finite element basis functions $v_k^{C}$ 
-and $v_k^{\phi}$ with unknown coefficients,
+$c^{n+1}$ and $\varphi^{n+1}$ at the end of the time step $\delta\tau$ are expressed 
+as linear combinations of finite element basis functions $v_k^{c}$ 
+and $v_k^{\varphi}$ with unknown coefficients,
 \begin{eqnarray}
-  C^{n+1} = C(Y^{n+1}) &=& \sum_{k=1}^{N^C} y_k^{C} v_k^{C}, \label{eq:cnotation}\\
-  \phi^{n+1} = \phi(Y^{n+1}) &=& \sum_{k=1}^{N^{\phi}} y_k^{\phi} v_k^{\phi}\label{eq:phinotation}.
+  c^{n+1} = c(Y^{n+1}) &=& \sum_{k=1}^{N^c} y_k^{c} v_k^{c}, \label{eq:cnotation}\\
+  \varphi^{n+1} = \varphi(Y^{n+1}) &=& \sum_{k=1}^{N^{\varphi}} y_k^{\varphi} v_k^{\varphi}\label{eq:phinotation}.
 \end{eqnarray}
-Here $Y^{n+1}$ is a coefficient vector of length $N^C + N^{\phi}$ comprising the unknown 
-solution coefficients $y_k^{C}$ and $y_k^{\phi}$ (in this order). We will also be 
-using $C^n = C(Y^n)$ and $\phi^n = \phi(Y^n)$ for the previous time step solutions.
+Here $Y^{n+1}$ is a coefficient vector of length $N^c + N^{\varphi}$ comprising the unknown 
+solution coefficients $y_k^{c}$ and $y_k^{\varphi}$ (in this order). We will also be 
+using $c^n = c(Y^n)$ and $\varphi^n = \varphi(Y^n)$ for the previous time step solutions.
 
 With the notation~\eqref{eq:cnotation}, \eqref{eq:phinotation}, the time discretized 
 Eq.~\eqref{eq:nernst-planck-weak-final} leads to the formula for the 
-first part $F^C$ of the residual vector $F$,
+first part $F^c$ of the residual vector $F$,
 \begin{eqnarray}
-  F_i^C\left(Y\right) & = & \int_{\Omega} \frac{C(Y)}{\tau}v_i^C d\mathbf{x} - 
-  \int_{\Omega} \frac{C^{n}}{\tau}v_i^C d\mathbf{x}\nonumber\\
-  &&+\frac 12 \left[D\int_{\Omega} \nabla C(Y) \cdot \nabla v_i^C d\mathbf{x}+ 
-  	D\int_{\Omega} \nabla C^{n} \cdot \nabla v_i^C d\mathbf{x}\right]\nonumber\\
-  &&+ \frac 12 \left[K\int_{\Omega}C(Y) \left(\nabla \phi(Y) \cdot \nabla v_i^C\right) d\mathbf{x}+
-  K\int_{\Omega}C^{n} \left(\nabla \phi^{n} \cdot \nabla v_i^C\right) d\mathbf{x}\right]\label{eq:Fc}
+  F_i^c\left(Y\right) & = & \int_{\Omega} \frac{c(Y)}{\delta\tau}v_i^c d\mathbf{x} - 
+  \int_{\Omega} \frac{c^{n}}{\delta\tau}v_i^c d\mathbf{x}\nonumber\\
+  &&+\frac 12 \epsilon \left[\int_{\Omega} \nabla_d c(Y) \cdot \nabla_d v_i^c d\mathbf{x}+ 
+  	\int_{\Omega} \nabla_d c^{n} \cdot \nabla_d v_i^c d\mathbf{x}\right.\nonumber\\
+  &&+ \left.\int_{\Omega}c(Y) \left(\nabla_d \varphi(Y) \cdot \nabla_d v_i^c\right) d\mathbf{x}+
+  \int_{\Omega}c^{n} \left(\nabla_d \varphi^{n} \cdot \nabla_d v_i^c\right) d\mathbf{x}\right]\label{eq:Fc}
 \end{eqnarray}
-where $i = 1, 2, \ldots, N^C$.
-Analogously, Eq.~\eqref{eq:poisson-weak-final} defines the second part $F^{\phi}$ 
+where $i = 1, 2, \ldots, N^c$.
+Analogously, Eq.~\eqref{eq:poisson-weak-final} defines the second part $F^{\varphi}$ 
 of the residual vector $F$,
 \begin{equation}
-  F_i^{\phi}\left(Y\right) = \int_{\Omega} \nabla \phi(Y) \cdot \nabla v_i^{\phi} d\mathbf{x} 
-  - \int_{\Omega} LC(Y)v_i^{\phi} d\mathbf{x} + \int_{\Omega} LC_0 v_i^{\phi} d\mathbf{x}
+  F_i^{\varphi}\left(Y\right) = \int_{\Omega} \nabla_d \varphi(Y) \cdot \nabla_d v_i^{\varphi} d\mathbf{x} 
+  -\frac{1}{2\epsilon^2}\left[ \int_{\Omega} c(Y)v_i^{\varphi} d\mathbf{x} -
+   \int_{\Omega} v_i^{\varphi} d\mathbf{x}\right]
   \label{eq:Fphi}
 \end{equation}
-where $i = N^C + 1, N^C + 2, \ldots, N^C + N^{\phi}$. The nonlinear discrete problem 
+where $i = N^c + 1, N^c + 2, \ldots, N^c + N^{\varphi}$. The nonlinear discrete problem 
 that needs to be solved at the end of each time step thus has the form 
 $F(Y) = 0$.
-
-\newpage
 
 \noindent
 The Jacobian matrix $J(Y) = DF/DY$ has a $2\times 2$ block structure,
 \begin{equation}
 J(Y) = \left(
 \begin{array}{cc}
-  \displaystyle \frac{\partial F_i^C}{\partial y_j^C} & \displaystyle \frac{\partial F_i^C}{\partial y_j^{\phi}} \\ 
-  \displaystyle \frac{\partial F_i^{\phi}}{\partial y_j^C} & \displaystyle \frac{\partial F_i^{\phi}}{\partial y_j^{\phi}}
+  \displaystyle \frac{\partial F_i^c}{\partial y_j^c} & \displaystyle \frac{\partial F_i^c}{\partial y_j^{\varphi}} \\ 
+  \displaystyle \frac{\partial F_i^{\varphi}}{\partial y_j^c} & \displaystyle \frac{\partial F_i^{\varphi}}{\partial y_j^{\varphi}}
 \end{array}
 \right),
 \end{equation}
@@ -175,21 +195,21 @@ and its entries are obtained by calculating the partial derivatives of $F$ with
 respect to the components of the coefficient vector $Y$. For this it is useful to 
 realize that 
 $$
-\frac{\partial C(Y)}{\partial y_j^C} = v_j^C, \ \ \ 
-\frac{\partial \nabla C(Y)}{\partial y_j^C} = \nabla v_j^C,\ \ \ \mbox{etc.}.
+\frac{\partial c(Y)}{\partial y_j^c} = v_j^c, \ \ \ 
+\frac{\partial \nabla_d c(Y)}{\partial y_j^c} = \nabla_d v_j^c,\ \ \ \mbox{etc.}.
 $$
 We obtain
 \begin{eqnarray}
-  \frac{\partial F_i^C}{\partial y_j^C}(Y) &=& 
-  \int_{\Omega} \frac{1}{\tau} v_j^C v_i^C d\mathbf{x} + 
-  \frac 12 D\int_{\Omega} \nabla v_j^C \cdot \nabla v_i^C d\mathbf{x}
-  + \frac 12 K\int_{\Omega} v_j^C \left(\nabla \phi(Y) \cdot \nabla v_i^C\right) d\mathbf{x},\label{eq:dFcdyc}\\
-  \frac{\partial F_i^C}{\partial y_j^{\phi}}(Y) &=&
-  \frac 12 K \int_{\Omega} C(Y) \left(\nabla v_j^{\phi} \cdot \nabla v_i^C\right) d\mathbf{x},\\
-  \frac{\partial F_i^{\phi}}{\partial y_j^C}(Y) &=&
-  - \int_{\Omega} L v_j^C v_i^{\phi} d\mathbf{x},\\
-  \frac{\partial F_i^{\phi}}{\partial y_j^{\phi}}(Y) &=&
-  \int_{\Omega} \nabla v_j^{\phi} \cdot \nabla v_i^{\phi} d\mathbf{x}\label{eq:dFphidyphi}.
+  \frac{\partial F_i^c}{\partial y_j^c}(Y) &=& 
+  \int_{\Omega} \frac{1}{\delta\tau} v_j^c v_i^c d\mathbf{x} + 
+  \frac 12 \epsilon\left[\int_{\Omega} \nabla_d v_j^c \cdot \nabla_d v_i^c d\mathbf{x}
+  + \int_{\Omega} v_j^c \left(\nabla_d \varphi(Y) \cdot \nabla_d v_i^c\right) d\mathbf{x}\right],\label{eq:dFcdyc}\\
+  \frac{\partial F_i^c}{\partial y_j^{\varphi}}(Y) &=&
+  \frac 12 \epsilon \int_{\Omega} c(Y) \left(\nabla_d v_j^{\varphi} \cdot \nabla_d v_i^c\right) d\mathbf{x},\\
+  \frac{\partial F_i^{\varphi}}{\partial y_j^c}(Y) &=&
+  - \frac{1}{2\epsilon^2}\int_{\Omega} v_j^c v_i^{\varphi} d\mathbf{x},\\
+  \frac{\partial F_i^{\varphi}}{\partial y_j^{\varphi}}(Y) &=&
+  \int_{\Omega} \nabla_d v_j^{\varphi} \cdot \nabla_d v_i^{\varphi} d\mathbf{x}\label{eq:dFphidyphi}.
 \end{eqnarray}
 
 \subsection{Newton's iteration}
@@ -199,8 +219,8 @@ that was calculated in the $n$th time step (or coming from the
 initial condition if $n = 0$). We set $k = 0$ and run the 
 Newton's iteration 
 \begin{eqnarray*}
-J(Y^{n+1}_k) \delta Y^{n+1}_{k+1} &=& -F(Y^{n+1}_k), \\ 
-Y^{n+1}_{k+1} &=& Y^{n+1}_k + \delta Y^{n+1}_{k+1}, \\
+J(Y^{n+1}_k) \delta\tau Y^{n+1}_{k+1} &=& -F(Y^{n+1}_k), \\ 
+Y^{n+1}_{k+1} &=& Y^{n+1}_k + \delta\tau Y^{n+1}_{k+1}, \\
 k &:=& k+1
 \end{eqnarray*}
 over $k$ until it converges. Then we set $Y^{n+1} := Y^{n+1}_{k}$. 
@@ -209,8 +229,13 @@ that makes sure that both the norm of the residual vector $\Vert F(Y^{n+1})\Vert
 as well as the norm of the increment $\Vert \delta Y^{n+1}\Vert$ are sufficiently 
 small.
 
-\section{Adaptive $hp$-FEM and the Open-Source Library Hermes}
+\section{Adaptive $hp$-FEM}
 \label{sec:hermes}
+
+The $hp$-FEM is a modern version of the Finite Element Method (FEM) that is 
+capable of exponential convergence (the approximation error drops exponentially 
+as new degrees of freedom are added during adaptivity) while standard FEM can 
+only attain algebraic (polynomial) convergence rates which are much slower~\cite{Hermes-book}. 
 
 In traditional low-order FEM (based on piecewise-linear or piecewise quadratic elements), 
 refining an element is not algorithmically complicated,
@@ -219,7 +244,7 @@ To do this, various techniques ranging from rigorous guaranteed a-posteriori
 error estimates to heuristic criteria such as residual error indicators or
 error indicators based on steep gradients are employed. 
 
-However, none of these approaches is suitable for
+However, these approaches are in general not very well suited for 
 multiphysics coupled problems or higher-order finite element methods: 
 Rigorous guaranteed error estimates only exist for very simple problems 
 (such as linear elliptic PDE) and only for low-order finite elements.
@@ -261,7 +286,10 @@ Anisotropic refinement modes are
 \emph{h}-anisotropic (H\_ANISO),
 \emph{hp}-anisotropic-\emph{h} (HP\_ANISO\_H), \emph{p}-anisotropic (P\_ANISO),
 \emph{hp}-anisotropic-p (HP\_ANISO\_P), and \emph{hp}-anisotropic (HP\_ANISO).
-The eight adaptivity modes are summarized in Fig.~\ref{fig:candlist}.
+The eight adaptivity modes are summarized in Fig.~\ref{fig:candlist}. It must
+be noted that in case of HP\_ANISO\_H, only element size is adapted anisotropically
+whereas polynomial degree is adapted isotropically. The opposite holds true
+for HP\_ANISO\_P.
 
 \begin{figure}[!ht]
   \begin{centering}
@@ -276,7 +304,7 @@ that provide a constant error estimate per element, cannot be used to
 guide automatic \emph{hp}-adaptivity. 
 For this, one needs to know the shape of the approximation error.
 Hermes uses a pair of approximations with different orders of accuracy 
-to obtain this information: coarse mesh solution and fine mesh solution. 
+to obtain this information: coarse mesh solution and fine mesh solution~\cite{solin2010pde}. 
 The initial coarse mesh is read from the mesh file, and the initial 
 fine mesh is created through its global refinement both in \emph{h}
 and \emph{p}. The fine mesh solution is the approximation of 
@@ -284,7 +312,10 @@ interest both during the adaptive process and at the end of computation.
 Global orthogonal projection of the fine mesh solution on the coarse mesh 
 is used to extract the low-order part from the reference solution.
 The adaptivity algorithm is guided by the difference between the 
-reference solution and its low-order part~\cite{solin2010pde}.
+reference solution and its low-order part.
+% Pavel
+% A short explanation, how Hermes further deals with this difference without
+% going to much into details, might be interesting here...
 Note that this approach to automatic adaptivity is PDE-independent
 and thus naturally applicable to a large variety of multiphysics 
 coupled problems.
