@@ -1,0 +1,290 @@
+\documentclass[mathpazo]{cicp}
+
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsrefs}
+
+\begin{document}
+
+\title{Modeling Ionic Polymer-Metal Composites\\ with Space-Time Adaptive Multimesh \emph{hp}-FEM}
+
+
+\author[Deivid Pugal et.~al.]{Deivid Pugal\affil{1}\comma\affil{4},
+Pavel Solin\affil{2}\comma\affil{3}\comma\corrauth,
+Kwang J. Kim\affil{1}, and Alvo Aabloo\affil{4}}
+
+\address{\affilnum{1}\ Mechanical Engineering Department, University of Nevada, Reno, NV, U.S.A.\\
+\affilnum{2}\ Department of Mathematics and Statistics, University of Nevada, Reno, NV, U.S.A.\\
+\affilnum{3}\ Institute of Thermomechanics, Prague, Czech Republic\\
+\affilnum{4}\ Institute of Technology, Tartu University, Estonia}
+
+\emails{{\tt david.pugal@gmail.com} (D.~Pugal), {\tt solin@unr.edu} (P.~Solin),
+	{\tt kwangkim@unr.edu} (K.~Kim), {\tt alvo@ut.ee} (A.~Aabloo)}
+
+\begin{abstract}
+We are concerned with a model of ionic polymer-metal composite (IPMC) materials
+that consists of a coupled system of the Poisson and Nernst-Planck equations, 
+discretized by means of the finite element method (FEM). We show that due to the 
+transient character of the problem it is efficient to use adaptive algorithms 
+that are capable of changing the mesh dynamically in time. We also show 
+that due to large qualitative and quantitative differences between the 
+two solution components, it is efficient to approximate them on different 
+meshes using a novel adaptive multimesh \emph{hp}-FEM. The study is 
+accompanied with numerous computations and comparisons of the adaptive 
+multimesh \emph{hp}-FEM with several other adaptive FEM algorithms. 
+\end{abstract}
+
+\ams{35Q84, 35Q05, 35J47}
+\keywords{Ionic polymer-metal composites, IPMC, Nernst-Planck equation, Poisson equation,
+finite element method, FEM, adaptive multi-mesh \emph{hp}-FEM }
+\maketitle
+
+
+\input{intro}
+\input{motivation}
+\input{model}
+\input{results}
+\input{conclusions}
+
+\section*{Acknowledgments}
+The second author was partially supported by the Grant Agency of the Academy of 
+Sciences of the Czech Republic under Grant No. IAA100760702, and by the U.S.
+Department of Energy Research Subcontract No. 00089911. 
+The third author acknowledges the financial support of the U.S. Office of Naval Research 
+under Award N000140910218. The fourth author acknowledges the financial support of
+the Estonian Ministry of Education, grant \#SF0180008s08.
+
+\newpage
+
+\bibliographystyle{amsrn}    % Bibliography: Author-Date system
+%\bibliography{pugal-cicp2010}      % pls. call your database here
+\begin{bibdiv}
+\begin{biblist}
+
+\bib{basu1997membrane}{article}{
+      author={Basu, S.},
+      author={Sharma, M.M.},
+       title={{An improved space-charge model for flow through charged
+  microporous membranes}},
+        date={1997},
+     journal={Journal of Membrane Science},
+      volume={124},
+      number={1},
+       pages={77\ndash 91},
+}
+
+\bib{bazant2004diffuse}{article}{
+      author={Bazant, M.Z.},
+      author={Thornton, K.},
+      author={Ajdari, A.},
+       title={{Diffuse-charge dynamics in electrochemical systems}},
+        date={2004},
+        ISSN={1550-2376},
+     journal={Physical Review E},
+      volume={70},
+      number={2},
+       pages={21506},
+}
+
+\bib{dubcova2010space}{article}{
+      author={Dubcova, L.},
+      author={Solin, P.},
+      author={Cerveny, J.},
+      author={Kus, P.},
+       title={{Space and Time Adaptive Two-Mesh $hp$-Finite Element Method for
+  Transient Microwave Heating Problems}},
+        date={2010},
+     journal={Electromagnetics},
+      volume={30},
+      number={1},
+       pages={23\ndash 40},
+}
+
+\bib{nasser2002applied}{article}{
+      author={Nemat-Nasser, S.},
+       title={Micromechanics of actuation of ionic polymer-metal composites},
+        date={2002},
+     journal={Journal of Applied Physics},
+      volume={92},
+      number={5},
+       pages={2899\ndash 2915},
+}
+
+\bib{newbury2003intelligent}{article}{
+      author={Newbury, K.M.},
+      author={Leo, D.J.},
+       title={{Linear electromechanical model of ionic polymer transducers-Part
+  I: Model Development}},
+        date={2003},
+     journal={Journal of Intelligent Material Systems and Structures},
+      volume={14},
+      number={6},
+       pages={333},
+}
+
+\bib{pugal2009}{inproceedings}{
+      author={Pugal, D.},
+      author={Aabloo, A.},
+      author={Kim, K.~J.},
+       title={Dynamic surface resistance model of ipmc},
+        date={2009},
+      editor={Ounaies, Zoubeida},
+      editor={Li, Jiangyu},
+      volume={7289},
+   publisher={SPIE},
+       pages={72891E},
+}
+
+\bib{pugal2010polymer}{article}{
+      author={Pugal, D.},
+      author={Jung, K.},
+      author={Aabloo, A.},
+      author={Kim, K.J.},
+       title={{Ionic polymer-metal composite mechanoelectrical transduction:
+  review and perspectives}},
+        date={2010},
+     journal={Polymer international},
+      volume={59},
+      number={3},
+       pages={279\ndash 289},
+}
+
+\bib{pugal2010spie3d}{inproceedings}{
+      author={Pugal, D.},
+      author={Kim, K.~J.},
+      author={Aabloo, A.},
+       title={Modeling the transduction of ipmc in 3d configurations},
+        date={2010},
+      editor={Ounaies, Zoubeida},
+      editor={Li, Jiangyu},
+      volume={7644},
+   publisher={SPIE},
+       pages={76441T},
+}
+
+\bib{pugal2008appliedphysics}{article}{
+      author={Pugal, D.},
+      author={Kim, K.~J.},
+      author={Punning, A.},
+      author={Kasemagi, H.},
+      author={Kruusmaa, M.},
+      author={Aabloo, A.},
+       title={A self-oscillating ionic polymer-metal composite bending
+  actuator},
+        date={2008},
+     journal={Journal of Applied Physics},
+      volume={103},
+      number={8},
+       pages={084908},
+}
+
+\bib{shahinpoor2001smartmat}{article}{
+      author={Shahinpoor, M.},
+      author={Kim, K.~J.},
+       title={Ionic polymer-metal composites: I. fundamentals},
+        date={2001},
+     journal={Smart Materials and Structures},
+      volume={10},
+      number={4},
+       pages={819},
+}
+
+\bib{solin2010pde}{article}{
+      author={Solin, P.},
+      author={Andrs, D.},
+      author={Cerveny, J.},
+      author={Simko, M.},
+       title={{PDE-independent adaptive $hp$-FEM based on hierarchic extension
+  of finite element spaces}},
+        date={2010},
+     journal={Journal of computational and applied mathematics},
+      volume={233},
+      number={12},
+       pages={3086\ndash 3094},
+}
+
+\bib{solin2010monolithic}{article}{
+      author={Solin, P.},
+      author={Cerveny, J.},
+      author={Dubcova, L.},
+      author={Andrs, D.},
+       title={{Monolithic discretization of linear thermoelasticity problems
+  via adaptive multimesh hp-FEM}},
+        date={2010},
+     journal={Journal of computational and applied mathematics},
+      volume={234},
+      number={7},
+       pages={2350\ndash 2357},
+}
+
+\bib{solini2010adaptive}{article}{
+      author={Solin, P.},
+      author={Dubcova, L.},
+      author={Dolezel, I.},
+       title={{Adaptive $hp$-FEM with arbitrary-level hanging nodes for
+  Maxwell’s equations}},
+        date={2010},
+     journal={Advances in Applied Mathematics and Mechanics},
+      volume={2},
+      number={4},
+       pages={518\ndash 532},
+}
+
+\bib{solin2010adaptive}{article}{
+      author={Solin, P.},
+      author={Dubcova, L.},
+      author={Kruis, J.},
+       title={{Adaptive $hp$-FEM with dynamical meshes for transient heat and
+  moisture transfer problems}},
+        date={2010},
+     journal={Journal of computational and applied mathematics},
+      volume={233},
+      number={12},
+       pages={3103\ndash 3112},
+}
+
+\bib{Hermes-book}{book}{
+      author={Solin, P.},
+      author={Segeth, K.},
+      author={Dolezel, I.},
+       title={Higher-order finite element methods},
+   publisher={Chapman \& Hall / CRC Press},
+        date={2003},
+}
+
+\bib{valli2002control}{article}{
+      author={Valli, A. M.~P.},
+      author={Carey, G.~F.},
+      author={Coutinho, A.},
+       title={{Control strategies for timestep selection in simulation of
+  coupled viscous flow and heat transfer}},
+        date={2002},
+     journal={Communications in Numerical Methods in Engineering},
+      volume={18},
+      number={2},
+       pages={131\ndash 139},
+}
+
+\bib{wallmersperger2007appliedphysics}{article}{
+      author={Wallmersperger, T.},
+      author={Leo, D.~J.},
+      author={Kothera, C.~S.},
+       title={Transport modeling in ionomeric polymer transducers and its
+  relationship to electromechanical coupling},
+        date={2007},
+     journal={Journal of Applied Physics},
+      volume={101},
+      number={2},
+       pages={024912},
+}
+
+\end{biblist}
+\end{bibdiv}
+
+\end{document}
+
+

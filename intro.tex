@@ -2,7 +2,7 @@
 
 Ionic Polymer-Metal Composites (IPMC) have been studied during the past two 
 decades for their potential to serve as noiseless mechanoelectrical and electromechanical 
-transducers \cite{basu1997membrane,shahinpoor2001smartmat,
+transducers \cites{basu1997membrane,shahinpoor2001smartmat,
 nasser2002applied,newbury2003intelligent, wallmersperger2007appliedphysics,
 pugal2008appliedphysics,pugal2010polymer}.
 The advantages of IPMC over other electroactive polymer actuators
@@ -25,32 +25,29 @@ results in bending of the material (see Fig.~\ref{fig:conceptual}).
 %\vspace{-1cm}
 \end{figure}
 %\newpage
-%The derived and implemented model helps to predict the actuation of the
-%material. Furthermore, it is expected that the \emph{hp}-FEM implementation
-%results in a smaller problem size, thus likely allowing faster calculation
-%in both 2D and 3D domains.
 
 In this study we will model IPMC materials via a multiphysics coupled problem 
 consisting of the Poisson and Nernst-Planck equations (abbreviated by PNP in
 the following). These equations are used to model charge transport in materials 
-that includes ionic migration, diffusion, and convection. The charge transport 
+that include ionic migration, diffusion, and convection. The charge transport 
 process is a key mechanism for electromechanical transduction.
 
 The PNP system is highly nonlinear and for a typical domain with two
 electrodes, largest differences in charge concentration occur in a very narrow
 region near the boundary. The computing power required for a full scale problem 
-is significant. This is why we are interested in exploring adaptive algorithms
+is significant~\cite{pugal2010spie3d}. This is why we are interested in exploring adaptive algorithms
 -- we hope to obtain meshes that are optimal in terms of calculation time and 
 calculation error.
 
 The Nernst-Planck equation for a mobile species ---
 in our case for counter ions --- has the form
 \begin{equation}
-  \frac{\partial C}{\partial t}+\nabla\cdot(-D\nabla C-z\mu FC\nabla\phi)=0.
+  \frac{\partial C}{\partial t}+\nabla\cdot(-D\nabla C-\mu FC\nabla\phi)=0.
   \label{eq:nernst-planck}
 \end{equation}
-Here $C$ stands for the counter ion concentration, $D$ is diffusion, $\mu$ mobility,
-$F$ Faraday constant, $\phi$ voltage, and $z$ the charge number. We have neglected 
+Here $C$ stands for the counter ion concentration with the initial value of $C_0$,
+$D$ is diffusion, $\mu$ mobility,
+$F$ Faraday constant, and $\phi$ voltage. We have neglected 
 the velocity of the species as in our case it can be assumed zero. 
 The Poisson equation has the form
 \begin{equation}
@@ -66,12 +63,12 @@ the solution components $C$ and $\phi$ have very different behavior, which
 is the reason why it is difficult to find a common mesh that would be optimal 
 for both of them. This explains why we are interested in approximation them
 on individual meshes equipped with mutually independent adaptivity 
-mechanisms. The PNP model is presented in Section \ref{sec:model} where also its weak 
-formulation for the Newton's method is derived. Section \ref{sec:hermes}
-presents a brief overview of a novel adaptive multimesh $hp$-FEM 
+mechanisms. The PNP model is presented in Section~\ref{sec:model} where also its weak 
+formulation for the Newton's method is derived. Section~\ref{sec:hermes}
+presents a brief overview of a novel adaptive multi-mesh $hp$-FEM 
 method~\cite{solin2010monolithic,solin2010adaptive,dubcova2010space,solini2010adaptive}
 that is used to solve the 
-problem numerically. Numerical results and comparisons are presented in Section 
-\ref{sec:results}, and conclusion and outlook are drawn in Section \ref{sec:conc}.
+problem numerically. Numerical results and comparisons are presented in Section~\ref{sec:results}, 
+and conclusion and outlook are drawn in Section~\ref{sec:conc}.
 
 

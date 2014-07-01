@@ -2,31 +2,34 @@
 
 In this work the system of Nernst-Planck-Poisson equations
 was solved using \emph{hp}-finite element method with adaptive
-multimesh configuration. The weak form, residuals and
+multi-mesh configuration. The weak form, residuals and
 the Jacobian matrix of the system were explicitly derived
-and implemented in Hermes \emph{hp}-FEM adaptive solver.
+and implemented in Hermes \emph{hp}-FEM time dependent
+adaptive solver.
 The solution for Nernst-Planck-Poisson
 problem with two field variables $C$ and $\phi$ results in 
 very different field gradients in the space and time.
-Conventional finite element solvers do not necessarily provide the means 
-how to deal with such problems such that both the error of
+When using a conventional low order
+FEM, finding an optimal mesh for this
+type of problem such that both the error of
 the solution and problem size remain small throughout the
-time dependent solving process. This is largely due to the
-fact that it is very difficult to find an optimal initial mesh.
+time dependent solving process is difficult. 
 
-It was shown that using time dependent adaptivity, multi-mesh
-configuration, and anisotropic \emph{hp} refinements, the problem
-size remains acceptably small throughout the solving process.
-Namely, Hermes refinement modes HP\_ANISO and HP\_ANISO\_P
-resulted the smallest and fastest problem, respectively.
-At the same time, relative error of the solution was known.
-Furthermore, using the multi-mesh configuration for the variables
-$C$ and $\phi$ was justified --- the adaptivity algorithm
-did not refine the mesh of $\phi$ nor did increase the
-polynomial degree throughout the adaptivity process. However,
-the mesh was significantly refined for $C$ and also the
+In the current work we showed that using the time dependent adaptivity, 
+multi-mesh configuration, and anisotropic \emph{hp} refinements, the problem
+size remains very small throughout the solving process while
+maintaining a pre-set relative error of the solution.
+Namely, Hermes refinement mode HP\_ANISO 
+resulted in the smallest and fastest problem solution.
+Furthermore, using the multi-mesh configuration for the physical fields
+$c$ and $\varphi$ --- scaled variables for $C$ and $\phi$, respectively ---
+was justified. The adaptivity algorithm
+refined the meshes of $\varphi$  and $c$ and increased the
+polynomial degrees of the corresponding spaces differently.
+The mesh was significantly refined for $c$ and also the
 maximum polynomial degree was varied in the range of
-$2\ldots 9$. So it is efficient to use multi-mesh in terms of
+$2\ldots 9$ whereas for $\varphi$, the maximum polynomial degree
+remained lower. So it is efficient to use multi-mesh in terms of
 the number of degrees of freedom.
 
 Conclusively, by using \emph{hp}-FEM with adaptive multi-mesh
@@ -34,6 +37,6 @@ configuration we can possibly reduce the problem size
 of the Nernst-Planck-Poisson equation system significantly while
 still maintaining prescribed precision of the solution. 
 We believe, and this
-is yet to be demonstrated, that this becomes especially
+is yet to be demonstrated, that this is especially
 important when dealing with 3D problems in a large physical
 domain with non-uniform boundary conditions.
